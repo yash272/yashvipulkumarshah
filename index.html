@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Yash Shah | Product Portfolio</title>
+    <title>Yash Shah | Live Products</title>
     <meta
       name="description"
-      content="Yash Shah's product-focused portfolio with live apps, professional links, and background."
+      content="Yash Shah's live product portfolio with product surfaces, professional links, and background."
     />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,700&family=DM+Mono:wght@300;400&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
@@ -86,11 +86,7 @@
       }
 
       .hero {
-        min-height: 92vh;
-        display: grid;
-        align-content: center;
-        gap: 26px;
-        padding: 22px 0 70px;
+        margin: 18px 0 64px;
       }
 
       h1,
@@ -102,21 +98,58 @@
       }
 
       h1 {
-        max-width: 1100px;
-        font-size: clamp(86px, 17vw, 218px);
+        max-width: 760px;
+        font-size: clamp(78px, 13vw, 178px);
         line-height: 0.78;
-        color: var(--paper);
+        color: var(--ink);
       }
 
-      .intro-row {
+      .identity-board {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 28px;
+        grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.55fr);
+        min-height: 520px;
+      }
+
+      .identity-card {
+        transform: rotate(-0.35deg);
+      }
+
+      .identity-card .teardown-top {
+        background:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px),
+          var(--paper-2);
+        background-size: 28px 28px;
+      }
+
+      .identity-name {
+        display: grid;
+        align-content: center;
+        gap: 22px;
+        padding: clamp(28px, 6vw, 64px);
+        border-right: 1px solid var(--line);
+        background:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px),
+          var(--paper);
+        background-size: 34px 34px;
+      }
+
+      .identity-panel {
+        display: grid;
+        align-content: center;
+        gap: 16px;
+        padding: clamp(22px, 4vw, 38px);
+        background: var(--paper-2);
+      }
+
+      .identity-panel .annotation {
+        max-width: 420px;
       }
 
       .intro-copy {
-        max-width: 660px;
-        color: rgba(246, 240, 220, 0.72);
+        max-width: 640px;
+        color: var(--muted);
         font-size: clamp(18px, 2vw, 23px);
         line-height: 1.65;
       }
@@ -128,13 +161,15 @@
       }
 
       .social-card {
-        min-height: 142px;
+        min-height: 118px;
         display: grid;
         align-content: space-between;
         padding: 18px;
-        border: 1px solid var(--white-line);
+        border: 1px solid var(--ink);
         border-radius: var(--radius);
-        background: rgba(246, 240, 220, 0.07);
+        background: rgba(246, 240, 220, 0.52);
+        color: var(--ink);
+        box-shadow: 6px 6px 0 rgba(17, 19, 24, 0.08);
         transition:
           transform 0.18s ease,
           border-color 0.18s ease,
@@ -144,21 +179,21 @@
       .social-card:hover,
       .social-card:focus-visible {
         transform: translateY(-3px);
-        border-color: var(--signal);
-        background: rgba(255, 216, 77, 0.11);
+        border-color: var(--pencil);
+        background: var(--paper);
         outline: none;
       }
 
       .social-card svg {
         width: 24px;
         height: 24px;
-        color: var(--signal);
+        color: var(--pencil);
       }
 
       .social-card strong {
         display: block;
         margin-top: 22px;
-        color: var(--paper);
+        color: var(--ink);
         font-size: 22px;
         line-height: 1;
       }
@@ -166,7 +201,7 @@
       .social-card span {
         display: block;
         margin-top: 8px;
-        color: rgba(246, 240, 220, 0.58);
+        color: var(--muted);
         font-size: 10px;
         line-height: 1.45;
         overflow-wrap: anywhere;
@@ -477,18 +512,29 @@
         padding: 78px 0 0;
       }
 
+      .background-teardown {
+        margin-top: 18px;
+      }
+
       .background-card {
         display: grid;
         grid-template-columns: minmax(0, 0.72fr) minmax(260px, 0.38fr);
         gap: 14px;
-        margin-top: 18px;
+        margin: 0;
+        padding: 14px;
+        background: var(--paper-2);
       }
 
       .bio,
       .detail-list {
-        border: 1px solid var(--white-line);
+        border: 1px solid var(--line);
         border-radius: var(--radius);
-        background: rgba(246, 240, 220, 0.07);
+        background:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px),
+          var(--paper);
+        background-size: 30px 30px;
+        color: var(--ink);
       }
 
       .bio {
@@ -498,14 +544,14 @@
       .bio h2 {
         max-width: 720px;
         margin-bottom: 22px;
-        color: var(--paper);
+        color: var(--ink);
         font-size: clamp(38px, 6vw, 76px);
         line-height: 0.94;
       }
 
       .bio p {
         max-width: 820px;
-        color: rgba(246, 240, 220, 0.72);
+        color: var(--muted);
         font-size: clamp(17px, 2vw, 22px);
         line-height: 1.72;
       }
@@ -519,9 +565,9 @@
 
       .tag {
         padding: 7px 11px;
-        border: 1px solid var(--white-line);
+        border: 1px solid var(--line);
         border-radius: 999px;
-        color: rgba(246, 240, 220, 0.67);
+        color: var(--muted);
         font-size: 11px;
       }
 
@@ -532,7 +578,7 @@
 
       .detail {
         padding: 22px;
-        border-bottom: 1px solid var(--white-line);
+        border-bottom: 1px solid var(--line);
       }
 
       .detail:last-child {
@@ -541,7 +587,7 @@
 
       .detail strong {
         display: block;
-        color: var(--paper);
+        color: var(--ink);
         font-family: "Fraunces", serif;
         font-size: 25px;
       }
@@ -549,7 +595,7 @@
       .detail span {
         display: block;
         margin-top: 7px;
-        color: rgba(246, 240, 220, 0.58);
+        color: var(--muted);
         font-size: 13px;
         line-height: 1.5;
       }
@@ -560,18 +606,29 @@
         flex-wrap: wrap;
         gap: 14px;
         margin-top: 78px;
-        padding-top: 26px;
-        border-top: 1px solid var(--white-line);
-        color: rgba(246, 240, 220, 0.58);
+        padding: 18px 20px;
+        border: 1px solid var(--white-line);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px),
+          var(--paper);
+        background-size: 24px 24px;
+        color: var(--muted);
         font-size: 11px;
+        box-shadow: 0 18px 54px rgba(0, 0, 0, 0.2);
+      }
+
+      .footer span:first-child {
+        color: var(--ink);
       }
 
       .footer a {
-        color: var(--signal);
+        color: var(--pencil);
       }
 
       @media (max-width: 980px) {
-        .intro-row,
+        .identity-board,
         .board,
         .specimen,
         .background-card {
@@ -580,6 +637,11 @@
 
         .social-grid {
           grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .identity-name {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
         }
 
         .product-tabs {
@@ -599,7 +661,11 @@
 
         .hero {
           min-height: auto;
-          padding: 28px 0 56px;
+          margin: 28px 0 56px;
+        }
+
+        h1 {
+          font-size: clamp(66px, 22vw, 110px);
         }
 
         .social-grid {
@@ -646,33 +712,50 @@
   </head>
   <body>
     <main class="page">
-      <section class="hero" aria-labelledby="hero-title">
-        <h1 id="hero-title">Yash Shah</h1>
-
-        <div class="intro-row">
-          <p class="intro-copy">
-            Product builder, software engineer, and founder. Three live products below, with the links people usually ask for right here.
-          </p>
-
-          <div class="social-grid" aria-label="Primary links">
-            <a class="social-card" href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-              <strong>GitHub</strong>
-              <span>github.com/yash272</span>
-            </a>
-
-            <a class="social-card" href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-              <strong>LinkedIn</strong>
-              <span>linkedin.com/in/yashvipulkumarshah</span>
-            </a>
-
-            <a class="social-card" href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              <strong>X</strong>
-              <span>x.com/YashSha06255909</span>
-            </a>
+      <section class="hero teardown identity-card" aria-labelledby="hero-title">
+        <div class="teardown-top">
+          <div>
+            <p class="label">Live portfolio surface</p>
+            <h2 class="teardown-title"><span class="pin"></span> Contact sheet</h2>
           </div>
+          <p class="url">yashvipulkumarshah.com</p>
+        </div>
+
+        <div class="identity-board">
+          <div class="identity-name">
+            <p class="label">Product builder / software engineer / founder</p>
+            <h1 id="hero-title">Yash Shah</h1>
+            <p class="intro-copy">
+              Three shipped products are the artifact. The board below treats each one like a surface: behavior, product move, and why it matters.
+            </p>
+          </div>
+
+          <aside class="identity-panel" aria-label="Primary links">
+            <div class="annotation">
+              <strong>Profile surface</strong>
+              <span>Code, career context, and public updates sit beside the live product board.</span>
+            </div>
+
+            <div class="social-grid">
+              <a class="social-card" href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                <strong>GitHub</strong>
+                <span>github.com/yash272</span>
+              </a>
+
+              <a class="social-card" href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <strong>LinkedIn</strong>
+                <span>linkedin.com/in/yashvipulkumarshah</span>
+              </a>
+
+              <a class="social-card" href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <strong>X</strong>
+                <span>x.com/YashSha06255909</span>
+              </a>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -749,32 +832,41 @@
       </section>
 
       <section class="section" aria-labelledby="background-title">
-        <p class="label">Background</p>
-        <div class="background-card">
-          <div class="bio">
-            <h2 id="background-title">Engineering, product, and founder work.</h2>
-            <p>
-              Software engineer at John Deere. Founder of Bookchange, a peer-to-peer book sharing platform that reached the finals of Shark Tank India. Associate PM experience at SwitchOn, a Series B computer vision startup. Currently completing an MBA at Ivey Business School, Western University.
-            </p>
-            <div class="tags">
-              <span class="tag">John Deere</span>
-              <span class="tag">Bookchange</span>
-              <span class="tag">SwitchOn</span>
-              <span class="tag">Ivey MBA</span>
+        <div class="teardown background-teardown">
+          <div class="teardown-top">
+            <div>
+              <p class="label">Operator notes</p>
+              <h2 class="teardown-title" id="background-title"><span class="pin"></span> Background surface</h2>
             </div>
+            <p class="url">John Deere / Bookchange / SwitchOn / Ivey</p>
           </div>
-          <div class="detail-list">
-            <div class="detail">
-              <strong>Software</strong>
-              <span>Engineering in practical systems.</span>
+
+          <div class="background-card">
+            <div class="bio">
+              <h2>Engineering, product, and founder work.</h2>
+              <p>
+                Software engineer at John Deere. Founder of Bookchange, a peer-to-peer book sharing platform that reached the finals of Shark Tank India. Associate PM experience at SwitchOn, a Series B computer vision startup. Currently completing an MBA at Ivey Business School, Western University.
+              </p>
+              <div class="tags">
+                <span class="tag">John Deere</span>
+                <span class="tag">Bookchange</span>
+                <span class="tag">SwitchOn</span>
+                <span class="tag">Ivey MBA</span>
+              </div>
             </div>
-            <div class="detail">
-              <strong>Founder</strong>
-              <span>Built and pitched Bookchange.</span>
-            </div>
-            <div class="detail">
-              <strong>Product</strong>
-              <span>Startup PM work in computer vision.</span>
+            <div class="detail-list">
+              <div class="detail">
+                <strong>Software</strong>
+                <span>Engineering in practical systems.</span>
+              </div>
+              <div class="detail">
+                <strong>Founder</strong>
+                <span>Built and pitched Bookchange.</span>
+              </div>
+              <div class="detail">
+                <strong>Product</strong>
+                <span>Startup PM work in computer vision.</span>
+              </div>
             </div>
           </div>
         </div>
