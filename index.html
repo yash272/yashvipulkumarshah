@@ -17,8 +17,8 @@
         --paper-warm: #EFE1B9;
         --ink: #17130B;
         --muted: #635D4D;
-        --line: rgba(23, 19, 11, 0.18);
-        --line-strong: rgba(23, 19, 11, 0.42);
+        --line: rgba(23, 19, 11, 0.12);
+        --line-strong: rgba(23, 19, 11, 0.3);
         --signal: #FFD84D;
         --pencil: #FF5A45;
         --blue: #4AAEA8;
@@ -58,7 +58,7 @@
         inset: 0;
         z-index: 30;
         pointer-events: none;
-        opacity: 0.055;
+        opacity: 0.035;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.2'/%3E%3C/svg%3E");
       }
 
@@ -106,12 +106,10 @@
         padding: clamp(14px, 2vw, 26px);
         overflow: hidden;
         background:
-          linear-gradient(var(--line) 1px, transparent 1px),
-          linear-gradient(90deg, var(--line) 1px, transparent 1px),
-          radial-gradient(circle at 82% 12%, rgba(255, 216, 77, 0.26), transparent 24rem),
-          radial-gradient(circle at 12% 82%, rgba(74, 174, 168, 0.15), transparent 26rem),
+          radial-gradient(circle at 82% 12%, rgba(255, 216, 77, 0.16), transparent 22rem),
+          radial-gradient(circle at 12% 82%, rgba(74, 174, 168, 0.08), transparent 24rem),
+          linear-gradient(135deg, rgba(251, 246, 232, 0.82), rgba(246, 240, 220, 0.98)),
           var(--paper);
-        background-size: 32px 32px, 32px 32px, auto, auto, auto;
       }
 
       .teardown-page::before {
@@ -121,38 +119,8 @@
         z-index: -1;
         pointer-events: none;
         background:
-          radial-gradient(360px circle at var(--mx) var(--my), color-mix(in srgb, var(--active-color) 28%, transparent), transparent 68%),
-          linear-gradient(115deg, transparent 0 42%, rgba(255, 255, 255, 0.18) 48%, transparent 56%);
-        opacity: 0.92;
-      }
-
-      .cursor-rules {
-        position: absolute;
-        inset: 0;
-        z-index: 4;
-        pointer-events: none;
-      }
-
-      .cursor-rules::before,
-      .cursor-rules::after {
-        content: "";
-        position: absolute;
-        background: color-mix(in srgb, var(--active-color) 55%, var(--ink));
-        opacity: 0.16;
-      }
-
-      .cursor-rules::before {
-        top: 0;
-        bottom: 0;
-        left: var(--mx);
-        width: 1px;
-      }
-
-      .cursor-rules::after {
-        left: 0;
-        right: 0;
-        top: var(--my);
-        height: 1px;
+          radial-gradient(420px circle at var(--mx) var(--my), color-mix(in srgb, var(--active-color) 18%, transparent), transparent 70%);
+        opacity: 0.58;
       }
 
       .page-header,
@@ -415,11 +383,7 @@
         grid-template-rows: minmax(0, 1fr) auto;
         gap: 14px;
         padding: clamp(14px, 2vw, 24px);
-        background:
-          linear-gradient(var(--line) 1px, transparent 1px),
-          linear-gradient(90deg, var(--line) 1px, transparent 1px),
-          rgba(233, 223, 196, 0.66);
-        background-size: 30px 30px;
+        background: rgba(233, 223, 196, 0.56);
       }
 
       .specimen {
@@ -591,11 +555,7 @@
       .social-card {
         border: 1px solid var(--line-strong);
         border-radius: var(--radius);
-        background:
-          linear-gradient(var(--line) 1px, transparent 1px),
-          linear-gradient(90deg, var(--line) 1px, transparent 1px),
-          rgba(251, 246, 232, 0.76);
-        background-size: 28px 28px;
+        background: rgba(251, 246, 232, 0.78);
       }
 
       .contact-note {
@@ -961,8 +921,6 @@
   </head>
   <body>
     <main class="teardown-page" aria-labelledby="page-title">
-      <div class="cursor-rules" aria-hidden="true"></div>
-
       <header class="page-header">
         <div class="identity">
           <p class="label">Live product teardown</p>
