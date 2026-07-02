@@ -34,6 +34,7 @@
       * {
         box-sizing: border-box;
         margin: 0;
+        min-width: 0;
         padding: 0;
       }
 
@@ -50,6 +51,7 @@
         color: var(--ink);
         font-family: "Inter", sans-serif;
         opacity: 0;
+        -webkit-tap-highlight-color: transparent;
       }
 
       body::before {
@@ -65,6 +67,7 @@
       a {
         color: inherit;
         text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
       }
 
       button {
@@ -72,6 +75,12 @@
         background: none;
         color: inherit;
         font: inherit;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      a:focus:not(:focus-visible),
+      button:focus:not(:focus-visible) {
+        outline: none;
       }
 
       .mono,
@@ -93,6 +102,7 @@
         font-family: "Fraunces", serif;
         font-weight: 700;
         letter-spacing: -0.045em;
+        overflow-wrap: anywhere;
       }
 
       .teardown-page {
@@ -289,12 +299,14 @@
         color: var(--muted);
         font-size: 13px;
         line-height: 1.35;
+        min-width: 0;
       }
 
       .url {
         color: var(--muted);
         font-size: 11px;
         overflow-wrap: anywhere;
+        word-break: break-word;
       }
 
       .products-view {
@@ -324,6 +336,7 @@
         border-bottom: 1px solid var(--line);
         background: rgba(251, 246, 232, 0.54);
         cursor: pointer;
+        color: inherit;
         text-align: left;
         transition:
           background 0.18s ease,
@@ -368,6 +381,7 @@
       .product-tab h3 {
         font-size: clamp(34px, 4.6vw, 64px);
         line-height: 0.9;
+        overflow-wrap: anywhere;
       }
 
       .product-tab p {
@@ -394,6 +408,7 @@
       }
 
       .browser-card {
+        position: relative;
         min-height: 0;
         overflow: hidden;
         border: 2px solid var(--ink);
@@ -425,51 +440,108 @@
         background: var(--active-color);
       }
 
-      .preview {
+      .site-preview {
+        position: relative;
         height: calc(100% - 35px);
         min-height: 240px;
-        display: grid;
-        grid-template-columns: 0.86fr 1fr;
-        gap: 18px;
-        padding: clamp(16px, 2vw, 24px);
-      }
-
-      .preview.access {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .preview.fitness {
-        grid-template-columns: 0.62fr 1fr;
-      }
-
-      .line,
-      .block,
-      .pill {
-        border: 1px solid rgba(23, 19, 11, 0.2);
-        background: rgba(23, 19, 11, 0.08);
-      }
-
-      .line {
-        height: 12px;
-        margin-bottom: 10px;
-        border-radius: 999px;
-      }
-
-      .block {
-        min-height: 92px;
-        height: 55%;
-        border-radius: 12px;
         background:
-          radial-gradient(circle at 72% 18%, color-mix(in srgb, var(--active-color) 38%, transparent), transparent 5rem),
-          rgba(23, 19, 11, 0.08);
+          linear-gradient(180deg, rgba(251, 246, 232, 0.22), rgba(251, 246, 232, 0)),
+          var(--paper-soft);
       }
 
-      .pill {
-        width: 72px;
-        height: 24px;
-        margin-bottom: 14px;
-        border-radius: 999px;
-        background: color-mix(in srgb, var(--active-color) 38%, transparent);
+      .site-preview iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: var(--paper-soft);
+        transform-origin: top left;
+      }
+
+      .frame-fallback {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+        text-align: center;
+      }
+
+      .site-preview iframe,
+      .frame-sheen,
+      .callout-lines,
+      .preview-callout {
+        position: absolute;
+      }
+
+      .site-preview iframe {
+        inset: 0;
+        z-index: 1;
+      }
+
+      .frame-sheen {
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background:
+          linear-gradient(115deg, rgba(251, 246, 232, 0.34), transparent 28% 72%, rgba(255, 255, 255, 0.24)),
+          radial-gradient(circle at 14% 18%, color-mix(in srgb, var(--active-color) 20%, transparent), transparent 14rem);
+        mix-blend-mode: multiply;
+      }
+
+      .callout-lines {
+        inset: 0;
+        z-index: 3;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        color: var(--pencil);
+      }
+
+      .callout-lines path {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.6;
+        stroke-linecap: round;
+        stroke-dasharray: 7 8;
+        opacity: 0.72;
+      }
+
+      .preview-callout {
+        z-index: 4;
+        max-width: min(230px, 38%);
+        padding: 10px 12px;
+        border: 1px solid color-mix(in srgb, var(--pencil) 65%, var(--ink));
+        border-radius: 12px;
+        background: rgba(251, 246, 232, 0.88);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        line-height: 1.45;
+        pointer-events: none;
+        box-shadow: 4px 4px 0 rgba(23, 19, 11, 0.08);
+      }
+
+      .preview-callout strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--pencil);
+        font-family: "Inter", sans-serif;
+        font-size: 12px;
+        line-height: 1.2;
+      }
+
+      .callout-one {
+        top: 8%;
+        right: 5%;
+      }
+
+      .callout-two {
+        left: 5%;
+        bottom: 8%;
       }
 
       .notes {
@@ -506,12 +578,14 @@
         min-height: 48px;
         padding-top: 12px;
         border-top: 1px solid var(--line);
+        min-width: 0;
       }
 
       .open-product {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex: 0 0 auto;
         min-height: 42px;
         padding: 11px 16px;
         border: 1px solid var(--ink);
@@ -570,6 +644,7 @@
         max-width: 360px;
         font-size: clamp(42px, 6vw, 86px);
         line-height: 0.9;
+        overflow-wrap: anywhere;
       }
 
       .contact-note p:not(.label) {
@@ -617,6 +692,7 @@
         margin-top: clamp(42px, 10vh, 98px);
         font-size: clamp(25px, 3vw, 42px);
         line-height: 0.95;
+        overflow-wrap: anywhere;
       }
 
       .social-card span {
@@ -624,8 +700,9 @@
         margin-top: 10px;
         color: var(--muted);
         font-size: 10px;
+        letter-spacing: 0.12em;
         line-height: 1.45;
-        overflow-wrap: anywhere;
+        text-transform: uppercase;
       }
 
       .background-body {
@@ -649,6 +726,7 @@
         margin-bottom: 18px;
         font-size: clamp(40px, 6.5vw, 92px);
         line-height: 0.9;
+        overflow-wrap: anywhere;
       }
 
       .bio p {
@@ -774,8 +852,8 @@
 
       @media (max-width: 720px) {
         .teardown-page {
-          gap: 8px;
-          padding: 12px;
+          gap: 7px;
+          padding: 10px;
         }
 
         .page-header {
@@ -792,12 +870,13 @@
         }
 
         h1 {
-          font-size: clamp(45px, 20vw, 82px);
+          font-size: clamp(42px, 18vw, 70px);
+          line-height: 0.82;
         }
 
         .surface-nav button {
           min-height: 38px;
-          padding: 8px 10px;
+          padding: 8px;
         }
 
         .nav-index {
@@ -807,6 +886,7 @@
 
         .nav-title {
           display: inline;
+          font-size: 13px;
         }
 
         .products-body {
@@ -819,14 +899,16 @@
         }
 
         .product-tab {
-          min-height: 48px;
-          padding: 10px 12px;
+          min-height: 42px;
+          padding: 8px 10px;
           border-right: 0;
           border-bottom: 1px solid var(--line);
         }
 
         .product-tab h3 {
-          font-size: 27px;
+          font-size: 24px;
+          letter-spacing: -0.02em;
+          line-height: 0.95;
         }
 
         .product-tab span,
@@ -838,36 +920,51 @@
 
         .product-stage {
           gap: 8px;
-          padding: 10px;
+          padding: 8px;
         }
 
-        .preview,
-        .preview.access,
-        .preview.fitness {
-          min-height: 170px;
-          grid-template-columns: 1fr;
+        .site-preview {
+          min-height: 150px;
+        }
+
+        .preview-callout,
+        .callout-lines {
+          display: none;
         }
 
         .product-footer {
           align-items: flex-start;
           flex-direction: column;
-          gap: 8px;
+          gap: 6px;
+        }
+
+        .product-footer .url {
+          display: none;
+        }
+
+        .open-product {
+          width: 100%;
+          min-height: 38px;
+          padding: 10px 12px;
+          font-size: 10px;
         }
 
         .contact-body,
         .background-body {
-          gap: 10px;
-          padding: 10px;
+          gap: 8px;
+          padding: 8px;
         }
 
         .contact-note,
         .bio {
-          padding: 16px;
+          padding: 14px;
         }
 
         .contact-note h3,
         .bio h3 {
-          font-size: clamp(30px, 10vw, 44px);
+          font-size: clamp(26px, 8.8vw, 36px);
+          letter-spacing: -0.03em;
+          line-height: 0.95;
         }
 
         .social-grid {
@@ -875,13 +972,18 @@
         }
 
         .social-card {
-          min-height: 76px;
-          padding: 14px;
+          min-height: 64px;
+          padding: 12px;
         }
 
         .social-card strong {
-          margin-top: 18px;
-          font-size: 24px;
+          margin-top: 12px;
+          font-size: 21px;
+          line-height: 1;
+        }
+
+        .social-card span {
+          font-size: 9px;
         }
 
         .detail-list,
@@ -956,39 +1058,44 @@
 
           <div class="products-body">
             <div class="product-rail" role="list" aria-label="Products">
-              <button class="product-tab active" type="button" data-product="accept" role="listitem">
+              <a class="product-tab active" href="https://accept.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer" data-product="accept" role="listitem">
                 <span>Local marketplace</span>
                 <h3>Accept</h3>
                 <p>Buy and sell locally. We negotiate so you don't have to.</p>
-              </button>
+              </a>
 
-              <button class="product-tab" type="button" data-product="access" role="listitem">
+              <a class="product-tab" href="https://access.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer" data-product="access" role="listitem">
                 <span>Event memories</span>
                 <h3>Access</h3>
                 <p>Every photo from the night. From everyone who was there.</p>
-              </button>
+              </a>
 
-              <button class="product-tab" type="button" data-product="fitness" role="listitem">
+              <a class="product-tab" href="https://fitness.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer" data-product="fitness" role="listitem">
                 <span>Training system</span>
                 <h3>Fitness</h3>
                 <p>Body recomposition tracking. Built for how I train.</p>
-              </button>
+              </a>
             </div>
 
             <div class="product-stage" id="product-stage">
               <div class="specimen">
                 <div class="browser-card">
                   <div class="browser-top"><i></i><i></i><i></i></div>
-                  <div class="preview" id="preview-shape">
-                    <div>
-                      <div class="pill"></div>
-                      <div class="line"></div>
-                      <div class="line"></div>
-                      <div class="block"></div>
+                  <div class="site-preview" id="preview-shape">
+                    <div class="frame-fallback" id="frame-fallback">Loading the live product surface...</div>
+                    <iframe id="product-frame" title="Accept live product preview" src="https://accept.yashvipulkumarshah.com" loading="lazy"></iframe>
+                    <div class="frame-sheen" aria-hidden="true"></div>
+                    <svg class="callout-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                      <path id="callout-line-one" d="M74 21 C63 20 56 25 48 34 S36 48 24 44" />
+                      <path id="callout-line-two" d="M27 78 C38 73 42 65 54 65 S72 58 80 48" />
+                    </svg>
+                    <div class="preview-callout callout-one">
+                      <strong id="callout-one-title">Primary loop</strong>
+                      <span id="callout-one-copy">Negotiation moves from chat chaos into a guided product flow.</span>
                     </div>
-                    <div>
-                      <div class="block"></div>
-                      <div class="line"></div>
+                    <div class="preview-callout callout-two">
+                      <strong id="callout-two-title">Decision point</strong>
+                      <span id="callout-two-copy">The page is built around reducing the effort to make a local deal happen.</span>
                     </div>
                   </div>
                 </div>
@@ -1023,7 +1130,7 @@
               <h2>Contact</h2>
               <p>Profile links, code, and public trail.</p>
             </span>
-            <span class="url">github / linkedin / x</span>
+            <span class="url">external profile surface</span>
           </div>
 
           <div class="contact-body">
@@ -1037,19 +1144,19 @@
               <a class="social-card" href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
                 <strong>GitHub</strong>
-                <span>github.com/yash272</span>
+                <span>Code archive</span>
               </a>
 
               <a class="social-card" href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 <strong>LinkedIn</strong>
-                <span>linkedin.com/in/yashvipulkumarshah</span>
+                <span>Work history</span>
               </a>
 
               <a class="social-card" href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 <strong>X</strong>
-                <span>x.com/YashSha06255909</span>
+                <span>Public notes</span>
               </a>
             </div>
           </div>
@@ -1099,7 +1206,7 @@
 
       <footer class="footer-strip">
         <span>Yash Shah</span>
-        <span><a href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">GitHub</a> / <a href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">LinkedIn</a> / <a href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">X</a></span>
+        <span>Products / Contact / Background</span>
       </footer>
     </main>
 
@@ -1109,7 +1216,15 @@
           color: "#FFD84D",
           url: "https://accept.yashvipulkumarshah.com",
           shortUrl: "accept.yashvipulkumarshah.com",
-          preview: "accept",
+          frameTitle: "Accept live product preview",
+          callouts: [
+            ["Primary loop", "Negotiation moves from chat chaos into a guided product flow."],
+            ["Decision point", "The page is built around reducing the effort to make a local deal happen."],
+          ],
+          paths: [
+            "M74 21 C63 20 56 25 48 34 S36 48 24 44",
+            "M27 78 C38 73 42 65 54 65 S72 58 80 48",
+          ],
           notes: [
             ["Behavior", "Local buying has too much back-and-forth. Accept turns that negotiation loop into the product."],
             ["Product move", "Make the stressful part feel handled, not merely listed."],
@@ -1120,7 +1235,15 @@
           color: "#4AAEA8",
           url: "https://access.yashvipulkumarshah.com",
           shortUrl: "access.yashvipulkumarshah.com",
-          preview: "access",
+          frameTitle: "Access live product preview",
+          callouts: [
+            ["Collection loop", "The product asks everyone at the event to contribute the missing pieces."],
+            ["Memory surface", "The value is immediate: one shared place for photos from the same night."],
+          ],
+          paths: [
+            "M71 18 C61 27 53 23 45 36 S36 54 22 49",
+            "M21 82 C37 76 43 70 58 72 S72 66 83 54",
+          ],
           notes: [
             ["Behavior", "People at the same event all hold different pieces of the night."],
             ["Product move", "Make collection feel shared, immediate, and easier than chasing people later."],
@@ -1131,7 +1254,15 @@
           color: "#FF5A45",
           url: "https://fitness.yashvipulkumarshah.com",
           shortUrl: "fitness.yashvipulkumarshah.com",
-          preview: "fitness",
+          frameTitle: "Fitness live product preview",
+          callouts: [
+            ["Tracking system", "The dashboard makes slow recomposition visible instead of relying on vague memory."],
+            ["Training feedback", "Inputs and progress sit close together, shaped around repeated use."],
+          ],
+          paths: [
+            "M75 24 C62 18 54 30 45 39 S34 44 22 40",
+            "M26 80 C38 66 51 70 61 61 S73 49 82 55",
+          ],
           notes: [
             ["Behavior", "Body recomposition is slow enough that vague tracking becomes useless."],
             ["Product move", "Make progress visible in the same language as the training system."],
@@ -1145,9 +1276,17 @@
       const tabs = document.querySelectorAll(".product-tab");
       const root = document.documentElement;
       const preview = document.querySelector("#preview-shape");
+      const productFrame = document.querySelector("#product-frame");
+      const frameFallback = document.querySelector("#frame-fallback");
       const activeProductUrl = document.querySelector("#active-product-url");
       const panelUrl = document.querySelector("#panel-url");
       const openProduct = document.querySelector("#open-product");
+      const calloutOneTitle = document.querySelector("#callout-one-title");
+      const calloutOneCopy = document.querySelector("#callout-one-copy");
+      const calloutTwoTitle = document.querySelector("#callout-two-title");
+      const calloutTwoCopy = document.querySelector("#callout-two-copy");
+      const calloutLineOne = document.querySelector("#callout-line-one");
+      const calloutLineTwo = document.querySelector("#callout-line-two");
       const noteTitles = [
         document.querySelector("#note-one-title"),
         document.querySelector("#note-two-title"),
@@ -1158,6 +1297,7 @@
         document.querySelector("#note-two"),
         document.querySelector("#note-three"),
       ];
+      let activeProductKey = "";
 
       function setSurface(name) {
         views.forEach((view) => {
@@ -1174,26 +1314,11 @@
         });
       }
 
-      function renderPreview(type) {
-        if (type === "access") {
-          preview.className = "preview access";
-          preview.innerHTML = '<div class="block"></div><div class="block"></div><div class="block"></div>';
-          return;
-        }
-
-        if (type === "fitness") {
-          preview.className = "preview fitness";
-          preview.innerHTML = '<div class="block"></div><div><div class="pill"></div><div class="line"></div><div class="line"></div><div class="block"></div></div>';
-          return;
-        }
-
-        preview.className = "preview";
-        preview.innerHTML = '<div><div class="pill"></div><div class="line"></div><div class="line"></div><div class="block"></div></div><div><div class="block"></div><div class="line"></div></div>';
-      }
-
       function activateProduct(key) {
         const product = products[key];
         if (!product) return;
+        const changedProduct = activeProductKey !== key;
+        activeProductKey = key;
 
         root.style.setProperty("--active-color", product.color);
 
@@ -1204,7 +1329,18 @@
         activeProductUrl.textContent = product.shortUrl;
         panelUrl.textContent = product.url;
         openProduct.href = product.url;
-        renderPreview(product.preview);
+        preview.dataset.productPreview = key;
+        productFrame.title = product.frameTitle;
+        frameFallback.textContent = `Loading ${product.shortUrl}...`;
+        if (changedProduct) {
+          productFrame.src = product.url;
+        }
+        calloutOneTitle.textContent = product.callouts[0][0];
+        calloutOneCopy.textContent = product.callouts[0][1];
+        calloutTwoTitle.textContent = product.callouts[1][0];
+        calloutTwoCopy.textContent = product.callouts[1][1];
+        calloutLineOne.setAttribute("d", product.paths[0]);
+        calloutLineTwo.setAttribute("d", product.paths[1]);
 
         product.notes.forEach((note, index) => {
           noteTitles[index].textContent = note[0];
@@ -1222,7 +1358,12 @@
       tabs.forEach((tab) => {
         tab.addEventListener("mouseenter", () => activateProduct(tab.dataset.product));
         tab.addEventListener("focus", () => activateProduct(tab.dataset.product));
-        tab.addEventListener("click", () => activateProduct(tab.dataset.product));
+        tab.addEventListener("click", (event) => {
+          activateProduct(tab.dataset.product);
+          if (window.matchMedia("(hover: none), (pointer: coarse)").matches) {
+            event.preventDefault();
+          }
+        });
       });
 
       window.addEventListener("pointermove", (event) => {
