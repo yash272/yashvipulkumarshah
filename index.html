@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yash Shah | Portfolio</title>
+    <meta
+      name="description"
+      content="Yash Shah's portfolio with live products, professional links, and background."
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&family=DM+Mono:wght@300;400&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #0A0A0A;
+        --surface: #141414;
+        --border: #1E1E1E;
+        --ink: #F0EDE8;
+        --ink2: #888880;
+        --accent: #FFE566;
+        --electric: #77E6D8;
+        --ember: #FF8A66;
+        --radius: 10px;
+        --soft: color-mix(in srgb, var(--ink) 7%, transparent);
+        --glow: color-mix(in srgb, var(--accent) 18%, transparent);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 76% 8%, var(--glow), transparent 30rem),
+          radial-gradient(circle at 12% 30%, color-mix(in srgb, var(--ink) 5%, transparent), transparent 24rem),
+          var(--bg);
+        color: var(--ink);
+        font-family: "Inter", sans-serif;
+        opacity: 0;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.06;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+        z-index: 10;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(100%, 1180px);
+        margin: 0 auto;
+        padding: 40px 32px 56px;
+      }
+
+      .label,
+      .social-card span,
+      .product-card span,
+      .tag,
+      .footer {
+        font-family: "DM Mono", monospace;
+      }
+
+      .hero {
+        min-height: 86vh;
+        display: grid;
+        align-content: center;
+        gap: 34px;
+      }
+
+      .label {
+        color: var(--ink2);
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+      }
+
+      h1 {
+        color: var(--ink);
+        font-size: clamp(76px, 15vw, 190px);
+        line-height: 0.82;
+      }
+
+      .intro {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 26px;
+      }
+
+      .intro-copy {
+        max-width: 620px;
+        color: var(--ink2);
+        font-size: clamp(18px, 2.1vw, 24px);
+        line-height: 1.65;
+      }
+
+      .social-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .social-card {
+        min-height: 132px;
+        display: grid;
+        align-content: space-between;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: color-mix(in srgb, var(--surface) 90%, transparent);
+        transition:
+          border-color 0.2s ease,
+          background 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .social-card:hover,
+      .social-card:focus-visible {
+        border-color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+        transform: translateY(-3px);
+        outline: none;
+      }
+
+      .social-card svg {
+        width: 24px;
+        height: 24px;
+        color: var(--accent);
+      }
+
+      .social-card strong {
+        display: block;
+        margin-top: 20px;
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .social-card span {
+        display: block;
+        margin-top: 6px;
+        color: var(--ink2);
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+
+      .section {
+        padding: 86px 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: end;
+        margin-bottom: 24px;
+      }
+
+      h2 {
+        max-width: 720px;
+        font-size: clamp(42px, 7vw, 84px);
+        line-height: 0.95;
+      }
+
+      .section-head p {
+        max-width: 390px;
+        color: var(--ink2);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .products {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .product-card {
+        min-height: 430px;
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background:
+          radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--card-color) 16%, transparent), transparent 12rem),
+          var(--surface);
+        transition:
+          border-color 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .product-card:hover,
+      .product-card:focus-visible {
+        border-color: var(--card-color);
+        transform: translateY(-4px);
+        outline: none;
+      }
+
+      .product-card span {
+        align-self: flex-start;
+        padding: 5px 9px;
+        border: 1px solid color-mix(in srgb, var(--card-color) 38%, transparent);
+        border-radius: 999px;
+        color: var(--card-color);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .product-card h3 {
+        margin-top: 24px;
+        font-size: clamp(36px, 4vw, 52px);
+        line-height: 0.98;
+      }
+
+      .product-card p {
+        margin-top: 12px;
+        color: var(--ink2);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .preview {
+        position: relative;
+        min-height: 160px;
+        margin: 26px 0 20px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--bg);
+      }
+
+      .preview::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--soft) 1px, transparent 1px),
+          linear-gradient(90deg, var(--soft) 1px, transparent 1px);
+        background-size: 28px 28px;
+      }
+
+      .window {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        top: 20px;
+        bottom: 20px;
+        overflow: hidden;
+        border: 1px solid color-mix(in srgb, var(--card-color) 26%, var(--border));
+        border-radius: calc(var(--radius) - 2px);
+        background: color-mix(in srgb, var(--surface) 88%, transparent);
+      }
+
+      .window-top {
+        display: flex;
+        gap: 6px;
+        padding: 11px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .window-top i {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--card-color);
+      }
+
+      .window-body {
+        display: grid;
+        grid-template-columns: 1fr 0.72fr;
+        gap: 10px;
+        padding: 13px;
+      }
+
+      .access .window-body {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .fitness .window-body {
+        grid-template-columns: 0.75fr 1fr;
+      }
+
+      .line,
+      .block {
+        border-radius: 6px;
+        background: color-mix(in srgb, var(--ink) 12%, transparent);
+      }
+
+      .line {
+        height: 10px;
+        margin-bottom: 8px;
+      }
+
+      .block {
+        min-height: 58px;
+        border: 1px solid color-mix(in srgb, var(--card-color) 18%, transparent);
+      }
+
+      .visit {
+        margin-top: auto;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        color: var(--card-color);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .background-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.75fr) minmax(260px, 0.4fr);
+        gap: 16px;
+      }
+
+      .bio,
+      .details {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+      }
+
+      .bio {
+        padding: clamp(26px, 5vw, 46px);
+      }
+
+      .bio p {
+        color: var(--ink2);
+        font-size: clamp(18px, 2vw, 23px);
+        line-height: 1.75;
+      }
+
+      .details {
+        display: grid;
+        overflow: hidden;
+      }
+
+      .detail {
+        padding: 22px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .detail:last-child {
+        border-bottom: 0;
+      }
+
+      .detail strong {
+        display: block;
+        font-family: "Fraunces", serif;
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .detail span {
+        display: block;
+        margin-top: 8px;
+        color: var(--ink2);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .tag {
+        padding: 7px 12px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--ink2);
+        font-size: 11px;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+        color: var(--ink2);
+        font-size: 11px;
+      }
+
+      .footer a {
+        color: var(--accent);
+      }
+
+      @media (max-width: 860px) {
+        .page {
+          padding: 28px 20px 42px;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 46px 0 64px;
+        }
+
+        .intro,
+        .background-grid,
+        .section-head {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        .social-grid,
+        .products {
+          grid-template-columns: 1fr;
+        }
+
+        .social-card {
+          min-height: 116px;
+        }
+
+        .product-card {
+          min-height: 390px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="label">Personal product portfolio</p>
+          <h1 id="hero-title">Yash Shah</h1>
+        </div>
+
+        <div class="intro">
+          <p class="intro-copy">
+            Product builder, software engineer, and founder. This page keeps the important links close: live products, code, professional profile, and public updates.
+          </p>
+
+          <div class="social-grid" aria-label="Primary links">
+            <a class="social-card" href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              <strong>GitHub</strong>
+              <span>github.com/yash272</span>
+            </a>
+
+            <a class="social-card" href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              <strong>LinkedIn</strong>
+              <span>linkedin.com/in/yashvipulkumarshah</span>
+            </a>
+
+            <a class="social-card" href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <strong>X</strong>
+              <span>x.com/YashSha06255909</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="products-title">
+        <div class="section-head">
+          <div>
+            <p class="label">Live products</p>
+            <h2 id="products-title">Three things to open first.</h2>
+          </div>
+          <p>Each card links to a product that is already live. The small previews are intentionally quiet so the actual sites stay the focus.</p>
+        </div>
+
+        <div class="products">
+          <a class="product-card" href="https://accept.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer" style="--card-color: var(--accent)">
+            <span>Live</span>
+            <h3>Accept</h3>
+            <p>Buy and sell locally. We negotiate so you don't have to.</p>
+            <div class="preview">
+              <div class="window">
+                <div class="window-top"><i></i><i></i><i></i></div>
+                <div class="window-body">
+                  <div><div class="line"></div><div class="line"></div><div class="block"></div></div>
+                  <div><div class="block"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="visit">Visit accept.yashvipulkumarshah.com</div>
+          </a>
+
+          <a class="product-card" href="https://access.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer" style="--card-color: var(--electric)">
+            <span>Live</span>
+            <h3>Access</h3>
+            <p>Every photo from the night. From everyone who was there.</p>
+            <div class="preview access">
+              <div class="window">
+                <div class="window-top"><i></i><i></i><i></i></div>
+                <div class="window-body">
+                  <div class="block"></div><div class="block"></div><div class="block"></div>
+                </div>
+              </div>
+            </div>
+            <div class="visit">Visit access.yashvipulkumarshah.com</div>
+          </a>
+
+          <a class="product-card" href="https://fitness.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer" style="--card-color: var(--ember)">
+            <span>Live</span>
+            <h3>Fitness</h3>
+            <p>Body recomposition tracking. Built for how I train.</p>
+            <div class="preview fitness">
+              <div class="window">
+                <div class="window-top"><i></i><i></i><i></i></div>
+                <div class="window-body">
+                  <div class="block"></div>
+                  <div><div class="line"></div><div class="line"></div><div class="block"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="visit">Visit fitness.yashvipulkumarshah.com</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="background-title">
+        <div class="section-head">
+          <div>
+            <p class="label">Background</p>
+            <h2 id="background-title">Engineering, product, and founder work.</h2>
+          </div>
+        </div>
+
+        <div class="background-grid">
+          <div class="bio">
+            <p>
+              Software engineer at John Deere. Founder of Bookchange, a peer-to-peer book sharing platform that reached the finals of Shark Tank India. Associate PM experience at SwitchOn, a Series B computer vision startup. Currently completing an MBA at Ivey Business School, Western University.
+            </p>
+            <div class="tags">
+              <span class="tag">John Deere</span>
+              <span class="tag">Bookchange</span>
+              <span class="tag">SwitchOn</span>
+              <span class="tag">Ivey MBA</span>
+            </div>
+          </div>
+
+          <div class="details">
+            <div class="detail">
+              <strong>Software</strong>
+              <span>Engineering experience in practical systems.</span>
+            </div>
+            <div class="detail">
+              <strong>Founder</strong>
+              <span>Built and pitched Bookchange.</span>
+            </div>
+            <div class="detail">
+              <strong>Product</strong>
+              <span>Startup PM work in computer vision.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Yash Shah</span>
+        <span><a href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">GitHub</a> / <a href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">LinkedIn</a> / <a href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">X</a></span>
+      </footer>
+    </main>
+
+    <script>
+      document.body.style.transition = "opacity 0.35s ease";
+      window.addEventListener("load", () => {
+        document.body.style.opacity = "1";
+      });
+    </script>
+  </body>
+</html>
