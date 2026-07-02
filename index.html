@@ -6,23 +6,29 @@
     <title>Yash Shah | Live Products</title>
     <meta
       name="description"
-      content="Yash Shah's live product portfolio with product surfaces, professional links, and background."
+      content="Yash Shah's live product teardown: products, contact, and background in one interactive page."
     />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,700&family=DM+Mono:wght@300;400&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --blueprint: #101826;
-        --blueprint-2: #162132;
         --paper: #F6F0DC;
-        --paper-2: #E9DFC4;
-        --ink: #111318;
-        --muted: #59604F;
-        --graph: #CAD2C5;
+        --paper-soft: #FBF6E8;
+        --paper-deep: #E9DFC4;
+        --paper-warm: #EFE1B9;
+        --ink: #17130B;
+        --muted: #635D4D;
+        --line: rgba(23, 19, 11, 0.18);
+        --line-strong: rgba(23, 19, 11, 0.42);
         --signal: #FFD84D;
         --pencil: #FF5A45;
-        --line: rgba(17, 19, 24, 0.18);
-        --white-line: rgba(246, 240, 220, 0.16);
+        --blue: #4AAEA8;
+        --green: #6B8E4E;
         --radius: 14px;
+        --active-color: var(--signal);
+        --mx: 50vw;
+        --my: 50vh;
+        --tilt-x: 0deg;
+        --tilt-y: 0deg;
       }
 
       * {
@@ -32,19 +38,16 @@
       }
 
       html {
+        height: 100%;
         scroll-behavior: smooth;
       }
 
       body {
-        min-height: 100vh;
-        overflow-x: hidden;
-        background:
-          linear-gradient(var(--white-line) 1px, transparent 1px),
-          linear-gradient(90deg, var(--white-line) 1px, transparent 1px),
-          radial-gradient(circle at 78% 10%, rgba(255, 216, 77, 0.17), transparent 30rem),
-          var(--blueprint);
-        background-size: 42px 42px, 42px 42px, auto, auto;
-        color: var(--paper);
+        width: 100%;
+        height: 100svh;
+        overflow: hidden;
+        background: var(--paper);
+        color: var(--ink);
         font-family: "Inter", sans-serif;
         opacity: 0;
       }
@@ -53,10 +56,10 @@
         content: "";
         position: fixed;
         inset: 0;
+        z-index: 30;
         pointer-events: none;
-        opacity: 0.045;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.22'/%3E%3C/svg%3E");
-        z-index: 20;
+        opacity: 0.055;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.2'/%3E%3C/svg%3E");
       }
 
       a {
@@ -65,28 +68,23 @@
       }
 
       button {
+        border: 0;
+        background: none;
+        color: inherit;
         font: inherit;
-      }
-
-      .page {
-        width: min(100%, 1240px);
-        margin: 0 auto;
-        padding: 42px 28px 56px;
       }
 
       .mono,
       .label,
-      .social-card span,
+      .surface-nav button,
       .product-tab span,
-      .url,
       .annotation,
       .tag,
-      .footer {
+      .url,
+      .social-card span,
+      .open-product,
+      .footer-strip {
         font-family: "DM Mono", monospace;
-      }
-
-      .hero {
-        margin: 18px 0 64px;
       }
 
       h1,
@@ -97,183 +95,120 @@
         letter-spacing: -0.045em;
       }
 
-      h1 {
-        max-width: 760px;
-        font-size: clamp(78px, 13vw, 178px);
-        line-height: 0.78;
-        color: var(--ink);
-      }
-
-      .identity-board {
+      .teardown-page {
+        position: relative;
+        isolation: isolate;
+        width: 100%;
+        height: 100svh;
         display: grid;
-        grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.55fr);
-        min-height: 520px;
-      }
-
-      .identity-card {
-        transform: rotate(-0.35deg);
-      }
-
-      .identity-card .teardown-top {
-        background:
-          linear-gradient(var(--line) 1px, transparent 1px),
-          linear-gradient(90deg, var(--line) 1px, transparent 1px),
-          var(--paper-2);
-        background-size: 28px 28px;
-      }
-
-      .identity-name {
-        display: grid;
-        align-content: center;
-        gap: 22px;
-        padding: clamp(28px, 6vw, 64px);
-        border-right: 1px solid var(--line);
-        background:
-          linear-gradient(var(--line) 1px, transparent 1px),
-          linear-gradient(90deg, var(--line) 1px, transparent 1px),
-          var(--paper);
-        background-size: 34px 34px;
-      }
-
-      .identity-panel {
-        display: grid;
-        align-content: center;
-        gap: 16px;
-        padding: clamp(22px, 4vw, 38px);
-        background: var(--paper-2);
-      }
-
-      .identity-panel .annotation {
-        max-width: 420px;
-      }
-
-      .intro-copy {
-        max-width: 640px;
-        color: var(--muted);
-        font-size: clamp(18px, 2vw, 23px);
-        line-height: 1.65;
-      }
-
-      .social-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .social-card {
-        min-height: 118px;
-        display: grid;
-        align-content: space-between;
-        padding: 18px;
-        border: 1px solid var(--ink);
-        border-radius: var(--radius);
-        background: rgba(246, 240, 220, 0.52);
-        color: var(--ink);
-        box-shadow: 6px 6px 0 rgba(17, 19, 24, 0.08);
-        transition:
-          transform 0.18s ease,
-          border-color 0.18s ease,
-          background 0.18s ease;
-      }
-
-      .social-card:hover,
-      .social-card:focus-visible {
-        transform: translateY(-3px);
-        border-color: var(--pencil);
-        background: var(--paper);
-        outline: none;
-      }
-
-      .social-card svg {
-        width: 24px;
-        height: 24px;
-        color: var(--pencil);
-      }
-
-      .social-card strong {
-        display: block;
-        margin-top: 22px;
-        color: var(--ink);
-        font-size: 22px;
-        line-height: 1;
-      }
-
-      .social-card span {
-        display: block;
-        margin-top: 8px;
-        color: var(--muted);
-        font-size: 10px;
-        line-height: 1.45;
-        overflow-wrap: anywhere;
-      }
-
-      .teardown {
-        border: 1px solid var(--white-line);
-        border-radius: calc(var(--radius) + 10px);
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: clamp(10px, 1.5vw, 18px);
+        padding: clamp(14px, 2vw, 26px);
         overflow: hidden;
-        background: var(--paper);
-        color: var(--ink);
-        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.28);
-      }
-
-      .teardown-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 18px 20px;
-        border-bottom: 1px solid var(--line);
         background:
           linear-gradient(var(--line) 1px, transparent 1px),
           linear-gradient(90deg, var(--line) 1px, transparent 1px),
+          radial-gradient(circle at 82% 12%, rgba(255, 216, 77, 0.26), transparent 24rem),
+          radial-gradient(circle at 12% 82%, rgba(74, 174, 168, 0.15), transparent 26rem),
           var(--paper);
-        background-size: 28px 28px;
+        background-size: 32px 32px, 32px 32px, auto, auto, auto;
+      }
+
+      .teardown-page::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+          radial-gradient(360px circle at var(--mx) var(--my), color-mix(in srgb, var(--active-color) 28%, transparent), transparent 68%),
+          linear-gradient(115deg, transparent 0 42%, rgba(255, 255, 255, 0.18) 48%, transparent 56%);
+        opacity: 0.92;
+      }
+
+      .cursor-rules {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        pointer-events: none;
+      }
+
+      .cursor-rules::before,
+      .cursor-rules::after {
+        content: "";
+        position: absolute;
+        background: color-mix(in srgb, var(--active-color) 55%, var(--ink));
+        opacity: 0.16;
+      }
+
+      .cursor-rules::before {
+        top: 0;
+        bottom: 0;
+        left: var(--mx);
+        width: 1px;
+      }
+
+      .cursor-rules::after {
+        left: 0;
+        right: 0;
+        top: var(--my);
+        height: 1px;
+      }
+
+      .page-header,
+      .workspace,
+      .footer-strip {
+        position: relative;
+        z-index: 5;
+      }
+
+      .page-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(330px, 0.42fr);
+        align-items: end;
+        gap: clamp(16px, 2vw, 28px);
+        padding-bottom: clamp(10px, 1.4vw, 18px);
+        border-bottom: 2px solid var(--ink);
+      }
+
+      .identity {
+        display: grid;
+        gap: 10px;
       }
 
       .label {
         color: var(--muted);
         font-size: 11px;
         letter-spacing: 0.15em;
+        line-height: 1.25;
         text-transform: uppercase;
       }
 
-      .teardown-title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--ink);
-        font-size: clamp(28px, 4vw, 48px);
-        line-height: 0.95;
+      h1 {
+        max-width: 860px;
+        font-size: clamp(58px, 9vw, 122px);
+        line-height: 0.78;
       }
 
-      .pin {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: var(--pencil);
-        box-shadow: 0 0 0 5px rgba(255, 90, 69, 0.12);
+      .identity p:not(.label) {
+        max-width: 680px;
+        color: var(--muted);
+        font-size: clamp(14px, 1.35vw, 18px);
+        line-height: 1.55;
       }
 
-      .board {
+      .surface-nav {
         display: grid;
-        grid-template-columns: minmax(260px, 0.82fr) minmax(360px, 1.18fr);
-        min-height: 610px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border: 1px solid var(--line-strong);
+        background: rgba(251, 246, 232, 0.58);
       }
 
-      .product-tabs {
-        display: grid;
-        border-right: 1px solid var(--line);
-      }
-
-      .product-tab {
+      .surface-nav button {
         position: relative;
-        display: grid;
-        gap: 12px;
-        padding: 26px;
-        border: 0;
-        border-bottom: 1px solid var(--line);
-        background: var(--paper);
-        color: var(--ink);
+        min-height: 76px;
+        padding: 13px 14px;
+        border-right: 1px solid var(--line);
         cursor: pointer;
         text-align: left;
         transition:
@@ -281,40 +216,178 @@
           color 0.18s ease;
       }
 
-      .product-tab:last-child {
-        border-bottom: 0;
+      .surface-nav button:last-child {
+        border-right: 0;
       }
 
-      .product-tab::after {
+      .surface-nav button::after {
         content: "";
         position: absolute;
-        top: 22px;
-        right: 18px;
-        width: 34px;
-        height: 34px;
-        border-top: 2px solid var(--ink);
-        border-right: 2px solid var(--ink);
+        left: 12px;
+        right: 12px;
+        bottom: 10px;
+        height: 4px;
+        border-radius: 999px;
+        background: var(--active-color);
         opacity: 0;
-        transform: translate(-8px, 8px);
+        transform: scaleX(0.4);
+        transform-origin: left;
         transition:
           opacity 0.18s ease,
           transform 0.18s ease;
       }
 
-      .product-tab:hover,
-      .product-tab:focus-visible,
-      .product-tab.active {
+      .surface-nav button:hover,
+      .surface-nav button:focus-visible,
+      .surface-nav button.active {
         background: var(--ink);
         color: var(--paper);
         outline: none;
       }
 
-      .product-tab:hover::after,
-      .product-tab:focus-visible::after,
-      .product-tab.active::after {
-        opacity: 0.34;
-        transform: translate(0, 0);
-        border-color: var(--signal);
+      .surface-nav button:hover::after,
+      .surface-nav button:focus-visible::after,
+      .surface-nav button.active::after {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+
+      .nav-index {
+        display: block;
+        margin-bottom: 8px;
+        color: currentColor;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        opacity: 0.66;
+        text-transform: uppercase;
+      }
+
+      .nav-title {
+        display: block;
+        font-size: clamp(14px, 1.4vw, 18px);
+        line-height: 1.1;
+      }
+
+      .workspace {
+        min-height: 0;
+        overflow: hidden;
+        border-top: 1px solid var(--line-strong);
+        border-bottom: 1px solid var(--line-strong);
+      }
+
+      .view {
+        position: absolute;
+        inset: 0;
+        min-height: 0;
+        display: grid;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(10px) scale(0.992);
+        transition:
+          opacity 0.22s ease,
+          transform 0.22s ease;
+      }
+
+      .view.active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+      }
+
+      .view-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        min-height: 44px;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(233, 223, 196, 0.72);
+      }
+
+      .view-title {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .view-title h2 {
+        font-size: clamp(27px, 3.4vw, 48px);
+        line-height: 0.92;
+      }
+
+      .view-title p {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .url {
+        color: var(--muted);
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+
+      .products-view {
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .products-body {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(230px, 0.34fr) minmax(0, 1fr);
+      }
+
+      .product-rail {
+        display: grid;
+        grid-template-rows: repeat(3, minmax(0, 1fr));
+        min-height: 0;
+        border-right: 1px solid var(--line-strong);
+      }
+
+      .product-tab {
+        position: relative;
+        display: grid;
+        align-content: center;
+        gap: 9px;
+        min-height: 0;
+        padding: clamp(14px, 2vw, 24px);
+        border-bottom: 1px solid var(--line);
+        background: rgba(251, 246, 232, 0.54);
+        cursor: pointer;
+        text-align: left;
+        transition:
+          background 0.18s ease,
+          transform 0.18s ease;
+      }
+
+      .product-tab:last-child {
+        border-bottom: 0;
+      }
+
+      .product-tab::before {
+        content: "";
+        position: absolute;
+        inset: 16px auto 16px 0;
+        width: 5px;
+        border-radius: 0 999px 999px 0;
+        background: var(--active-color);
+        opacity: 0;
+        transition: opacity 0.18s ease;
+      }
+
+      .product-tab:hover,
+      .product-tab:focus-visible,
+      .product-tab.active {
+        background: var(--paper-warm);
+        outline: none;
+      }
+
+      .product-tab:hover::before,
+      .product-tab:focus-visible::before,
+      .product-tab.active::before {
+        opacity: 1;
       }
 
       .product-tab span {
@@ -324,66 +397,60 @@
         text-transform: uppercase;
       }
 
-      .product-tab.active span,
-      .product-tab:hover span,
-      .product-tab:focus-visible span {
-        color: rgba(246, 240, 220, 0.58);
-      }
-
       .product-tab h3 {
-        font-size: clamp(38px, 5vw, 60px);
+        font-size: clamp(34px, 4.6vw, 64px);
         line-height: 0.9;
       }
 
       .product-tab p {
-        max-width: 360px;
+        max-width: 330px;
         color: var(--muted);
-        font-size: 14px;
-        line-height: 1.55;
+        font-size: clamp(12px, 1.1vw, 14px);
+        line-height: 1.48;
       }
 
-      .product-tab.active p,
-      .product-tab:hover p,
-      .product-tab:focus-visible p {
-        color: rgba(246, 240, 220, 0.67);
-      }
-
-      .board-panel {
-        position: relative;
-        min-width: 0;
+      .product-stage {
+        min-height: 0;
         display: grid;
-        grid-template-rows: 1fr auto;
-        padding: 34px;
+        grid-template-rows: minmax(0, 1fr) auto;
+        gap: 14px;
+        padding: clamp(14px, 2vw, 24px);
         background:
-          linear-gradient(rgba(17, 19, 24, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(17, 19, 24, 0.08) 1px, transparent 1px),
-          var(--paper-2);
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px),
+          rgba(233, 223, 196, 0.66);
         background-size: 30px 30px;
       }
 
       .specimen {
-        position: relative;
+        min-height: 0;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(220px, 0.56fr);
-        gap: 28px;
-        align-items: stretch;
+        grid-template-columns: minmax(0, 1fr) minmax(230px, 0.38fr);
+        gap: clamp(14px, 2vw, 24px);
       }
 
       .browser-card {
-        min-height: 360px;
+        min-height: 0;
         overflow: hidden;
         border: 2px solid var(--ink);
         border-radius: var(--radius);
-        background: var(--paper);
-        transform: rotate(-0.7deg);
-        box-shadow: 10px 10px 0 rgba(17, 19, 24, 0.1);
+        background: var(--paper-soft);
+        box-shadow: 8px 8px 0 rgba(23, 19, 11, 0.1);
+        transform: perspective(900px) rotateX(var(--tilt-y)) rotateY(var(--tilt-x)) rotate(-0.35deg);
+        transition:
+          box-shadow 0.18s ease,
+          transform 0.08s linear;
+      }
+
+      .browser-card:hover {
+        box-shadow: 12px 12px 0 color-mix(in srgb, var(--active-color) 30%, rgba(23, 19, 11, 0.1));
       }
 
       .browser-top {
         display: flex;
         align-items: center;
         gap: 7px;
-        padding: 12px;
+        padding: 11px;
         border-bottom: 2px solid var(--ink);
       }
 
@@ -391,15 +458,16 @@
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: var(--active-color, var(--signal));
+        background: var(--active-color);
       }
 
       .preview {
-        min-height: 310px;
+        height: calc(100% - 35px);
+        min-height: 240px;
         display: grid;
-        grid-template-columns: 0.85fr 1fr;
+        grid-template-columns: 0.86fr 1fr;
         gap: 18px;
-        padding: 22px;
+        padding: clamp(16px, 2vw, 24px);
       }
 
       .preview.access {
@@ -413,8 +481,8 @@
       .line,
       .block,
       .pill {
-        border: 1px solid rgba(17, 19, 24, 0.2);
-        background: rgba(17, 19, 24, 0.08);
+        border: 1px solid rgba(23, 19, 11, 0.2);
+        background: rgba(23, 19, 11, 0.08);
       }
 
       .line {
@@ -424,11 +492,12 @@
       }
 
       .block {
-        min-height: 116px;
+        min-height: 92px;
+        height: 55%;
         border-radius: 12px;
         background:
-          radial-gradient(circle at 70% 20%, color-mix(in srgb, var(--active-color, var(--signal)) 32%, transparent), transparent 5rem),
-          rgba(17, 19, 24, 0.08);
+          radial-gradient(circle at 72% 18%, color-mix(in srgb, var(--active-color) 38%, transparent), transparent 5rem),
+          rgba(23, 19, 11, 0.08);
       }
 
       .pill {
@@ -436,12 +505,13 @@
         height: 24px;
         margin-bottom: 14px;
         border-radius: 999px;
-        background: color-mix(in srgb, var(--active-color, var(--signal)) 30%, transparent);
+        background: color-mix(in srgb, var(--active-color) 38%, transparent);
       }
 
       .notes {
+        min-height: 0;
         display: grid;
-        gap: 14px;
+        gap: 12px;
         align-content: start;
       }
 
@@ -449,7 +519,7 @@
         position: relative;
         padding: 14px 14px 14px 18px;
         border-left: 3px solid var(--pencil);
-        background: rgba(246, 240, 220, 0.56);
+        background: rgba(251, 246, 232, 0.72);
         color: var(--ink);
         font-size: 11px;
         line-height: 1.55;
@@ -464,33 +534,26 @@
         line-height: 1.3;
       }
 
-      .panel-footer {
+      .product-footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
-        margin-top: 24px;
-        padding-top: 18px;
+        gap: 14px;
+        min-height: 48px;
+        padding-top: 12px;
         border-top: 1px solid var(--line);
-      }
-
-      .url {
-        color: var(--muted);
-        font-size: 11px;
-        overflow-wrap: anywhere;
       }
 
       .open-product {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 44px;
-        padding: 12px 16px;
+        min-height: 42px;
+        padding: 11px 16px;
         border: 1px solid var(--ink);
         border-radius: 999px;
         background: var(--ink);
         color: var(--paper);
-        font-family: "DM Mono", monospace;
         font-size: 11px;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -502,82 +565,168 @@
 
       .open-product:hover,
       .open-product:focus-visible {
-        background: var(--signal);
+        background: var(--active-color);
         color: var(--ink);
         transform: translateY(-2px);
         outline: none;
       }
 
-      .section {
-        padding: 78px 0 0;
+      .contact-view,
+      .background-view {
+        grid-template-rows: auto minmax(0, 1fr);
       }
 
-      .background-teardown {
-        margin-top: 18px;
-      }
-
-      .background-card {
+      .contact-body {
+        min-height: 0;
         display: grid;
-        grid-template-columns: minmax(0, 0.72fr) minmax(260px, 0.38fr);
-        gap: 14px;
-        margin: 0;
-        padding: 14px;
-        background: var(--paper-2);
+        grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1fr);
+        gap: clamp(14px, 2vw, 24px);
+        padding: clamp(16px, 2vw, 26px);
+        background: rgba(233, 223, 196, 0.66);
       }
 
+      .contact-note,
       .bio,
-      .detail-list {
-        border: 1px solid var(--line);
+      .detail-list,
+      .social-card {
+        border: 1px solid var(--line-strong);
         border-radius: var(--radius);
         background:
           linear-gradient(var(--line) 1px, transparent 1px),
           linear-gradient(90deg, var(--line) 1px, transparent 1px),
-          var(--paper);
-        background-size: 30px 30px;
+          rgba(251, 246, 232, 0.76);
+        background-size: 28px 28px;
+      }
+
+      .contact-note {
+        display: grid;
+        align-content: center;
+        gap: 16px;
+        min-height: 0;
+        padding: clamp(20px, 3vw, 42px);
+      }
+
+      .contact-note h3 {
+        max-width: 360px;
+        font-size: clamp(42px, 6vw, 86px);
+        line-height: 0.9;
+      }
+
+      .contact-note p:not(.label) {
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .social-grid {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .social-card {
+        min-height: 0;
+        display: grid;
+        align-content: space-between;
+        padding: clamp(18px, 2.2vw, 28px);
         color: var(--ink);
+        box-shadow: 7px 7px 0 rgba(23, 19, 11, 0.08);
+        transition:
+          transform 0.18s ease,
+          border-color 0.18s ease,
+          background 0.18s ease;
+      }
+
+      .social-card:hover,
+      .social-card:focus-visible {
+        transform: translateY(-4px);
+        border-color: var(--pencil);
+        background: var(--paper-soft);
+        outline: none;
+      }
+
+      .social-card svg {
+        width: 27px;
+        height: 27px;
+        color: var(--pencil);
+      }
+
+      .social-card strong {
+        display: block;
+        margin-top: clamp(42px, 10vh, 98px);
+        font-size: clamp(25px, 3vw, 42px);
+        line-height: 0.95;
+      }
+
+      .social-card span {
+        display: block;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+      }
+
+      .background-body {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 0.68fr) minmax(260px, 0.32fr);
+        gap: clamp(14px, 2vw, 24px);
+        padding: clamp(16px, 2vw, 26px);
+        background: rgba(233, 223, 196, 0.66);
       }
 
       .bio {
-        padding: clamp(24px, 5vw, 42px);
+        min-height: 0;
+        display: grid;
+        align-content: center;
+        padding: clamp(22px, 4vw, 56px);
       }
 
-      .bio h2 {
-        max-width: 720px;
-        margin-bottom: 22px;
-        color: var(--ink);
-        font-size: clamp(38px, 6vw, 76px);
-        line-height: 0.94;
+      .bio h3 {
+        max-width: 780px;
+        margin-bottom: 18px;
+        font-size: clamp(40px, 6.5vw, 92px);
+        line-height: 0.9;
       }
 
       .bio p {
-        max-width: 820px;
+        max-width: 780px;
         color: var(--muted);
-        font-size: clamp(17px, 2vw, 22px);
-        line-height: 1.72;
+        font-size: clamp(15px, 1.7vw, 21px);
+        line-height: 1.68;
       }
 
-      .tags {
+      .tag-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 24px;
+        gap: 9px;
+        margin-top: 22px;
       }
 
       .tag {
-        padding: 7px 11px;
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 6px 10px;
         border: 1px solid var(--line);
         border-radius: 999px;
+        background: rgba(251, 246, 232, 0.72);
         color: var(--muted);
         font-size: 11px;
       }
 
       .detail-list {
+        min-height: 0;
         display: grid;
         overflow: hidden;
       }
 
       .detail {
-        padding: 22px;
+        display: grid;
+        align-content: center;
+        padding: clamp(16px, 2vw, 24px);
         border-bottom: 1px solid var(--line);
       }
 
@@ -587,9 +736,9 @@
 
       .detail strong {
         display: block;
-        color: var(--ink);
         font-family: "Fraunces", serif;
-        font-size: 25px;
+        font-size: clamp(24px, 3vw, 38px);
+        line-height: 1;
       }
 
       .detail span {
@@ -600,72 +749,165 @@
         line-height: 1.5;
       }
 
-      .footer {
+      .footer-strip {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-        gap: 14px;
-        margin-top: 78px;
-        padding: 18px 20px;
-        border: 1px solid var(--white-line);
-        border-radius: var(--radius);
-        background:
-          linear-gradient(var(--line) 1px, transparent 1px),
-          linear-gradient(90deg, var(--line) 1px, transparent 1px),
-          var(--paper);
-        background-size: 24px 24px;
+        gap: 12px;
+        padding-top: clamp(8px, 1.2vw, 14px);
+        border-top: 1px solid var(--line-strong);
         color: var(--muted);
         font-size: 11px;
-        box-shadow: 0 18px 54px rgba(0, 0, 0, 0.2);
       }
 
-      .footer span:first-child {
-        color: var(--ink);
-      }
-
-      .footer a {
+      .footer-strip a {
         color: var(--pencil);
       }
 
       @media (max-width: 980px) {
-        .identity-board,
-        .board,
-        .specimen,
-        .background-card {
+        .page-header {
           grid-template-columns: 1fr;
+          align-items: stretch;
         }
 
-        .social-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        .identity-name {
-          border-right: 0;
-          border-bottom: 1px solid var(--line);
-        }
-
-        .product-tabs {
-          border-right: 0;
-          border-bottom: 1px solid var(--line);
-        }
-
-        .product-tab {
-          min-height: 180px;
-        }
-      }
-
-      @media (max-width: 680px) {
-        .page {
-          padding: 28px 18px 42px;
-        }
-
-        .hero {
-          min-height: auto;
-          margin: 28px 0 56px;
+        .surface-nav button {
+          min-height: 62px;
         }
 
         h1 {
-          font-size: clamp(66px, 22vw, 110px);
+          font-size: clamp(48px, 13vw, 90px);
+        }
+
+        .products-body,
+        .specimen,
+        .contact-body,
+        .background-body {
+          grid-template-columns: 1fr;
+        }
+
+        .product-rail {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-rows: 1fr;
+          border-right: 0;
+          border-bottom: 1px solid var(--line-strong);
+        }
+
+        .product-tab {
+          border-right: 1px solid var(--line);
+          border-bottom: 0;
+        }
+
+        .product-tab:last-child {
+          border-right: 0;
+        }
+
+        .product-tab p,
+        .notes .annotation:nth-child(n + 3),
+        .view-title p {
+          display: none;
+        }
+
+        .social-card strong {
+          margin-top: 32px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .teardown-page {
+          gap: 8px;
+          padding: 12px;
+        }
+
+        .page-header {
+          gap: 10px;
+          padding-bottom: 9px;
+        }
+
+        .identity {
+          gap: 6px;
+        }
+
+        .identity p:not(.label) {
+          display: none;
+        }
+
+        h1 {
+          font-size: clamp(45px, 20vw, 82px);
+        }
+
+        .surface-nav button {
+          min-height: 38px;
+          padding: 8px 10px;
+        }
+
+        .nav-index {
+          display: inline;
+          margin: 0 8px 0 0;
+        }
+
+        .nav-title {
+          display: inline;
+        }
+
+        .products-body {
+          grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .product-rail {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(3, auto);
+        }
+
+        .product-tab {
+          min-height: 48px;
+          padding: 10px 12px;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .product-tab h3 {
+          font-size: 27px;
+        }
+
+        .product-tab span,
+        .view-label .url,
+        .notes,
+        .product-tab p {
+          display: none;
+        }
+
+        .product-stage {
+          gap: 8px;
+          padding: 10px;
+        }
+
+        .preview,
+        .preview.access,
+        .preview.fitness {
+          min-height: 170px;
+          grid-template-columns: 1fr;
+        }
+
+        .product-footer {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .contact-body,
+        .background-body {
+          gap: 10px;
+          padding: 10px;
+        }
+
+        .contact-note,
+        .bio {
+          padding: 16px;
+        }
+
+        .contact-note h3,
+        .bio h3 {
+          font-size: clamp(30px, 10vw, 44px);
         }
 
         .social-grid {
@@ -673,28 +915,35 @@
         }
 
         .social-card {
-          min-height: 114px;
+          min-height: 76px;
+          padding: 14px;
         }
 
-        .teardown-top,
-        .panel-footer {
-          align-items: flex-start;
-          flex-direction: column;
+        .social-card strong {
+          margin-top: 18px;
+          font-size: 24px;
         }
 
-        .board-panel {
-          padding: 18px;
+        .detail-list,
+        .bio p,
+        .contact-note p:not(.label) {
+          display: none;
+        }
+      }
+
+      @media (max-height: 680px) and (min-width: 721px) {
+        .identity p:not(.label),
+        .view-title p,
+        .notes .annotation:nth-child(n + 3) {
+          display: none;
         }
 
-        .browser-card {
-          min-height: 300px;
+        .surface-nav button {
+          min-height: 58px;
         }
 
-        .preview,
-        .preview.access,
-        .preview.fitness {
-          min-height: 250px;
-          grid-template-columns: 1fr;
+        h1 {
+          font-size: clamp(52px, 7.2vw, 94px);
         }
       }
 
@@ -711,32 +960,122 @@
     </style>
   </head>
   <body>
-    <main class="page">
-      <section class="hero teardown identity-card" aria-labelledby="hero-title">
-        <div class="teardown-top">
-          <div>
-            <p class="label">Live portfolio surface</p>
-            <h2 class="teardown-title"><span class="pin"></span> Contact sheet</h2>
-          </div>
-          <p class="url">yashvipulkumarshah.com</p>
+    <main class="teardown-page" aria-labelledby="page-title">
+      <div class="cursor-rules" aria-hidden="true"></div>
+
+      <header class="page-header">
+        <div class="identity">
+          <p class="label">Live product teardown</p>
+          <h1 id="page-title">Yash Shah</h1>
+          <p>Products are the evidence. Contact and background are alternate surfaces on the same inspection page.</p>
         </div>
 
-        <div class="identity-board">
-          <div class="identity-name">
-            <p class="label">Product builder / software engineer / founder</p>
-            <h1 id="hero-title">Yash Shah</h1>
-            <p class="intro-copy">
-              Three shipped products are the artifact. The board below treats each one like a surface: behavior, product move, and why it matters.
-            </p>
+        <nav class="surface-nav" aria-label="Portfolio surfaces">
+          <button class="active" type="button" data-section-target="products" aria-current="page">
+            <span class="nav-index">01</span>
+            <span class="nav-title">Products</span>
+          </button>
+          <button type="button" data-section-target="contact">
+            <span class="nav-index">02</span>
+            <span class="nav-title">Contact</span>
+          </button>
+          <button type="button" data-section-target="background">
+            <span class="nav-index">03</span>
+            <span class="nav-title">Background</span>
+          </button>
+        </nav>
+      </header>
+
+      <section class="workspace" aria-live="polite">
+        <article class="view products-view active" data-view="products" aria-hidden="false">
+          <div class="view-label">
+            <span class="view-title">
+              <h2>Products</h2>
+              <p>Three live surfaces, each framed by the behavior behind it.</p>
+            </span>
+            <span class="url" id="active-product-url">accept.yashvipulkumarshah.com</span>
           </div>
 
-          <aside class="identity-panel" aria-label="Primary links">
-            <div class="annotation">
-              <strong>Profile surface</strong>
-              <span>Code, career context, and public updates sit beside the live product board.</span>
+          <div class="products-body">
+            <div class="product-rail" role="list" aria-label="Products">
+              <button class="product-tab active" type="button" data-product="accept" role="listitem">
+                <span>Local marketplace</span>
+                <h3>Accept</h3>
+                <p>Buy and sell locally. We negotiate so you don't have to.</p>
+              </button>
+
+              <button class="product-tab" type="button" data-product="access" role="listitem">
+                <span>Event memories</span>
+                <h3>Access</h3>
+                <p>Every photo from the night. From everyone who was there.</p>
+              </button>
+
+              <button class="product-tab" type="button" data-product="fitness" role="listitem">
+                <span>Training system</span>
+                <h3>Fitness</h3>
+                <p>Body recomposition tracking. Built for how I train.</p>
+              </button>
             </div>
 
-            <div class="social-grid">
+            <div class="product-stage" id="product-stage">
+              <div class="specimen">
+                <div class="browser-card">
+                  <div class="browser-top"><i></i><i></i><i></i></div>
+                  <div class="preview" id="preview-shape">
+                    <div>
+                      <div class="pill"></div>
+                      <div class="line"></div>
+                      <div class="line"></div>
+                      <div class="block"></div>
+                    </div>
+                    <div>
+                      <div class="block"></div>
+                      <div class="line"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="notes">
+                  <div class="annotation">
+                    <strong id="note-one-title">Behavior</strong>
+                    <span id="note-one">Local buying has too much back-and-forth. Accept turns that negotiation loop into the product.</span>
+                  </div>
+                  <div class="annotation">
+                    <strong id="note-two-title">Product move</strong>
+                    <span id="note-two">Make the stressful part feel handled, not merely listed.</span>
+                  </div>
+                  <div class="annotation">
+                    <strong id="note-three-title">Why open it</strong>
+                    <span id="note-three">It shows marketplace thinking, workflow design, and bias toward a real transaction.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="product-footer">
+                <p class="url" id="panel-url">https://accept.yashvipulkumarshah.com</p>
+                <a class="open-product" id="open-product" href="https://accept.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">Open product</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="view contact-view" data-view="contact" aria-hidden="true" inert>
+          <div class="view-label">
+            <span class="view-title">
+              <h2>Contact</h2>
+              <p>Profile links, code, and public trail.</p>
+            </span>
+            <span class="url">github / linkedin / x</span>
+          </div>
+
+          <div class="contact-body">
+            <div class="contact-note">
+              <p class="label">Profile surface</p>
+              <h3>Code, career, public trail.</h3>
+              <p>The fastest external reads are here: shipped code context, work history, and public updates.</p>
+            </div>
+
+            <div class="social-grid" aria-label="Primary links">
               <a class="social-card" href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
                 <strong>GitHub</strong>
@@ -755,105 +1094,33 @@
                 <span>x.com/YashSha06255909</span>
               </a>
             </div>
-          </aside>
-        </div>
-      </section>
-
-      <section class="teardown" aria-labelledby="teardown-title">
-        <div class="teardown-top">
-          <div>
-            <p class="label">Product teardown board</p>
-            <h2 class="teardown-title" id="teardown-title"><span class="pin"></span> Three live surfaces</h2>
           </div>
-          <p class="url" id="active-url">accept.yashvipulkumarshah.com</p>
-        </div>
+        </article>
 
-        <div class="board">
-          <div class="product-tabs" role="list" aria-label="Products">
-            <button class="product-tab active" type="button" data-product="accept" role="listitem">
-              <span>Local marketplace</span>
-              <h3>Accept</h3>
-              <p>Buy and sell locally. We negotiate so you don't have to.</p>
-            </button>
-
-            <button class="product-tab" type="button" data-product="access" role="listitem">
-              <span>Event memories</span>
-              <h3>Access</h3>
-              <p>Every photo from the night. From everyone who was there.</p>
-            </button>
-
-            <button class="product-tab" type="button" data-product="fitness" role="listitem">
-              <span>Training system</span>
-              <h3>Fitness</h3>
-              <p>Body recomposition tracking. Built for how I train.</p>
-            </button>
+        <article class="view background-view" data-view="background" aria-hidden="true" inert>
+          <div class="view-label">
+            <span class="view-title">
+              <h2>Background</h2>
+              <p>The operating notes behind the live work.</p>
+            </span>
+            <span class="url">engineering / founder / product / MBA</span>
           </div>
 
-          <div class="board-panel" id="product-panel">
-            <div class="specimen">
-              <div class="browser-card">
-                <div class="browser-top"><i></i><i></i><i></i></div>
-                <div class="preview" id="preview-shape">
-                  <div>
-                    <div class="pill"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="block"></div>
-                  </div>
-                  <div>
-                    <div class="block"></div>
-                    <div class="line"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="notes">
-                <div class="annotation">
-                  <strong id="note-one-title">Behavior</strong>
-                  <span id="note-one">Local buying has too much back-and-forth. Accept turns that negotiation loop into the product.</span>
-                </div>
-                <div class="annotation">
-                  <strong id="note-two-title">Product move</strong>
-                  <span id="note-two">Make the stressful part feel handled, not merely listed.</span>
-                </div>
-                <div class="annotation">
-                  <strong id="note-three-title">Why open it</strong>
-                  <span id="note-three">It shows marketplace thinking, workflow design, and bias toward a real transaction.</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="panel-footer">
-              <p class="url" id="panel-url">https://accept.yashvipulkumarshah.com</p>
-              <a class="open-product" id="open-product" href="https://accept.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">Open product</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="background-title">
-        <div class="teardown background-teardown">
-          <div class="teardown-top">
-            <div>
-              <p class="label">Operator notes</p>
-              <h2 class="teardown-title" id="background-title"><span class="pin"></span> Background surface</h2>
-            </div>
-            <p class="url">John Deere / Bookchange / SwitchOn / Ivey</p>
-          </div>
-
-          <div class="background-card">
+          <div class="background-body">
             <div class="bio">
-              <h2>Engineering, product, and founder work.</h2>
+              <p class="label">Operating range</p>
+              <h3>Engineering, product, and founder work.</h3>
               <p>
                 Software engineer at John Deere. Founder of Bookchange, a peer-to-peer book sharing platform that reached the finals of Shark Tank India. Associate PM experience at SwitchOn, a Series B computer vision startup. Currently completing an MBA at Ivey Business School, Western University.
               </p>
-              <div class="tags">
+              <div class="tag-row">
                 <span class="tag">John Deere</span>
                 <span class="tag">Bookchange</span>
                 <span class="tag">SwitchOn</span>
                 <span class="tag">Ivey MBA</span>
               </div>
             </div>
+
             <div class="detail-list">
               <div class="detail">
                 <strong>Software</strong>
@@ -869,10 +1136,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </article>
       </section>
 
-      <footer class="footer">
+      <footer class="footer-strip">
         <span>Yash Shah</span>
         <span><a href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">GitHub</a> / <a href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">LinkedIn</a> / <a href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">X</a></span>
       </footer>
@@ -892,7 +1159,7 @@
           ],
         },
         access: {
-          color: "#77E6D8",
+          color: "#4AAEA8",
           url: "https://access.yashvipulkumarshah.com",
           shortUrl: "access.yashvipulkumarshah.com",
           preview: "access",
@@ -915,10 +1182,12 @@
         },
       };
 
+      const surfaceButtons = document.querySelectorAll("[data-section-target]");
+      const views = document.querySelectorAll("[data-view]");
       const tabs = document.querySelectorAll(".product-tab");
-      const panel = document.querySelector("#product-panel");
+      const root = document.documentElement;
       const preview = document.querySelector("#preview-shape");
-      const activeUrl = document.querySelector("#active-url");
+      const activeProductUrl = document.querySelector("#active-product-url");
       const panelUrl = document.querySelector("#panel-url");
       const openProduct = document.querySelector("#open-product");
       const noteTitles = [
@@ -931,6 +1200,21 @@
         document.querySelector("#note-two"),
         document.querySelector("#note-three"),
       ];
+
+      function setSurface(name) {
+        views.forEach((view) => {
+          const isActive = view.dataset.view === name;
+          view.classList.toggle("active", isActive);
+          view.inert = !isActive;
+          view.setAttribute("aria-hidden", String(!isActive));
+        });
+
+        surfaceButtons.forEach((button) => {
+          const isActive = button.dataset.sectionTarget === name;
+          button.classList.toggle("active", isActive);
+          button.setAttribute("aria-current", isActive ? "page" : "false");
+        });
+      }
 
       function renderPreview(type) {
         if (type === "access") {
@@ -953,12 +1237,13 @@
         const product = products[key];
         if (!product) return;
 
+        root.style.setProperty("--active-color", product.color);
+
         tabs.forEach((tab) => {
           tab.classList.toggle("active", tab.dataset.product === key);
         });
 
-        panel.style.setProperty("--active-color", product.color);
-        activeUrl.textContent = product.shortUrl;
+        activeProductUrl.textContent = product.shortUrl;
         panelUrl.textContent = product.url;
         openProduct.href = product.url;
         renderPreview(product.preview);
@@ -969,11 +1254,33 @@
         });
       }
 
+      surfaceButtons.forEach((button) => {
+        const target = button.dataset.sectionTarget;
+        button.addEventListener("mouseenter", () => setSurface(target));
+        button.addEventListener("focus", () => setSurface(target));
+        button.addEventListener("click", () => setSurface(target));
+      });
+
       tabs.forEach((tab) => {
         tab.addEventListener("mouseenter", () => activateProduct(tab.dataset.product));
         tab.addEventListener("focus", () => activateProduct(tab.dataset.product));
         tab.addEventListener("click", () => activateProduct(tab.dataset.product));
       });
+
+      window.addEventListener("pointermove", (event) => {
+        const x = event.clientX;
+        const y = event.clientY;
+        const tiltX = ((x / window.innerWidth) - 0.5) * 8;
+        const tiltY = ((y / window.innerHeight) - 0.5) * -6;
+
+        root.style.setProperty("--mx", `${x}px`);
+        root.style.setProperty("--my", `${y}px`);
+        root.style.setProperty("--tilt-x", `${tiltX}deg`);
+        root.style.setProperty("--tilt-y", `${tiltY}deg`);
+      });
+
+      activateProduct("accept");
+      setSurface("products");
 
       document.body.style.transition = "opacity 0.35s ease";
       window.addEventListener("load", () => {
