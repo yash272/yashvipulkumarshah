@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Yash Shah | Live Products</title>
+    <title>Yash Shah | Product Teardowns</title>
     <meta
       name="description"
-      content="Yash Shah's live product teardown: products, contact, and background in one interactive page."
+      content="Yash Shah's product teardown portfolio: real desktop snapshots, product analysis, contact, and background in one interactive page."
     />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,700&family=DM+Mono:wght@300;400&family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
@@ -23,6 +23,12 @@
         --pencil: #FF5A45;
         --blue: #4AAEA8;
         --green: #6B8E4E;
+        --access-paper: #FFF7EF;
+        --access-soft: #F2DCD2;
+        --fitness-bg: #0A0A0A;
+        --fitness-surface: #171717;
+        --fitness-ink: #F2F0E9;
+        --fitness-accent: #C3F400;
         --radius: 14px;
         --active-color: var(--signal);
         --mx: 50vw;
@@ -449,47 +455,534 @@
           var(--paper-soft);
       }
 
-      .site-preview iframe {
-        width: 100%;
-        height: 100%;
-        border: 0;
-        background: var(--paper-soft);
-        transform-origin: top left;
-      }
-
-      .frame-fallback {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        display: grid;
-        place-items: center;
-        padding: 24px;
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.5;
-        text-align: center;
-      }
-
-      .site-preview iframe,
-      .frame-sheen,
+      .snapshot-canvas,
       .callout-lines,
       .preview-callout {
         position: absolute;
       }
 
-      .site-preview iframe {
+      .snapshot-canvas {
         inset: 0;
         z-index: 1;
+        overflow: hidden;
+        background: var(--paper-soft);
       }
 
-      .frame-sheen {
+      .snapshot {
+        position: relative;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: clamp(8px, 1.1vw, 14px);
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: clamp(11px, 1.5vw, 18px);
+        color: var(--ink);
+        font-size: clamp(8px, 0.9vw, 12px);
+      }
+
+      .snapshot::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        background:
+          linear-gradient(115deg, rgba(251, 246, 232, 0.2), transparent 26% 72%, rgba(255, 255, 255, 0.2)),
+          radial-gradient(circle at 18% 20%, color-mix(in srgb, var(--active-color) 16%, transparent), transparent 12rem);
+        mix-blend-mode: soft-light;
+      }
+
+      .snapshot-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 30px;
+        padding-bottom: 9px;
+        border-bottom: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+      }
+
+      .snap-brand {
+        font-family: "Fraunces", serif;
+        font-size: clamp(17px, 1.5vw, 24px);
+        font-weight: 700;
+        letter-spacing: -0.05em;
+        line-height: 0.9;
+      }
+
+      .snap-nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: clamp(7px, 1vw, 13px);
+        color: color-mix(in srgb, currentColor 58%, transparent);
+        font-family: "DM Mono", monospace;
+        font-size: clamp(7px, 0.72vw, 9px);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .snapshot-main {
+        min-height: 0;
+        display: grid;
+        gap: clamp(8px, 1vw, 12px);
+      }
+
+      .snap-card {
+        min-height: 0;
+        overflow: hidden;
+        border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.34);
+        padding: clamp(9px, 1vw, 14px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      .snap-kicker,
+      .snap-chip,
+      .snap-step b,
+      .snap-meta,
+      .snap-axis,
+      .snap-pill {
+        font-family: "DM Mono", monospace;
+      }
+
+      .snap-kicker {
+        color: color-mix(in srgb, currentColor 52%, transparent);
+        font-size: clamp(7px, 0.72vw, 9px);
+        letter-spacing: 0.12em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+
+      .snap-hero h4 {
+        margin-top: 7px;
+        max-width: 440px;
+        font-family: "Fraunces", serif;
+        font-size: clamp(24px, 2.5vw, 36px);
+        letter-spacing: -0.055em;
+        line-height: 0.88;
+      }
+
+      .snap-hero p:not(.snap-kicker),
+      .snap-small,
+      .snap-copy {
+        color: color-mix(in srgb, currentColor 62%, transparent);
+        font-size: clamp(8px, 0.88vw, 12px);
+        line-height: 1.45;
+      }
+
+      .snap-hero p:not(.snap-kicker) {
+        max-width: 330px;
+        margin-top: 8px;
+      }
+
+      .snap-actions,
+      .snap-row,
+      .snap-stat-row,
+      .snap-gallery,
+      .snap-tabs {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        min-width: 0;
+      }
+
+      .snap-actions {
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .snap-button,
+      .snap-chip,
+      .snap-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 22px;
+        border: 1px solid currentColor;
+        border-radius: 999px;
+        padding: 5px 9px;
+        font-family: "DM Mono", monospace;
+        font-size: clamp(7px, 0.75vw, 9px);
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .snap-button.primary {
+        background: currentColor;
+        color: var(--paper-soft);
+      }
+
+      .snap-step {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 8px;
+        align-items: start;
+        padding: 8px 0;
+        border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+      }
+
+      .snap-step:last-child {
+        border-bottom: 0;
+      }
+
+      .snap-step b {
+        color: var(--pencil);
+        font-size: 9px;
+        letter-spacing: 0.08em;
+      }
+
+      .snap-step span {
+        color: color-mix(in srgb, currentColor 74%, transparent);
+        font-size: clamp(8px, 0.85vw, 11px);
+        line-height: 1.35;
+      }
+
+      .snap-message {
+        max-width: 82%;
+        margin-top: 7px;
+        padding: 7px 9px;
+        border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.35);
+        color: color-mix(in srgb, currentColor 72%, transparent);
+        font-size: clamp(8px, 0.78vw, 10px);
+        line-height: 1.35;
+      }
+
+      .snap-message.right {
+        margin-left: auto;
+        background: color-mix(in srgb, var(--active-color) 22%, transparent);
+      }
+
+      .snap-metric {
+        display: grid;
+        gap: 4px;
+      }
+
+      .snap-metric strong {
+        font-family: "Fraunces", serif;
+        font-size: clamp(18px, 1.7vw, 26px);
+        letter-spacing: -0.045em;
+        line-height: 0.95;
+      }
+
+      .snap-metric span,
+      .snap-meta {
+        color: color-mix(in srgb, currentColor 56%, transparent);
+        font-size: clamp(7px, 0.74vw, 9px);
+        line-height: 1.25;
+      }
+
+      .snap-chart {
+        position: relative;
+        min-height: 74px;
+        margin-top: 8px;
+        border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+        border-radius: 10px;
+        background:
+          linear-gradient(color-mix(in srgb, currentColor 8%, transparent) 1px, transparent 1px),
+          linear-gradient(90deg, color-mix(in srgb, currentColor 8%, transparent) 1px, transparent 1px);
+        background-size: 100% 25%, 20% 100%;
+      }
+
+      .snap-chart svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .snap-gallery {
+        align-items: stretch;
+        height: 100%;
+      }
+
+      .snap-photo {
+        flex: 1 1 0;
+        min-width: 0;
+        border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+        border-radius: 10px;
+        background:
+          linear-gradient(135deg, color-mix(in srgb, var(--blue) 26%, transparent), transparent),
+          rgba(255, 255, 255, 0.34);
+      }
+
+      .snap-pin {
+        position: absolute;
+        z-index: 5;
+        display: grid;
+        place-items: center;
+        width: 21px;
+        height: 21px;
+        border: 1px solid var(--paper-soft);
+        border-radius: 50%;
+        background: var(--pencil);
+        color: var(--paper-soft);
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        box-shadow: 0 0 0 5px rgba(255, 90, 69, 0.14);
+      }
+
+      .snapshot-accept {
+        background:
+          radial-gradient(circle at 78% 20%, color-mix(in srgb, var(--signal) 28%, transparent), transparent 14rem),
+          linear-gradient(135deg, var(--paper-soft), var(--paper-warm));
+      }
+
+      .accept-main {
+        grid-template-columns: minmax(0, 1.05fr) minmax(170px, 0.72fr);
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .accept-main .snap-hero {
+        grid-row: span 2;
+      }
+
+      .accept-main .snap-chat h5,
+      .access-main h5,
+      .fitness-main h5 {
+        margin-bottom: 8px;
+        font-family: "Fraunces", serif;
+        font-size: clamp(15px, 1.35vw, 21px);
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+
+      .snapshot-accept .snap-pin-one {
+        left: 35%;
+        top: 28%;
+      }
+
+      .snapshot-accept .snap-pin-two {
+        left: 69%;
+        top: 38%;
+      }
+
+      .snapshot-accept .snap-pin-three {
+        left: 78%;
+        top: 72%;
+      }
+
+      .snapshot-access {
+        background:
+          radial-gradient(circle at 14% 16%, color-mix(in srgb, var(--blue) 24%, transparent), transparent 14rem),
+          linear-gradient(135deg, var(--access-paper), var(--access-soft));
+      }
+
+      .access-main {
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+        grid-template-rows: minmax(0, 0.95fr) minmax(0, 0.75fr);
+      }
+
+      .access-main .snap-host {
+        grid-row: span 2;
+      }
+
+      .snap-access-code {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 10px;
+        border: 1px solid currentColor;
+        border-radius: 12px;
+        padding: 8px 11px;
+        font-family: "Fraunces", serif;
+        font-size: clamp(20px, 2.4vw, 34px);
+        letter-spacing: 0.08em;
+        line-height: 1;
+      }
+
+      .snap-list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 0;
+        border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+        color: color-mix(in srgb, currentColor 72%, transparent);
+        font-size: clamp(8px, 0.85vw, 11px);
+      }
+
+      .snap-list-item:last-child {
+        border-bottom: 0;
+      }
+
+      .snapshot-access .snap-pin-one {
+        left: 21%;
+        top: 40%;
+      }
+
+      .snapshot-access .snap-pin-two {
+        left: 55%;
+        top: 57%;
+      }
+
+      .snapshot-access .snap-pin-three {
+        left: 80%;
+        top: 31%;
+      }
+
+      .snapshot-fitness {
+        background:
+          radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--fitness-accent) 18%, transparent), transparent 13rem),
+          var(--fitness-bg);
+        color: var(--fitness-ink);
+      }
+
+      .snapshot-fitness .snap-card {
+        border-color: rgba(255, 255, 255, 0.12);
+        background: var(--fitness-surface);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+
+      .snapshot-fitness .snap-button.primary,
+      .snapshot-fitness .snap-pill {
+        background: var(--fitness-accent);
+        border-color: var(--fitness-accent);
+        color: var(--fitness-bg);
+      }
+
+      .snapshot-fitness .snap-step b,
+      .snapshot-fitness .snap-brand,
+      .snapshot-fitness .snap-metric strong {
+        color: var(--fitness-accent);
+      }
+
+      .fitness-main {
+        grid-template-columns: minmax(0, 1fr) minmax(180px, 0.48fr);
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .snap-stats {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .snapshot-fitness .snap-chart path {
+        stroke: var(--fitness-accent);
+      }
+
+      .snapshot-fitness .snap-pin {
+        background: var(--fitness-accent);
+        color: var(--fitness-bg);
+        box-shadow: 0 0 0 5px rgba(195, 244, 0, 0.14);
+      }
+
+      .snapshot-fitness .snap-pin-one {
+        left: 18%;
+        top: 31%;
+      }
+
+      .snapshot-fitness .snap-pin-two {
+        left: 49%;
+        top: 66%;
+      }
+
+      .snapshot-fitness .snap-pin-three {
+        left: 76%;
+        top: 57%;
+      }
+
+      .shot-board {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--ink);
+      }
+
+      .product-shot {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        filter: saturate(0.92) contrast(0.96);
+      }
+
+      .shot-board::after {
+        content: "";
+        position: absolute;
         inset: 0;
         z-index: 2;
         pointer-events: none;
         background:
-          linear-gradient(115deg, rgba(251, 246, 232, 0.34), transparent 28% 72%, rgba(255, 255, 255, 0.24)),
-          radial-gradient(circle at 14% 18%, color-mix(in srgb, var(--active-color) 20%, transparent), transparent 14rem);
-        mix-blend-mode: multiply;
+          linear-gradient(115deg, rgba(251, 246, 232, 0.24), transparent 28% 76%, rgba(251, 246, 232, 0.16)),
+          radial-gradient(circle at 20% 22%, color-mix(in srgb, var(--active-color) 13%, transparent), transparent 18rem);
+        mix-blend-mode: soft-light;
+      }
+
+      .shot-mark {
+        position: absolute;
+        left: var(--mark-x);
+        top: var(--mark-y);
+        z-index: 5;
+        display: grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        border: 1px solid var(--paper-soft);
+        border-radius: 50%;
+        background: var(--pencil);
+        color: var(--paper-soft);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        line-height: 1;
+        box-shadow:
+          0 0 0 6px rgba(255, 90, 69, 0.15),
+          3px 3px 0 rgba(23, 19, 11, 0.16);
+        transform: translate(-50%, -50%);
+      }
+
+      .shot-note {
+        position: absolute;
+        left: var(--note-x);
+        top: var(--note-y);
+        z-index: 6;
+        max-width: min(250px, 38%);
+        padding: 10px 12px;
+        border: 1px solid color-mix(in srgb, var(--pencil) 68%, var(--ink));
+        border-radius: 12px;
+        background: rgba(251, 246, 232, 0.92);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        line-height: 1.45;
+        box-shadow: 4px 4px 0 rgba(23, 19, 11, 0.1);
+      }
+
+      .shot-note::before {
+        content: attr(data-index);
+        display: inline-grid;
+        place-items: center;
+        width: 17px;
+        height: 17px;
+        margin: 0 6px 4px 0;
+        border-radius: 50%;
+        background: var(--pencil);
+        color: var(--paper-soft);
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        vertical-align: middle;
+      }
+
+      .shot-note strong {
+        display: inline;
+        color: var(--pencil);
+        font-family: "Inter", sans-serif;
+        font-size: 11px;
+        line-height: 1.15;
+      }
+
+      .shot-note span {
+        display: block;
+        margin-top: 5px;
       }
 
       .callout-lines {
@@ -512,14 +1005,14 @@
 
       .preview-callout {
         z-index: 4;
-        max-width: min(230px, 38%);
-        padding: 10px 12px;
+        max-width: min(210px, 35%);
+        padding: 8px 10px;
         border: 1px solid color-mix(in srgb, var(--pencil) 65%, var(--ink));
         border-radius: 12px;
         background: rgba(251, 246, 232, 0.88);
         color: var(--ink);
         font-family: "DM Mono", monospace;
-        font-size: 10px;
+        font-size: 9px;
         line-height: 1.45;
         pointer-events: none;
         box-shadow: 4px 4px 0 rgba(23, 19, 11, 0.08);
@@ -530,7 +1023,7 @@
         margin-bottom: 4px;
         color: var(--pencil);
         font-family: "Inter", sans-serif;
-        font-size: 12px;
+        font-size: 11px;
         line-height: 1.2;
       }
 
@@ -542,6 +1035,16 @@
       .callout-two {
         left: 5%;
         bottom: 8%;
+      }
+
+      .callout-three {
+        right: 6%;
+        bottom: 10%;
+      }
+
+      .callout-lines,
+      .preview-callout {
+        display: none;
       }
 
       .notes {
@@ -845,6 +1348,21 @@
           display: none;
         }
 
+        .preview-callout {
+          max-width: min(190px, 34%);
+          font-size: 9px;
+        }
+
+        .shot-note {
+          max-width: min(220px, 34%);
+          font-size: 8px;
+        }
+
+        .callout-three,
+        .callout-lines path:nth-child(3) {
+          display: none;
+        }
+
         .social-card strong {
           margin-top: 32px;
         }
@@ -870,7 +1388,7 @@
         }
 
         h1 {
-          font-size: clamp(42px, 18vw, 70px);
+          font-size: clamp(40px, 14vw, 58px);
           line-height: 0.82;
         }
 
@@ -894,19 +1412,30 @@
         }
 
         .product-rail {
-          grid-template-columns: 1fr;
-          grid-template-rows: repeat(3, auto);
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-rows: 1fr;
         }
 
         .product-tab {
-          min-height: 42px;
+          min-height: 44px;
           padding: 8px 10px;
+          border-right: 1px solid var(--line);
+          border-bottom: 0;
+        }
+
+        .product-tab:last-child {
           border-right: 0;
-          border-bottom: 1px solid var(--line);
+        }
+
+        .product-tab::before {
+          inset: auto 9px 0;
+          width: auto;
+          height: 3px;
+          border-radius: 999px 999px 0 0;
         }
 
         .product-tab h3 {
-          font-size: 24px;
+          font-size: clamp(19px, 5.8vw, 24px);
           letter-spacing: -0.02em;
           line-height: 0.95;
         }
@@ -924,12 +1453,136 @@
         }
 
         .site-preview {
-          min-height: 150px;
+          min-height: 220px;
         }
 
-        .preview-callout,
-        .callout-lines {
+        .snapshot {
+          gap: 6px;
+          padding: 8px;
+          font-size: 8px;
+        }
+
+        .snapshot-top {
+          min-height: 22px;
+          padding-bottom: 6px;
+        }
+
+        .snap-brand {
+          font-size: 22px;
+        }
+
+        .snap-nav,
+        .snap-actions,
+        .accept-main .snap-chat,
+        .access-main .snap-host,
+        .fitness-main .snap-workout,
+        .snap-stats .snap-metric:nth-child(n + 3) {
           display: none;
+        }
+
+        .snap-card {
+          border-radius: 8px;
+          padding: 7px;
+        }
+
+        .snap-hero h4 {
+          font-size: clamp(20px, 7vw, 30px);
+          line-height: 0.9;
+        }
+
+        .snap-hero p:not(.snap-kicker),
+        .snap-step span,
+        .snap-meta,
+        .snap-list-item {
+          font-size: 8px;
+          line-height: 1.25;
+        }
+
+        .accept-main,
+        .access-main,
+        .fitness-main {
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(0, 1fr);
+        }
+
+        .accept-main .snap-hero,
+        .access-main .snap-host {
+          grid-row: auto;
+        }
+
+        .snap-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 6px;
+        }
+
+        .snap-chart {
+          min-height: 42px;
+          margin-top: 5px;
+        }
+
+        .snap-access-code {
+          margin-top: 7px;
+          padding: 5px 8px;
+          font-size: 22px;
+        }
+
+        .product-shot {
+          object-fit: cover;
+          object-position: top center;
+        }
+
+        .shot-note {
+          max-width: min(155px, 32%);
+          padding: 6px 7px;
+          font-size: 7px;
+          line-height: 1.25;
+        }
+
+        .shot-note::before {
+          width: 14px;
+          height: 14px;
+          margin-right: 4px;
+          font-size: 7px;
+        }
+
+        .shot-note strong {
+          font-size: 8px;
+        }
+
+        .shot-mark {
+          display: none;
+        }
+
+        .callout-lines,
+        .callout-two,
+        .callout-three {
+          display: none;
+        }
+
+        .preview-callout {
+          left: 12px;
+          right: 12px;
+          top: auto;
+          bottom: 10px;
+          max-width: none;
+          padding: 7px 9px;
+          font-size: 8px;
+          line-height: 1.25;
+        }
+
+        .preview-callout strong {
+          display: inline;
+          margin: 0 6px 0 0;
+          font-size: 9px;
+          line-height: 1.1;
+        }
+
+        .snap-pin {
+          display: none;
+          width: 17px;
+          height: 17px;
+          font-size: 8px;
+          box-shadow: 0 0 0 4px rgba(255, 90, 69, 0.14);
         }
 
         .product-footer {
@@ -993,6 +1646,27 @@
         }
       }
 
+      @media (max-width: 520px) {
+        .shot-note {
+          left: 10px;
+          right: 10px;
+          top: auto;
+          bottom: 10px;
+          max-width: none;
+          padding: 7px 9px;
+          font-size: 8px;
+          line-height: 1.25;
+        }
+
+        .shot-note strong {
+          font-size: 9px;
+        }
+
+        .shot-note.compact-hide {
+          display: none;
+        }
+      }
+
       @media (max-height: 680px) and (min-width: 721px) {
         .identity p:not(.label),
         .view-title p,
@@ -1025,9 +1699,9 @@
     <main class="teardown-page" aria-labelledby="page-title">
       <header class="page-header">
         <div class="identity">
-          <p class="label">Live product teardown</p>
+          <p class="label">Product teardown</p>
           <h1 id="page-title">Yash Shah</h1>
-          <p>Products are the evidence. Contact and background are alternate surfaces on the same inspection page.</p>
+          <p>Three shipped products, shown through real desktop snapshots and honest product analysis.</p>
         </div>
 
         <nav class="surface-nav" aria-label="Portfolio surfaces">
@@ -1051,7 +1725,7 @@
           <div class="view-label">
             <span class="view-title">
               <h2>Products</h2>
-              <p>Three live surfaces, each framed by the behavior behind it.</p>
+              <p>Actual screenshots, annotated like a product review.</p>
             </span>
             <span class="url" id="active-product-url">accept.yashvipulkumarshah.com</span>
           </div>
@@ -1082,12 +1756,11 @@
                 <div class="browser-card">
                   <div class="browser-top"><i></i><i></i><i></i></div>
                   <div class="site-preview" id="preview-shape">
-                    <div class="frame-fallback" id="frame-fallback">Loading the live product surface...</div>
-                    <iframe id="product-frame" title="Accept live product preview" src="https://accept.yashvipulkumarshah.com" loading="lazy"></iframe>
-                    <div class="frame-sheen" aria-hidden="true"></div>
+                    <div class="snapshot-canvas" id="snapshot-canvas" aria-label="Accept desktop product teardown"></div>
                     <svg class="callout-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
                       <path id="callout-line-one" d="M74 21 C63 20 56 25 48 34 S36 48 24 44" />
                       <path id="callout-line-two" d="M27 78 C38 73 42 65 54 65 S72 58 80 48" />
+                      <path id="callout-line-three" d="M80 76 C70 70 67 62 61 56 S52 49 45 50" />
                     </svg>
                     <div class="preview-callout callout-one">
                       <strong id="callout-one-title">Primary loop</strong>
@@ -1096,6 +1769,10 @@
                     <div class="preview-callout callout-two">
                       <strong id="callout-two-title">Decision point</strong>
                       <span id="callout-two-copy">The page is built around reducing the effort to make a local deal happen.</span>
+                    </div>
+                    <div class="preview-callout callout-three">
+                      <strong id="callout-three-title">Proof surface</strong>
+                      <span id="callout-three-copy">A concrete example makes the product promise inspectable instead of abstract.</span>
                     </div>
                   </div>
                 </div>
@@ -1211,62 +1888,253 @@
     </main>
 
     <script>
+      const snapshots = {
+        accept: `
+          <div class="snapshot snapshot-accept">
+            <div class="snapshot-top">
+              <div class="snap-brand">Accept</div>
+              <div class="snap-nav"><span>Sell</span><span>Buy</span><span>How</span><span>Account</span></div>
+            </div>
+            <div class="snapshot-main accept-main">
+              <section class="snap-card snap-hero">
+                <p class="snap-kicker">Local buying and selling</p>
+                <h4>We negotiate so you don't have to.</h4>
+                <p>Local buying and selling, minus the messages.</p>
+                <div class="snap-actions">
+                  <span class="snap-button primary">I want to sell</span>
+                  <span class="snap-button">I need something</span>
+                </div>
+              </section>
+              <section class="snap-card">
+                <p class="snap-kicker">Deal loop</p>
+                <div class="snap-step"><b>01</b><span>Tell us what to buy or sell.</span></div>
+                <div class="snap-step"><b>02</b><span>Your AI agent handles messages and offers.</span></div>
+                <div class="snap-step"><b>03</b><span>Approve or pass on the deal.</span></div>
+              </section>
+              <section class="snap-card snap-chat">
+                <p class="snap-kicker">Proof object</p>
+                <h5>Walnut writing desk</h5>
+                <span class="snap-chip">Active negotiation</span>
+                <div class="snap-message">Can you do $70 if I pick up today?</div>
+                <div class="snap-message right">Seller is firm at $90.</div>
+                <div class="snap-message">Counter sent: DEAL $80</div>
+              </section>
+            </div>
+            <span class="snap-pin snap-pin-one">1</span>
+            <span class="snap-pin snap-pin-two">2</span>
+            <span class="snap-pin snap-pin-three">3</span>
+          </div>
+        `,
+        access: `
+          <div class="snapshot snapshot-access">
+            <div class="snapshot-top">
+              <div class="snap-brand">Access</div>
+              <div class="snap-nav"><span>Create album</span><span>Join with PIN</span><span>Host dashboard</span></div>
+            </div>
+            <div class="snapshot-main access-main">
+              <section class="snap-card snap-hero">
+                <p class="snap-kicker">Event crowd</p>
+                <h4>Every photo from the night.</h4>
+                <p>From everyone who was there, collected into one private album.</p>
+                <div class="snap-access-code">4281</div>
+              </section>
+              <section class="snap-card snap-host">
+                <p class="snap-kicker">Host dashboard</p>
+                <h5>Access list</h5>
+                <div class="snap-list-item"><span>Sarah</span><span class="snap-pill">Approved</span></div>
+                <div class="snap-list-item"><span>Rohan</span><span>Waiting</span></div>
+                <div class="snap-list-item"><span>Maya</span><span class="snap-pill">Auto-approve</span></div>
+                <div class="snap-chart">
+                  <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M6 50 C18 47 26 33 38 36 S58 45 70 28 S84 15 96 12" fill="none" stroke="currentColor" stroke-width="3" />
+                  </svg>
+                </div>
+                <p class="snap-meta">Completion goal: 74% of album filled</p>
+              </section>
+              <section class="snap-card">
+                <p class="snap-kicker">Photos and videos</p>
+                <div class="snap-gallery">
+                  <span class="snap-photo"></span>
+                  <span class="snap-photo"></span>
+                  <span class="snap-photo"></span>
+                </div>
+              </section>
+            </div>
+            <span class="snap-pin snap-pin-one">1</span>
+            <span class="snap-pin snap-pin-two">2</span>
+            <span class="snap-pin snap-pin-three">3</span>
+          </div>
+        `,
+        fitness: `
+          <div class="snapshot snapshot-fitness">
+            <div class="snapshot-top">
+              <div class="snap-brand">Disciplined</div>
+              <div class="snap-nav"><span>Dashboard</span><span>Daily Log</span><span>Training Logs</span><span>Body Metrics</span></div>
+            </div>
+            <div class="snapshot-main fitness-main">
+              <section class="snap-stats">
+                <div class="snap-card snap-metric"><span>Latest weight</span><strong>73.4</strong><span>kg</span></div>
+                <div class="snap-card snap-metric"><span>This week</span><strong>5</strong><span>sessions</span></div>
+                <div class="snap-card snap-metric"><span>This month</span><strong>21</strong><span>logs</span></div>
+                <div class="snap-card snap-metric"><span>Steps today</span><strong>9.8k</strong><span>moving</span></div>
+              </section>
+              <section class="snap-card">
+                <p class="snap-kicker">Performance hub</p>
+                <h5>Weight trend</h5>
+                <div class="snap-chart">
+                  <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M5 44 C16 48 24 37 35 38 S53 45 64 30 S80 19 96 15" fill="none" stroke="currentColor" stroke-width="3" />
+                  </svg>
+                </div>
+                <p class="snap-meta">Consistency is the key to progress.</p>
+              </section>
+              <section class="snap-card snap-workout">
+                <p class="snap-kicker">Today's workout</p>
+                <h5>Bench Press</h5>
+                <div class="snap-step"><b>Set</b><span>80 kg x 5</span></div>
+                <div class="snap-step"><b>Set</b><span>82.5 kg x 3</span></div>
+                <div class="snap-step"><b>PR</b><span>Log new PR</span></div>
+                <span class="snap-button primary">Add exercise</span>
+              </section>
+            </div>
+            <span class="snap-pin snap-pin-one">1</span>
+            <span class="snap-pin snap-pin-two">2</span>
+            <span class="snap-pin snap-pin-three">3</span>
+          </div>
+        `,
+      };
+
       const products = {
         accept: {
           color: "#FFD84D",
           url: "https://accept.yashvipulkumarshah.com",
           shortUrl: "accept.yashvipulkumarshah.com",
-          frameTitle: "Accept live product preview",
+          image: "assets/accept-snapshot.png",
+          imageAlt: "Desktop screenshot of Accept showing the landing page, negotiation promise, deal steps, and active negotiation section.",
+          annotations: [
+            {
+              title: "Strong promise",
+              copy: "This is the clearest part of the page: the headline names the real pain, which is negotiation effort, not listing an item.",
+              mark: ["34%", "31%"],
+              note: ["7%", "14%"],
+            },
+            {
+              title: "Good mental model",
+              copy: "The three-step flow explains the product before the user commits. It makes the AI agent feel like a workflow, not a vague feature.",
+              mark: ["45%", "51%"],
+              note: ["7%", "58%"],
+            },
+            {
+              title: "Needs sharper proof",
+              copy: "The live deal example is useful, but it should be visually louder because it is the strongest evidence that the product actually works.",
+              mark: ["73%", "64%"],
+              note: ["55%", "54%"],
+            },
+          ],
+          snapshotLabel: "Accept desktop product teardown",
+          snapshot: snapshots.accept,
           callouts: [
-            ["Primary loop", "Negotiation moves from chat chaos into a guided product flow."],
-            ["Decision point", "The page is built around reducing the effort to make a local deal happen."],
+            ["1. Promise", "The first screen names the pain: local resale fails in the negotiation, not the listing."],
+            ["2. Loop", "The three-step loop turns messy back-and-forth into a guided approve-or-pass workflow."],
+            ["3. Evidence", "A live deal object makes the abstract AI agent feel concrete and inspectable."],
           ],
           paths: [
-            "M74 21 C63 20 56 25 48 34 S36 48 24 44",
-            "M27 78 C38 73 42 65 54 65 S72 58 80 48",
+            "M78 18 C67 21 57 22 47 29 S36 37 31 34",
+            "M22 80 C37 69 45 57 55 43 S67 36 72 38",
+            "M82 74 C73 68 71 58 63 55 S53 53 47 58",
           ],
           notes: [
-            ["Behavior", "Local buying has too much back-and-forth. Accept turns that negotiation loop into the product."],
-            ["Product move", "Make the stressful part feel handled, not merely listed."],
-            ["Why open it", "It shows marketplace thinking, workflow design, and bias toward a real transaction."],
+            ["What works", "The page has a specific enemy: negotiation friction. That makes the product easier to understand than a generic marketplace."],
+            ["What is weak", "The proof section exists, but it competes with the hero instead of becoming the main artifact people remember."],
+            ["Product move", "Make the active negotiation card the centerpiece: before, counter, accepted price, and time saved."],
           ],
         },
         access: {
           color: "#4AAEA8",
           url: "https://access.yashvipulkumarshah.com",
           shortUrl: "access.yashvipulkumarshah.com",
-          frameTitle: "Access live product preview",
+          image: "assets/access-snapshot.png",
+          imageAlt: "Desktop screenshot of Access showing the event album landing page, private PIN concept, and create/join actions.",
+          annotations: [
+            {
+              title: "Emotional setup",
+              copy: "The page does a good job selling the memory problem: one night, many phones, incomplete album.",
+              mark: ["31%", "35%"],
+              note: ["7%", "14%"],
+            },
+            {
+              title: "The PIN is the loop",
+              copy: "This is the product mechanic. The PIN creates privacy, distribution, and a reason to share without needing accounts first.",
+              mark: ["58%", "49%"],
+              note: ["55%", "14%"],
+            },
+            {
+              title: "CTA conflict",
+              copy: "Create, join, host, theme, albums: useful controls, but the first-time visitor needs one dominant next action.",
+              mark: ["58%", "68%"],
+              note: ["55%", "56%"],
+            },
+          ],
+          snapshotLabel: "Access desktop product teardown",
+          snapshot: snapshots.access,
           callouts: [
-            ["Collection loop", "The product asks everyone at the event to contribute the missing pieces."],
-            ["Memory surface", "The value is immediate: one shared place for photos from the same night."],
+            ["1. Entry", "The PIN gives the album a social boundary: easy to join, still private enough for an event."],
+            ["2. Loop", "Create album, share code, collect media, approve people, then download the full memory set."],
+            ["3. Control", "Host controls make trust visible so the group contribution loop can scale without feeling chaotic."],
           ],
           paths: [
-            "M71 18 C61 27 53 23 45 36 S36 54 22 49",
-            "M21 82 C37 76 43 70 58 72 S72 66 83 54",
+            "M25 29 C30 36 34 41 34 49 S28 59 21 60",
+            "M21 80 C35 75 45 75 56 76 S67 68 70 59",
+            "M81 24 C74 31 72 39 67 45 S62 53 56 55",
           ],
           notes: [
-            ["Behavior", "People at the same event all hold different pieces of the night."],
-            ["Product move", "Make collection feel shared, immediate, and easier than chasing people later."],
-            ["Why open it", "It shows a social product loop with a clear event-based use case."],
+            ["What works", "Access has a real social loop: one host starts the album, the group joins, everyone fills the missing angles."],
+            ["What is weak", "The screenshot is more landing page than dashboard. It explains the story, but it does not yet show enough host power."],
+            ["Product move", "Show a real host dashboard state sooner: people joined, uploads collected, approval state, download/export payoff."],
           ],
         },
         fitness: {
-          color: "#FF5A45",
+          color: "#C3F400",
           url: "https://fitness.yashvipulkumarshah.com",
           shortUrl: "fitness.yashvipulkumarshah.com",
-          frameTitle: "Fitness live product preview",
+          image: "assets/fitness-snapshot.png",
+          imageAlt: "Desktop screenshot of Disciplined showing a training dashboard with weight trend, workout days, steps, and recent PRs.",
+          annotations: [
+            {
+              title: "Real dashboard",
+              copy: "This is the most immediately credible product surface: actual metrics, dates, and training state are visible.",
+              mark: ["23%", "34%"],
+              note: ["7%", "14%"],
+            },
+            {
+              title: "Trend is the product",
+              copy: "The weight chart is the right center of gravity. Body recomposition needs longitudinal signal, not motivational copy.",
+              mark: ["47%", "56%"],
+              note: ["55%", "14%"],
+            },
+            {
+              title: "Empty state gap",
+              copy: "Today says rest and no sets logged. That is honest data, but the empty state could invite the next useful action.",
+              mark: ["69%", "70%"],
+              note: ["55%", "57%"],
+            },
+          ],
+          snapshotLabel: "Fitness desktop product teardown",
+          snapshot: snapshots.fitness,
           callouts: [
-            ["Tracking system", "The dashboard makes slow recomposition visible instead of relying on vague memory."],
-            ["Training feedback", "Inputs and progress sit close together, shaped around repeated use."],
+            ["1. Signal", "The dashboard opens with the numbers that matter before asking for more input."],
+            ["2. Trend", "Slow recomposition becomes visible through repeated logs rather than memory or mood."],
+            ["3. Habit", "Workout entry sits next to outcomes, tightening the feedback loop for daily use."],
           ],
           paths: [
-            "M75 24 C62 18 54 30 45 39 S34 44 22 40",
-            "M26 80 C38 66 51 70 61 61 S73 49 82 55",
+            "M20 19 C22 28 25 31 33 33 S44 31 48 27",
+            "M28 80 C39 70 47 72 56 62 S61 48 68 46",
+            "M77 78 C73 67 72 57 67 51 S58 44 50 47",
           ],
           notes: [
-            ["Behavior", "Body recomposition is slow enough that vague tracking becomes useless."],
-            ["Product move", "Make progress visible in the same language as the training system."],
-            ["Why open it", "It shows personal systems thinking and a product shaped by repeated use."],
+            ["What works", "The page feels like a product someone actually uses. The dates, weight, workout days, and PRs make it believable."],
+            ["What is weak", "The dashboard has many signals at once; hierarchy matters so weight trend, workout consistency, and PRs do not blur together."],
+            ["Product move", "Turn empty moments into action: log workout, repeat last session, add steps, or record body metrics."],
           ],
         },
       };
@@ -1276,17 +2144,25 @@
       const tabs = document.querySelectorAll(".product-tab");
       const root = document.documentElement;
       const preview = document.querySelector("#preview-shape");
-      const productFrame = document.querySelector("#product-frame");
-      const frameFallback = document.querySelector("#frame-fallback");
+      const snapshotCanvas = document.querySelector("#snapshot-canvas");
       const activeProductUrl = document.querySelector("#active-product-url");
       const panelUrl = document.querySelector("#panel-url");
       const openProduct = document.querySelector("#open-product");
-      const calloutOneTitle = document.querySelector("#callout-one-title");
-      const calloutOneCopy = document.querySelector("#callout-one-copy");
-      const calloutTwoTitle = document.querySelector("#callout-two-title");
-      const calloutTwoCopy = document.querySelector("#callout-two-copy");
-      const calloutLineOne = document.querySelector("#callout-line-one");
-      const calloutLineTwo = document.querySelector("#callout-line-two");
+      const calloutTitles = [
+        document.querySelector("#callout-one-title"),
+        document.querySelector("#callout-two-title"),
+        document.querySelector("#callout-three-title"),
+      ];
+      const calloutBodies = [
+        document.querySelector("#callout-one-copy"),
+        document.querySelector("#callout-two-copy"),
+        document.querySelector("#callout-three-copy"),
+      ];
+      const calloutLines = [
+        document.querySelector("#callout-line-one"),
+        document.querySelector("#callout-line-two"),
+        document.querySelector("#callout-line-three"),
+      ];
       const noteTitles = [
         document.querySelector("#note-one-title"),
         document.querySelector("#note-two-title"),
@@ -1314,6 +2190,47 @@
         });
       }
 
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function renderProductShot(product) {
+        const marks = product.annotations
+          .map((annotation, index) => `
+            <span
+              class="shot-mark"
+              style="--mark-x: ${annotation.mark[0]}; --mark-y: ${annotation.mark[1]};"
+              aria-hidden="true"
+            >${index + 1}</span>
+          `)
+          .join("");
+
+        const notes = product.annotations
+          .map((annotation, index) => `
+            <article
+              class="shot-note ${index > 0 ? "compact-hide" : ""}"
+              data-index="${index + 1}"
+              style="--note-x: ${annotation.note[0]}; --note-y: ${annotation.note[1]};"
+            >
+              <strong>${escapeHtml(annotation.title)}</strong>
+              <span>${escapeHtml(annotation.copy)}</span>
+            </article>
+          `)
+          .join("");
+
+        return `
+          <div class="shot-board">
+            <img class="product-shot" src="${product.image}" alt="${escapeHtml(product.imageAlt)}" />
+            ${marks}
+            ${notes}
+          </div>
+        `;
+      }
+
       function activateProduct(key) {
         const product = products[key];
         if (!product) return;
@@ -1330,17 +2247,17 @@
         panelUrl.textContent = product.url;
         openProduct.href = product.url;
         preview.dataset.productPreview = key;
-        productFrame.title = product.frameTitle;
-        frameFallback.textContent = `Loading ${product.shortUrl}...`;
+        snapshotCanvas.setAttribute("aria-label", product.snapshotLabel);
+
         if (changedProduct) {
-          productFrame.src = product.url;
+          snapshotCanvas.innerHTML = renderProductShot(product);
         }
-        calloutOneTitle.textContent = product.callouts[0][0];
-        calloutOneCopy.textContent = product.callouts[0][1];
-        calloutTwoTitle.textContent = product.callouts[1][0];
-        calloutTwoCopy.textContent = product.callouts[1][1];
-        calloutLineOne.setAttribute("d", product.paths[0]);
-        calloutLineTwo.setAttribute("d", product.paths[1]);
+
+        product.callouts.forEach((callout, index) => {
+          calloutTitles[index].textContent = callout[0];
+          calloutBodies[index].textContent = callout[1];
+          calloutLines[index].setAttribute("d", product.paths[index]);
+        });
 
         product.notes.forEach((note, index) => {
           noteTitles[index].textContent = note[0];
