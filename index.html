@@ -455,9 +455,7 @@
           var(--paper-soft);
       }
 
-      .snapshot-canvas,
-      .callout-lines,
-      .preview-callout {
+      .snapshot-canvas {
         position: absolute;
       }
 
@@ -897,6 +895,12 @@
         background: var(--ink);
       }
 
+      .shot-board picture {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
       .product-shot {
         display: block;
         width: 100%;
@@ -916,135 +920,6 @@
           linear-gradient(115deg, rgba(251, 246, 232, 0.24), transparent 28% 76%, rgba(251, 246, 232, 0.16)),
           radial-gradient(circle at 20% 22%, color-mix(in srgb, var(--active-color) 13%, transparent), transparent 18rem);
         mix-blend-mode: soft-light;
-      }
-
-      .shot-mark {
-        position: absolute;
-        left: var(--mark-x);
-        top: var(--mark-y);
-        z-index: 5;
-        display: grid;
-        place-items: center;
-        width: 24px;
-        height: 24px;
-        border: 1px solid var(--paper-soft);
-        border-radius: 50%;
-        background: var(--pencil);
-        color: var(--paper-soft);
-        font-family: "DM Mono", monospace;
-        font-size: 11px;
-        line-height: 1;
-        box-shadow:
-          0 0 0 6px rgba(255, 90, 69, 0.15),
-          3px 3px 0 rgba(23, 19, 11, 0.16);
-        transform: translate(-50%, -50%);
-      }
-
-      .shot-note {
-        position: absolute;
-        left: var(--note-x);
-        top: var(--note-y);
-        z-index: 6;
-        max-width: min(250px, 38%);
-        padding: 10px 12px;
-        border: 1px solid color-mix(in srgb, var(--pencil) 68%, var(--ink));
-        border-radius: 12px;
-        background: rgba(251, 246, 232, 0.92);
-        color: var(--ink);
-        font-family: "DM Mono", monospace;
-        font-size: 9px;
-        line-height: 1.45;
-        box-shadow: 4px 4px 0 rgba(23, 19, 11, 0.1);
-      }
-
-      .shot-note::before {
-        content: attr(data-index);
-        display: inline-grid;
-        place-items: center;
-        width: 17px;
-        height: 17px;
-        margin: 0 6px 4px 0;
-        border-radius: 50%;
-        background: var(--pencil);
-        color: var(--paper-soft);
-        font-family: "DM Mono", monospace;
-        font-size: 9px;
-        vertical-align: middle;
-      }
-
-      .shot-note strong {
-        display: inline;
-        color: var(--pencil);
-        font-family: "Inter", sans-serif;
-        font-size: 11px;
-        line-height: 1.15;
-      }
-
-      .shot-note span {
-        display: block;
-        margin-top: 5px;
-      }
-
-      .callout-lines {
-        inset: 0;
-        z-index: 3;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        color: var(--pencil);
-      }
-
-      .callout-lines path {
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 2.6;
-        stroke-linecap: round;
-        stroke-dasharray: 7 8;
-        opacity: 0.72;
-      }
-
-      .preview-callout {
-        z-index: 4;
-        max-width: min(210px, 35%);
-        padding: 8px 10px;
-        border: 1px solid color-mix(in srgb, var(--pencil) 65%, var(--ink));
-        border-radius: 12px;
-        background: rgba(251, 246, 232, 0.88);
-        color: var(--ink);
-        font-family: "DM Mono", monospace;
-        font-size: 9px;
-        line-height: 1.45;
-        pointer-events: none;
-        box-shadow: 4px 4px 0 rgba(23, 19, 11, 0.08);
-      }
-
-      .preview-callout strong {
-        display: block;
-        margin-bottom: 4px;
-        color: var(--pencil);
-        font-family: "Inter", sans-serif;
-        font-size: 11px;
-        line-height: 1.2;
-      }
-
-      .callout-one {
-        top: 8%;
-        right: 5%;
-      }
-
-      .callout-two {
-        left: 5%;
-        bottom: 8%;
-      }
-
-      .callout-three {
-        right: 6%;
-        bottom: 10%;
-      }
-
-      .callout-lines,
-      .preview-callout {
-        display: none;
       }
 
       .notes {
@@ -1348,30 +1223,26 @@
           display: none;
         }
 
-        .preview-callout {
-          max-width: min(190px, 34%);
-          font-size: 9px;
-        }
-
-        .shot-note {
-          max-width: min(220px, 34%);
-          font-size: 8px;
-        }
-
-        .callout-three,
-        .callout-lines path:nth-child(3) {
-          display: none;
-        }
-
         .social-card strong {
           margin-top: 32px;
         }
       }
 
       @media (max-width: 720px) {
+        body {
+          height: auto;
+          min-height: 100svh;
+          overflow-x: hidden;
+          overflow-y: auto;
+        }
+
         .teardown-page {
+          height: auto;
+          min-height: 100svh;
+          grid-template-rows: auto auto auto;
           gap: 7px;
           padding: 10px;
+          overflow: visible;
         }
 
         .page-header {
@@ -1392,6 +1263,36 @@
           line-height: 0.82;
         }
 
+        .workspace {
+          min-height: 0;
+          overflow: visible;
+        }
+
+        .view {
+          position: relative;
+          inset: auto;
+          display: none;
+          opacity: 1;
+          pointer-events: none;
+          transform: none;
+          transition: none;
+        }
+
+        .view.active {
+          display: grid;
+          pointer-events: auto;
+          transform: none;
+        }
+
+        .view-label {
+          min-height: 38px;
+          padding: 8px 10px;
+        }
+
+        .view-title h2 {
+          font-size: clamp(25px, 8vw, 34px);
+        }
+
         .surface-nav button {
           min-height: 38px;
           padding: 8px;
@@ -1409,6 +1310,16 @@
 
         .products-body {
           grid-template-rows: auto minmax(0, 1fr);
+        }
+
+        .products-view {
+          grid-template-rows: auto auto;
+        }
+
+        .products-body,
+        .product-stage,
+        .specimen {
+          min-height: 0;
         }
 
         .product-rail {
@@ -1442,7 +1353,6 @@
 
         .product-tab span,
         .view-label .url,
-        .notes,
         .product-tab p {
           display: none;
         }
@@ -1452,8 +1362,30 @@
           padding: 8px;
         }
 
+        .specimen {
+          grid-template-columns: 1fr;
+        }
+
+        .browser-card {
+          min-height: 0;
+          width: min(318px, 100%);
+          margin-inline: auto;
+          box-shadow: 4px 4px 0 rgba(23, 19, 11, 0.1);
+          transform: none;
+        }
+
+        .browser-card:hover {
+          box-shadow: 4px 4px 0 rgba(23, 19, 11, 0.1);
+        }
+
+        .browser-top {
+          padding: 8px;
+        }
+
         .site-preview {
-          min-height: 220px;
+          height: auto;
+          min-height: 0;
+          aspect-ratio: 390 / 844;
         }
 
         .snapshot {
@@ -1531,50 +1463,25 @@
           object-position: top center;
         }
 
-        .shot-note {
-          max-width: min(155px, 32%);
-          padding: 6px 7px;
-          font-size: 7px;
-          line-height: 1.25;
+        .notes {
+          display: grid;
+          gap: 8px;
         }
 
-        .shot-note::before {
-          width: 14px;
-          height: 14px;
-          margin-right: 4px;
-          font-size: 7px;
+        .notes .annotation:nth-child(n + 3) {
+          display: block;
         }
 
-        .shot-note strong {
-          font-size: 8px;
-        }
-
-        .shot-mark {
-          display: none;
-        }
-
-        .callout-lines,
-        .callout-two,
-        .callout-three {
-          display: none;
-        }
-
-        .preview-callout {
-          left: 12px;
-          right: 12px;
-          top: auto;
-          bottom: 10px;
-          max-width: none;
-          padding: 7px 9px;
-          font-size: 8px;
-          line-height: 1.25;
-        }
-
-        .preview-callout strong {
-          display: inline;
-          margin: 0 6px 0 0;
+        .annotation {
+          padding: 10px 11px;
+          border-left-width: 2px;
           font-size: 9px;
-          line-height: 1.1;
+          line-height: 1.45;
+        }
+
+        .annotation strong {
+          margin-bottom: 3px;
+          font-size: 11px;
         }
 
         .snap-pin {
@@ -1647,22 +1554,62 @@
       }
 
       @media (max-width: 520px) {
-        .shot-note {
-          left: 10px;
-          right: 10px;
-          top: auto;
-          bottom: 10px;
-          max-width: none;
-          padding: 7px 9px;
-          font-size: 8px;
-          line-height: 1.25;
+        .teardown-page {
+          padding: 8px;
         }
 
-        .shot-note strong {
-          font-size: 9px;
+        .surface-nav {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
-        .shot-note.compact-hide {
+        .surface-nav button {
+          min-height: 34px;
+          padding: 7px 6px;
+          border-right: 1px solid var(--line);
+          border-bottom: 0;
+          text-align: center;
+        }
+
+        .surface-nav button:last-child {
+          border-right: 0;
+        }
+
+        .surface-nav button::after {
+          left: 8px;
+          right: 8px;
+          bottom: 6px;
+          height: 3px;
+        }
+
+        .nav-index {
+          display: none;
+        }
+
+        .nav-title {
+          font-size: 11px;
+        }
+
+        .product-rail {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .product-tab {
+          min-height: 38px;
+          padding: 7px 6px;
+          border-right: 1px solid var(--line);
+          border-bottom: 0;
+          text-align: center;
+        }
+
+        .product-tab:last-child {
+          border-right: 0;
+        }
+
+        .product-tab h3 {
+          font-size: clamp(18px, 5.5vw, 22px);
+        }
+
+        .footer-strip span:last-child {
           display: none;
         }
       }
@@ -1724,7 +1671,7 @@
           <div class="view-label">
             <span class="view-title">
               <h2>Products</h2>
-              <p>Actual screenshots, annotated like a product review.</p>
+              <p>Actual screenshots with a clean product read beside them.</p>
             </span>
             <span class="url" id="active-product-url">accept.yashvipulkumarshah.com</span>
           </div>
@@ -1756,23 +1703,6 @@
                   <div class="browser-top"><i></i><i></i><i></i></div>
                   <div class="site-preview" id="preview-shape">
                     <div class="snapshot-canvas" id="snapshot-canvas" aria-label="Accept desktop product teardown"></div>
-                    <svg class="callout-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                      <path id="callout-line-one" d="M74 21 C63 20 56 25 48 34 S36 48 24 44" />
-                      <path id="callout-line-two" d="M27 78 C38 73 42 65 54 65 S72 58 80 48" />
-                      <path id="callout-line-three" d="M80 76 C70 70 67 62 61 56 S52 49 45 50" />
-                    </svg>
-                    <div class="preview-callout callout-one">
-                      <strong id="callout-one-title">Primary loop</strong>
-                      <span id="callout-one-copy">Negotiation moves from chat chaos into a guided product flow.</span>
-                    </div>
-                    <div class="preview-callout callout-two">
-                      <strong id="callout-two-title">Decision point</strong>
-                      <span id="callout-two-copy">The page is built around reducing the effort to make a local deal happen.</span>
-                    </div>
-                    <div class="preview-callout callout-three">
-                      <strong id="callout-three-title">Proof surface</strong>
-                      <span id="callout-three-copy">A concrete example makes the product promise inspectable instead of abstract.</span>
-                    </div>
                   </div>
                 </div>
 
@@ -2009,39 +1939,10 @@
           url: "https://accept.yashvipulkumarshah.com",
           shortUrl: "accept.yashvipulkumarshah.com",
           image: "assets/accept-snapshot.png",
-          imageAlt: "Desktop screenshot of Accept showing the landing page, negotiation promise, deal steps, and active negotiation section.",
-          annotations: [
-            {
-              title: "Strong promise",
-              copy: "This is the clearest part of the page: the headline names the real pain, which is negotiation effort, not listing an item.",
-              mark: ["34%", "31%"],
-              note: ["7%", "14%"],
-            },
-            {
-              title: "Good mental model",
-              copy: "The three-step flow explains the product before the user commits. It makes the AI agent feel like a workflow, not a vague feature.",
-              mark: ["45%", "51%"],
-              note: ["7%", "58%"],
-            },
-            {
-              title: "Needs sharper proof",
-              copy: "The live deal example is useful, but it should be visually louder because it is the strongest evidence that the product actually works.",
-              mark: ["73%", "64%"],
-              note: ["55%", "54%"],
-            },
-          ],
+          mobileImage: "assets/accept-mobile-snapshot.png",
+          imageAlt: "Screenshot of Accept showing the landing page, negotiation promise, deal steps, and active negotiation section.",
           snapshotLabel: "Accept desktop product teardown",
           snapshot: snapshots.accept,
-          callouts: [
-            ["1. Promise", "The first screen names the pain: local resale fails in the negotiation, not the listing."],
-            ["2. Loop", "The three-step loop turns messy back-and-forth into a guided approve-or-pass workflow."],
-            ["3. Evidence", "A live deal object makes the abstract AI agent feel concrete and inspectable."],
-          ],
-          paths: [
-            "M78 18 C67 21 57 22 47 29 S36 37 31 34",
-            "M22 80 C37 69 45 57 55 43 S67 36 72 38",
-            "M82 74 C73 68 71 58 63 55 S53 53 47 58",
-          ],
           notes: [
             ["What works", "The page has a specific enemy: negotiation friction. That makes the product easier to understand than a generic marketplace."],
             ["What is weak", "The proof section exists, but it competes with the hero instead of becoming the main artifact people remember."],
@@ -2053,39 +1954,10 @@
           url: "https://access.yashvipulkumarshah.com",
           shortUrl: "access.yashvipulkumarshah.com",
           image: "assets/access-snapshot.png",
-          imageAlt: "Desktop screenshot of Access showing the event album landing page, private PIN concept, and create/join actions.",
-          annotations: [
-            {
-              title: "Emotional setup",
-              copy: "The page does a good job selling the memory problem: one night, many phones, incomplete album.",
-              mark: ["31%", "35%"],
-              note: ["7%", "14%"],
-            },
-            {
-              title: "The PIN is the loop",
-              copy: "This is the product mechanic. The PIN creates privacy, distribution, and a reason to share without needing accounts first.",
-              mark: ["58%", "49%"],
-              note: ["55%", "14%"],
-            },
-            {
-              title: "CTA conflict",
-              copy: "Create, join, host, theme, albums: useful controls, but the first-time visitor needs one dominant next action.",
-              mark: ["58%", "68%"],
-              note: ["55%", "56%"],
-            },
-          ],
+          mobileImage: "assets/access-mobile-snapshot.png",
+          imageAlt: "Screenshot of Access showing the event album landing page, private PIN concept, and create/join actions.",
           snapshotLabel: "Access desktop product teardown",
           snapshot: snapshots.access,
-          callouts: [
-            ["1. Entry", "The PIN gives the album a social boundary: easy to join, still private enough for an event."],
-            ["2. Loop", "Create album, share code, collect media, approve people, then download the full memory set."],
-            ["3. Control", "Host controls make trust visible so the group contribution loop can scale without feeling chaotic."],
-          ],
-          paths: [
-            "M25 29 C30 36 34 41 34 49 S28 59 21 60",
-            "M21 80 C35 75 45 75 56 76 S67 68 70 59",
-            "M81 24 C74 31 72 39 67 45 S62 53 56 55",
-          ],
           notes: [
             ["What works", "Access has a real social loop: one host starts the album, the group joins, everyone fills the missing angles."],
             ["What is weak", "The screenshot is more landing page than dashboard. It explains the story, but it does not yet show enough host power."],
@@ -2097,39 +1969,10 @@
           url: "https://fitness.yashvipulkumarshah.com",
           shortUrl: "fitness.yashvipulkumarshah.com",
           image: "assets/fitness-snapshot.png",
-          imageAlt: "Desktop screenshot of Disciplined showing a training dashboard with weight trend, workout days, steps, and recent PRs.",
-          annotations: [
-            {
-              title: "Real dashboard",
-              copy: "This is the most immediately credible product surface: actual metrics, dates, and training state are visible.",
-              mark: ["23%", "34%"],
-              note: ["7%", "14%"],
-            },
-            {
-              title: "Trend is the product",
-              copy: "The weight chart is the right center of gravity. Body recomposition needs longitudinal signal, not motivational copy.",
-              mark: ["47%", "56%"],
-              note: ["55%", "14%"],
-            },
-            {
-              title: "Empty state gap",
-              copy: "Today says rest and no sets logged. That is honest data, but the empty state could invite the next useful action.",
-              mark: ["69%", "70%"],
-              note: ["55%", "57%"],
-            },
-          ],
+          mobileImage: "assets/fitness-mobile-snapshot.png",
+          imageAlt: "Screenshot of Disciplined showing a training dashboard with weight trend, workout days, steps, and recent PRs.",
           snapshotLabel: "Fitness desktop product teardown",
           snapshot: snapshots.fitness,
-          callouts: [
-            ["1. Signal", "The dashboard opens with the numbers that matter before asking for more input."],
-            ["2. Trend", "Slow recomposition becomes visible through repeated logs rather than memory or mood."],
-            ["3. Habit", "Workout entry sits next to outcomes, tightening the feedback loop for daily use."],
-          ],
-          paths: [
-            "M20 19 C22 28 25 31 33 33 S44 31 48 27",
-            "M28 80 C39 70 47 72 56 62 S61 48 68 46",
-            "M77 78 C73 67 72 57 67 51 S58 44 50 47",
-          ],
           notes: [
             ["What works", "The page feels like a product someone actually uses. The dates, weight, workout days, and PRs make it believable."],
             ["What is weak", "The dashboard has many signals at once; hierarchy matters so weight trend, workout consistency, and PRs do not blur together."],
@@ -2147,21 +1990,6 @@
       const activeProductUrl = document.querySelector("#active-product-url");
       const panelUrl = document.querySelector("#panel-url");
       const openProduct = document.querySelector("#open-product");
-      const calloutTitles = [
-        document.querySelector("#callout-one-title"),
-        document.querySelector("#callout-two-title"),
-        document.querySelector("#callout-three-title"),
-      ];
-      const calloutBodies = [
-        document.querySelector("#callout-one-copy"),
-        document.querySelector("#callout-two-copy"),
-        document.querySelector("#callout-three-copy"),
-      ];
-      const calloutLines = [
-        document.querySelector("#callout-line-one"),
-        document.querySelector("#callout-line-two"),
-        document.querySelector("#callout-line-three"),
-      ];
       const noteTitles = [
         document.querySelector("#note-one-title"),
         document.querySelector("#note-two-title"),
@@ -2198,34 +2026,12 @@
       }
 
       function renderProductShot(product) {
-        const marks = product.annotations
-          .map((annotation, index) => `
-            <span
-              class="shot-mark"
-              style="--mark-x: ${annotation.mark[0]}; --mark-y: ${annotation.mark[1]};"
-              aria-hidden="true"
-            >${index + 1}</span>
-          `)
-          .join("");
-
-        const notes = product.annotations
-          .map((annotation, index) => `
-            <article
-              class="shot-note ${index > 0 ? "compact-hide" : ""}"
-              data-index="${index + 1}"
-              style="--note-x: ${annotation.note[0]}; --note-y: ${annotation.note[1]};"
-            >
-              <strong>${escapeHtml(annotation.title)}</strong>
-              <span>${escapeHtml(annotation.copy)}</span>
-            </article>
-          `)
-          .join("");
-
         return `
           <div class="shot-board">
-            <img class="product-shot" src="${product.image}" alt="${escapeHtml(product.imageAlt)}" />
-            ${marks}
-            ${notes}
+            <picture>
+              <source media="(max-width: 720px)" srcset="${product.mobileImage}" />
+              <img class="product-shot" src="${product.image}" alt="${escapeHtml(product.imageAlt)}" />
+            </picture>
           </div>
         `;
       }
@@ -2251,12 +2057,6 @@
         if (changedProduct) {
           snapshotCanvas.innerHTML = renderProductShot(product);
         }
-
-        product.callouts.forEach((callout, index) => {
-          calloutTitles[index].textContent = callout[0];
-          calloutBodies[index].textContent = callout[1];
-          calloutLines[index].setAttribute("d", product.paths[index]);
-        });
 
         product.notes.forEach((note, index) => {
           noteTitles[index].textContent = note[0];
