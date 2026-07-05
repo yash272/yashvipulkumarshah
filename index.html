@@ -184,6 +184,8 @@
       .surface-nav {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: 100%;
+        min-width: 330px;
         border: 1px solid var(--line-strong);
         background: rgba(251, 246, 232, 0.58);
       }
@@ -194,6 +196,7 @@
         padding: 13px 14px;
         border-right: 1px solid var(--line);
         cursor: pointer;
+        overflow: hidden;
         text-align: left;
         transition:
           background 0.18s ease,
@@ -250,6 +253,9 @@
         display: block;
         font-size: clamp(14px, 1.4vw, 18px);
         line-height: 1.1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .workspace {
@@ -1560,6 +1566,7 @@
 
         .surface-nav {
           grid-template-columns: repeat(3, minmax(0, 1fr));
+          min-width: 0;
         }
 
         .surface-nav button {
