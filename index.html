@@ -30,6 +30,7 @@
         --accept: #e8442e;
         --access: #f05e23;
         --fitness: #c3f400;
+        --pencil: #e8442e;
         --spot: #e8442e;
         --mx: 50vw;
         --my: 30vh;
@@ -412,7 +413,7 @@
         order: 2;
       }
 
-      .product.flip .product-frame {
+      .product.flip .teardown-stage {
         order: 1;
       }
 
@@ -645,6 +646,132 @@
         transform: scale(1.025);
       }
 
+      /* ---------- Teardown annotations ---------- */
+      .teardown-stage {
+        display: grid;
+        gap: 14px;
+        align-content: start;
+        min-width: 0;
+      }
+
+      .pin {
+        position: absolute;
+        left: var(--px);
+        top: var(--py);
+        z-index: 3;
+        display: grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        margin: -12px 0 0 -12px;
+        border-radius: 50%;
+        background: var(--pencil);
+        color: #fff6ee;
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        line-height: 1;
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--pencil) 20%, transparent);
+        cursor: help;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .pin::after {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        border: 1px solid var(--pencil);
+        opacity: 0.55;
+        animation: pulse 2.6s ease-out infinite;
+      }
+
+      .pin:hover,
+      .pin.hot {
+        transform: scale(1.3);
+        box-shadow: 0 0 0 6px color-mix(in srgb, var(--pencil) 30%, transparent);
+      }
+
+      .note-strip {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .note {
+        padding: 12px 14px;
+        border-left: 3px solid var(--pencil);
+        background: color-mix(in srgb, var(--paper-soft) 72%, transparent);
+        color: var(--muted);
+        font-size: 12.5px;
+        line-height: 1.55;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      .note b {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--pencil);
+        font-family: "DM Mono", monospace;
+        font-weight: 500;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .note:hover,
+      .note.hot {
+        background: color-mix(in srgb, var(--pencil) 9%, transparent);
+        transform: translateY(-2px);
+      }
+
+      .meta-note {
+        max-width: 330px;
+        margin-top: 18px;
+        color: var(--pencil);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.02em;
+        line-height: 1.7;
+        transform: rotate(-1.2deg);
+        transform-origin: left top;
+      }
+
+      .notes-toggle {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        border: 1px solid var(--pencil);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--pencil);
+        font-family: "DM Mono", monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .notes-toggle[aria-pressed="true"] {
+        background: var(--pencil);
+        color: #fff6ee;
+      }
+
+      .notes-toggle .state {
+        display: inline-block;
+        width: 3ch;
+        text-align: left;
+        margin-left: 1ch;
+      }
+
+      .notes-off .pin,
+      .notes-off .meta-note,
+      .notes-off .note-strip {
+        display: none;
+      }
+
       /* Per-product accents */
       #accept {
         --p-accent: var(--accept);
@@ -718,6 +845,20 @@
       #fitness ::selection {
         background: var(--fitness);
         color: var(--coal);
+      }
+
+      #fitness .note {
+        background: rgba(255, 255, 255, 0.045);
+        color: var(--coal-muted);
+      }
+
+      #fitness .note b {
+        color: #ff7a5c;
+      }
+
+      #fitness .note:hover,
+      #fitness .note.hot {
+        background: rgba(232, 68, 46, 0.16);
       }
 
       /* ---------- About ---------- */
@@ -898,7 +1039,7 @@
           order: 1;
         }
 
-        .product.flip .product-frame {
+        .product.flip .teardown-stage {
           order: 2;
         }
 
@@ -942,6 +1083,20 @@
           aspect-ratio: 375 / 812;
         }
 
+        .pin {
+          display: none;
+        }
+
+        .note-strip {
+          grid-template-columns: 1fr;
+          width: min(320px, 100%);
+          margin-inline: auto;
+        }
+
+        .meta-note {
+          transform: none;
+        }
+
         .product-frame {
           width: min(320px, 100%);
           margin-inline: auto;
@@ -982,6 +1137,15 @@
         .site-head nav a {
           font-size: 10px;
           letter-spacing: 0.08em;
+        }
+
+        .notes-toggle {
+          padding: 5px 9px;
+          font-size: 9.5px;
+        }
+
+        .notes-toggle .label {
+          display: none;
         }
 
         .wordmark {
@@ -1043,6 +1207,9 @@
         <a href="#work" data-spy="work">Work</a>
         <a href="#about" data-spy="about">About</a>
         <a href="#contact" data-spy="contact">Contact</a>
+        <button class="notes-toggle" type="button" aria-pressed="true">
+          ✳<span class="label">&nbsp;Notes</span><span class="state">on</span>
+        </button>
       </nav>
     </header>
 
@@ -1054,14 +1221,21 @@
 
     <main id="top">
       <section class="hero" aria-labelledby="site-title">
-        <p class="hero-kicker mono reveal">Portfolio — three products live in production</p>
+        <p class="hero-kicker mono reveal">Fig. 00 — A portfolio, torn down by its owner</p>
         <h1 id="site-title" class="reveal">Yash <em>Shah</em></h1>
 
         <div class="hero-row">
-          <p class="hero-statement reveal">
-            I build products end to end — <strong>the idea, the interface, and the shipping.</strong>
-            Engineer, founder, and product manager by background. The work below is live; open any of it.
-          </p>
+          <div class="reveal">
+            <p class="hero-statement">
+              I build products end to end — <strong>the idea, the interface, and the shipping.</strong>
+              Three of them are live below, each torn down the way I'd review anyone's product: pinned,
+              annotated, and open to inspection.
+            </p>
+            <p class="meta-note">
+              ✳ Fair is fair — the page annotates itself too. Red pins and notes mark the thinking.
+              Toggle them in the header if you'd rather browse clean.
+            </p>
+          </div>
 
           <ol class="hero-index reveal" aria-label="Product index">
             <li>
@@ -1110,7 +1284,7 @@
       <div id="work">
         <article class="product" id="accept" data-accent="#e8442e" aria-labelledby="accept-title">
           <div class="product-info">
-            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>01 — Live product</p>
+            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>Fig. 01 — Live product · teardown</p>
             <h2 id="accept-title" class="reveal">Accept</h2>
             <p class="tagline reveal">Buy and sell locally. We negotiate so you don't have to.</p>
             <p class="story reveal">
@@ -1131,37 +1305,56 @@
             </div>
           </div>
 
-          <a
-            class="product-frame reveal"
-            href="https://accept.yashvipulkumarshah.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open Accept in a new tab — live screenshot shown"
-          >
-            <span class="frame-tilt">
-              <span class="frame-bar">
-                <i></i><i></i><i></i>
-                <span class="frame-url">accept.yashvipulkumarshah.com</span>
-                <span class="frame-open">Open ↗</span>
+          <div class="teardown-stage reveal">
+            <a
+              class="product-frame"
+              href="https://accept.yashvipulkumarshah.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Accept in a new tab — live screenshot shown"
+            >
+              <span class="frame-tilt">
+                <span class="frame-bar">
+                  <i></i><i></i><i></i>
+                  <span class="frame-url">accept.yashvipulkumarshah.com</span>
+                  <span class="frame-open">Open ↗</span>
+                </span>
+                <span class="shot">
+                  <picture>
+                    <source media="(max-width: 720px)" srcset="assets/accept-mobile-snapshot.png" width="375" height="812" />
+                    <img
+                      src="assets/accept-snapshot.png"
+                      width="1425"
+                      height="891"
+                      alt="Accept landing page: the headline 'We negotiate so you don't have to', a three-step deal flow, and buy/sell entry points."
+                    />
+                  </picture>
+                  <span class="pin" data-note="accept-note-1" style="--px: 46%; --py: 15%" aria-hidden="true">1</span>
+                  <span class="pin" data-note="accept-note-2" style="--px: 60%; --py: 37%" aria-hidden="true">2</span>
+                  <span class="pin" data-note="accept-note-3" style="--px: 73%; --py: 72%" aria-hidden="true">3</span>
+                </span>
               </span>
-              <span class="shot">
-                <picture>
-                  <source media="(max-width: 720px)" srcset="assets/accept-mobile-snapshot.png" width="375" height="812" />
-                  <img
-                    src="assets/accept-snapshot.png"
-                    width="1425"
-                    height="891"
-                    alt="Accept landing page: the headline 'We negotiate so you don't have to', a three-step deal flow, and buy/sell entry points."
-                  />
-                </picture>
-              </span>
-            </span>
-          </a>
+            </a>
+            <ol class="note-strip" aria-label="Teardown notes for Accept">
+              <li class="note" id="accept-note-1">
+                <b>01 · The promise</b>
+                <span>The headline names the enemy — haggling — in six words. No feature list needed when the pain is this specific.</span>
+              </li>
+              <li class="note" id="accept-note-2">
+                <b>02 · The handoff</b>
+                <span>Step two is the whole product: an AI agent runs the messages and offers. The strip earns the two buttons under it.</span>
+              </li>
+              <li class="note" id="accept-note-3">
+                <b>03 · Loop as UI</b>
+                <span>List it, agree the price, accept or pass. The core loop is drawn as interface, not claimed in copy.</span>
+              </li>
+            </ol>
+          </div>
         </article>
 
         <article class="product flip" id="access" data-accent="#f05e23" aria-labelledby="access-title">
           <div class="product-info">
-            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>02 — Live product</p>
+            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>Fig. 02 — Live product · teardown</p>
             <h2 id="access-title" class="reveal">Access</h2>
             <p class="tagline reveal">Every photo from the night. From everyone who was there.</p>
             <p class="story reveal">
@@ -1182,38 +1375,57 @@
             </div>
           </div>
 
-          <a
-            class="product-frame reveal"
-            href="https://access.yashvipulkumarshah.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open Access in a new tab — live screenshot shown"
-          >
-            <span class="frame-tilt">
-              <span class="frame-bar">
-                <i></i><i></i><i></i>
-                <span class="frame-url">access.yashvipulkumarshah.com</span>
-                <span class="frame-open">Open ↗</span>
+          <div class="teardown-stage reveal">
+            <a
+              class="product-frame"
+              href="https://access.yashvipulkumarshah.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Access in a new tab — live screenshot shown"
+            >
+              <span class="frame-tilt">
+                <span class="frame-bar">
+                  <i></i><i></i><i></i>
+                  <span class="frame-url">access.yashvipulkumarshah.com</span>
+                  <span class="frame-open">Open ↗</span>
+                </span>
+                <span class="shot">
+                  <picture>
+                    <source media="(max-width: 720px)" srcset="assets/access-mobile-snapshot.png" width="375" height="812" />
+                    <img
+                      src="assets/access-snapshot.png"
+                      width="1425"
+                      height="891"
+                      loading="lazy"
+                      alt="Access landing page: the headline 'See the moments through everyone's eyes', with create-album and join-with-PIN actions beside an event photo."
+                    />
+                  </picture>
+                  <span class="pin" data-note="access-note-1" style="--px: 36%; --py: 40%" aria-hidden="true">1</span>
+                  <span class="pin" data-note="access-note-2" style="--px: 30%; --py: 66%" aria-hidden="true">2</span>
+                  <span class="pin" data-note="access-note-3" style="--px: 77%; --py: 28%" aria-hidden="true">3</span>
+                </span>
               </span>
-              <span class="shot">
-                <picture>
-                  <source media="(max-width: 720px)" srcset="assets/access-mobile-snapshot.png" width="375" height="812" />
-                  <img
-                    src="assets/access-snapshot.png"
-                    width="1425"
-                    height="891"
-                    loading="lazy"
-                    alt="Access landing page: the headline 'See the moments through everyone's eyes', with create-album and join-with-PIN actions beside an event photo."
-                  />
-                </picture>
-              </span>
-            </span>
-          </a>
+            </a>
+            <ol class="note-strip" aria-label="Teardown notes for Access">
+              <li class="note" id="access-note-1">
+                <b>01 · Feeling first</b>
+                <span>The headline sells the payoff — the night through everyone's eyes — before any mechanics show up.</span>
+              </li>
+              <li class="note" id="access-note-2">
+                <b>02 · Two doors</b>
+                <span>Hosts create, guests join with a PIN. Each audience gets exactly one obvious action, side by side.</span>
+              </li>
+              <li class="note" id="access-note-3">
+                <b>03 · Output as proof</b>
+                <span>The hero image is what the product collects — a real table at a real event. The output does the persuading.</span>
+              </li>
+            </ol>
+          </div>
         </article>
 
         <article class="product" id="fitness" data-accent="#c3f400" aria-labelledby="fitness-title">
           <div class="product-info">
-            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>03 — Live product</p>
+            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>Fig. 03 — Live product · teardown</p>
             <h2 id="fitness-title" class="reveal">Fitness</h2>
             <p class="tagline reveal">Body recomposition tracking. Built for how I train.</p>
             <p class="story reveal">
@@ -1234,43 +1446,66 @@
             </div>
           </div>
 
-          <a
-            class="product-frame reveal"
-            href="https://fitness.yashvipulkumarshah.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open Fitness in a new tab — live screenshot shown"
-          >
-            <span class="frame-tilt">
-              <span class="frame-bar">
-                <i></i><i></i><i></i>
-                <span class="frame-url">fitness.yashvipulkumarshah.com</span>
-                <span class="frame-open">Open ↗</span>
+          <div class="teardown-stage reveal">
+            <a
+              class="product-frame"
+              href="https://fitness.yashvipulkumarshah.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Fitness in a new tab — live screenshot shown"
+            >
+              <span class="frame-tilt">
+                <span class="frame-bar">
+                  <i></i><i></i><i></i>
+                  <span class="frame-url">fitness.yashvipulkumarshah.com</span>
+                  <span class="frame-open">Open ↗</span>
+                </span>
+                <span class="shot">
+                  <picture>
+                    <source media="(max-width: 720px)" srcset="assets/fitness-mobile-snapshot.png" width="375" height="812" />
+                    <img
+                      src="assets/fitness-snapshot.png"
+                      width="1425"
+                      height="891"
+                      loading="lazy"
+                      alt="Disciplined training dashboard: latest weight of 67.8 kg and a 30-day weight-trend chart on a dark interface."
+                    />
+                  </picture>
+                  <span class="pin" data-note="fitness-note-1" style="--px: 11%; --py: 45%" aria-hidden="true">1</span>
+                  <span class="pin" data-note="fitness-note-2" style="--px: 36%; --py: 28%" aria-hidden="true">2</span>
+                  <span class="pin" data-note="fitness-note-3" style="--px: 64%; --py: 68%" aria-hidden="true">3</span>
+                </span>
               </span>
-              <span class="shot">
-                <picture>
-                  <source media="(max-width: 720px)" srcset="assets/fitness-mobile-snapshot.png" width="375" height="812" />
-                  <img
-                    src="assets/fitness-snapshot.png"
-                    width="1425"
-                    height="891"
-                    loading="lazy"
-                    alt="Disciplined training dashboard: latest weight of 67.8 kg and a 30-day weight-trend chart on a dark interface."
-                  />
-                </picture>
-              </span>
-            </span>
-          </a>
+            </a>
+            <ol class="note-strip" aria-label="Teardown notes for Fitness">
+              <li class="note" id="fitness-note-1">
+                <b>01 · Four surfaces</b>
+                <span>Dashboard, logs, workout, progress. No feed, no streak-shaming — a tool shaped like a training session.</span>
+              </li>
+              <li class="note" id="fitness-note-2">
+                <b>02 · One number leads</b>
+                <span>Latest weight gets top billing because recomposition is the goal. Everything else on the page supports that number.</span>
+              </li>
+              <li class="note" id="fitness-note-3">
+                <b>03 · The receipt</b>
+                <span>A 30-day trend with real dates. This chart is only full if the owner logs daily — and it's full.</span>
+              </li>
+            </ol>
+          </div>
         </article>
       </div>
 
       <section class="about" id="about" aria-labelledby="about-title">
-        <p class="hero-kicker mono reveal">Background</p>
+        <p class="hero-kicker mono reveal">Fig. 04 — Background</p>
         <h2 id="about-title" class="reveal">The pattern is shipping.</h2>
         <p class="lede reveal">
           Software engineering at John Deere. Founded Bookchange, a peer-to-peer book-sharing platform
           that reached the finals of Shark Tank India. Product management at SwitchOn, a Series B
           computer-vision startup. Currently completing an MBA at Ivey Business School, Western University.
+        </p>
+        <p class="meta-note reveal">
+          ✳ The résumé section every portfolio has — kept to one paragraph and four stops.
+          The products above make the longer argument.
         </p>
 
         <div class="cred-row reveal">
@@ -1298,8 +1533,11 @@
       </section>
 
       <section class="contact" id="contact" aria-labelledby="contact-title">
-        <p class="hero-kicker mono reveal">Contact</p>
+        <p class="hero-kicker mono reveal">Fig. 05 — Contact</p>
         <h2 id="contact-title" class="reveal">Building something? Let's talk.</h2>
+        <p class="meta-note reveal">
+          ✳ No contact form — forms are where messages go to die. These three land where I actually look.
+        </p>
 
         <ul class="contact-links reveal" aria-label="Profiles">
           <li>
@@ -1415,6 +1653,48 @@
       window.addEventListener("scroll", updateSpy, { passive: true });
       window.addEventListener("resize", updateSpy, { passive: true });
       updateSpy();
+
+      /* Teardown notes toggle */
+      const notesToggle = document.querySelector(".notes-toggle");
+      const notesState = notesToggle.querySelector(".state");
+
+      function setNotes(on) {
+        root.classList.toggle("notes-off", !on);
+        notesToggle.setAttribute("aria-pressed", String(on));
+        notesState.textContent = on ? "on" : "off";
+        try {
+          localStorage.setItem("teardown-notes", on ? "on" : "off");
+        } catch (e) {}
+      }
+
+      try {
+        if (localStorage.getItem("teardown-notes") === "off") setNotes(false);
+      } catch (e) {}
+
+      notesToggle.addEventListener("click", () => {
+        setNotes(root.classList.contains("notes-off"));
+      });
+
+      /* Pin <-> note hover sync */
+      document.querySelectorAll(".pin").forEach((pin) => {
+        const note = document.getElementById(pin.dataset.note);
+        if (!note) return;
+        pin.addEventListener("mouseenter", () => note.classList.add("hot"));
+        pin.addEventListener("mouseleave", () => note.classList.remove("hot"));
+        pin.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          note.classList.add("hot");
+          setTimeout(() => note.classList.remove("hot"), 1400);
+        });
+      });
+
+      document.querySelectorAll(".note").forEach((note) => {
+        const pin = document.querySelector('.pin[data-note="' + note.id + '"]');
+        if (!pin) return;
+        note.addEventListener("mouseenter", () => pin.classList.add("hot"));
+        note.addEventListener("mouseleave", () => pin.classList.remove("hot"));
+      });
 
       /* Pointer tilt on screenshot frames (fine pointers only) */
       if (finePointer.matches && !reduceMotion.matches) {
