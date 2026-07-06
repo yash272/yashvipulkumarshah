@@ -3,13 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Yash Shah — Products</title>
+    <title>Yash Shah — tear to open</title>
     <meta
       name="description"
-      content="Yash Shah builds and ships products. Three are live: Accept, Access, and Fitness. Engineer at John Deere, founder of Bookchange, MBA at Ivey."
+      content="Yash Shah's portfolio, packed as a teardown: rip the cover, tear open the compartments, and inspect three live products — Accept, Access, and Fitness."
     />
-    <link rel="preload" as="image" href="assets/accept-snapshot.png" media="(min-width: 721px)" />
-    <link rel="preload" as="image" href="assets/accept-mobile-snapshot.png" media="(max-width: 720px)" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
     <link
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,600;0,9..144,700;1,9..144,340&family=DM+Mono:wght@300;400;500&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
@@ -18,6 +19,8 @@
       :root {
         --paper: #f4eddd;
         --paper-soft: #faf5e9;
+        --kraft: #e6d9ba;
+        --kraft-deep: #dccfae;
         --paper-line: rgba(24, 20, 12, 0.14);
         --paper-line-strong: rgba(24, 20, 12, 0.55);
         --ink: #18140c;
@@ -34,9 +37,8 @@
         --spot: #e8442e;
         --mx: 50vw;
         --my: 30vh;
-        --frame-r: 18px;
-        --pad: clamp(20px, 4.5vw, 72px);
-        --head-h: 64px;
+        --frame-r: 16px;
+        --tugn: 0;
       }
 
       * {
@@ -46,10 +48,6 @@
         min-width: 0;
       }
 
-      html {
-        scroll-behavior: smooth;
-      }
-
       body {
         background: var(--paper);
         color: var(--ink);
@@ -57,17 +55,20 @@
         font-size: 16px;
         line-height: 1.5;
         -webkit-tap-highlight-color: transparent;
-        overflow-x: clip;
       }
 
-      /* Film grain */
+      .js body {
+        height: 100svh;
+        overflow: hidden;
+      }
+
       body::after {
         content: "";
         position: fixed;
         inset: 0;
-        z-index: 60;
+        z-index: 200;
         pointer-events: none;
-        opacity: 0.04;
+        opacity: 0.045;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
       }
 
@@ -98,9 +99,18 @@
         text-decoration: none;
       }
 
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
       a:focus-visible,
       button:focus-visible {
-        outline: 2px solid currentColor;
+        outline: 2px solid var(--pencil);
         outline-offset: 4px;
         border-radius: 2px;
       }
@@ -110,25 +120,6 @@
         max-width: 100%;
       }
 
-      .skip-link {
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 100;
-        padding: 10px 16px;
-        background: var(--ink);
-        color: var(--paper);
-        font-family: "DM Mono", monospace;
-        font-size: 12px;
-        border-radius: 999px;
-        transform: translateY(-64px);
-      }
-
-      .skip-link:focus-visible {
-        transform: translateY(0);
-      }
-
-      /* Cursor spotlight */
       .spotlight {
         position: fixed;
         inset: 0;
@@ -136,238 +127,547 @@
         pointer-events: none;
         background: radial-gradient(
           520px circle at var(--mx) var(--my),
-          color-mix(in srgb, var(--spot) 14%, transparent),
+          color-mix(in srgb, var(--spot) 13%, transparent),
           transparent 72%
         );
         transition: background 0.4s ease;
       }
 
-      /* ---------- Header ---------- */
-      .site-head {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        height: var(--head-h);
-        padding: 0 var(--pad);
-        border-bottom: 1px solid var(--paper-line);
-        background: color-mix(in srgb, var(--paper) 86%, transparent);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-      }
-
-      .wordmark {
-        font-family: "Fraunces", serif;
-        font-weight: 700;
-        font-size: 19px;
-        letter-spacing: -0.03em;
-        white-space: nowrap;
-      }
-
-      .site-head nav {
-        display: flex;
-        align-items: center;
-        gap: clamp(14px, 3vw, 34px);
-      }
-
-      .site-head nav a {
-        position: relative;
-        padding: 6px 0;
-        font-family: "DM Mono", monospace;
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--muted);
-        white-space: nowrap;
-        transition: color 0.2s ease;
-      }
-
-      .site-head nav a::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 2px;
-        background: var(--spot);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.25s ease;
-      }
-
-      .site-head nav a:hover,
-      .site-head nav a.current {
-        color: var(--ink);
-      }
-
-      .site-head nav a:hover::after,
-      .site-head nav a.current::after {
-        transform: scaleX(1);
-      }
-
-      /* ---------- Chapter rail ---------- */
-      .rail {
+      /* =============== COVER SHEET =============== */
+      .cover {
         position: fixed;
-        right: 22px;
-        top: 50%;
-        z-index: 40;
+        inset: 0;
+        z-index: 80;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .lid {
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .cover.gone {
+        display: none;
+      }
+
+      .cover-piece {
+        position: absolute;
+        inset: 0;
+        background: var(--paper);
+        transition: transform 0.9s cubic-bezier(0.45, 0.02, 0.85, 0.3);
+        will-change: transform;
+      }
+
+      .cover-a {
+        clip-path: polygon(0 0, 54% 0, 50% 7%, 56% 15%, 51% 24%, 57% 33%, 51% 41%, 56% 50%, 50% 58%, 56% 67%, 51% 75%, 57% 84%, 52% 92%, 55% 100%, 0 100%);
+      }
+
+      .cover-b {
+        clip-path: polygon(54% 0, 100% 0, 100% 100%, 55% 100%, 52% 92%, 57% 84%, 51% 75%, 56% 67%, 50% 58%, 56% 50%, 51% 41%, 57% 33%, 51% 24%, 56% 15%, 50% 7%);
+      }
+
+      .cover.dragging .cover-piece {
+        transition: none;
+      }
+
+      .cover.dragging .cover-a {
+        transform: translateX(calc(var(--tugn) * -0.4px)) rotate(calc(var(--tugn) * -0.012deg));
+      }
+
+      .cover.dragging .cover-b {
+        transform: translateX(calc(var(--tugn) * 0.4px)) rotate(calc(var(--tugn) * 0.012deg));
+      }
+
+      .cover.torn .cover-a {
+        transform: translate(-118%, 3%) rotate(-8deg);
+      }
+
+      .cover.torn .cover-b {
+        transform: translate(118%, 5%) rotate(7deg);
+      }
+
+      .cover-face {
+        position: absolute;
+        inset: 0;
         display: grid;
-        gap: 18px;
-        transform: translateY(-50%);
+        grid-template-rows: auto 1fr auto;
+        padding: clamp(20px, 4vw, 56px);
+        background:
+          radial-gradient(circle at 78% 18%, rgba(232, 68, 46, 0.05), transparent 24rem),
+          var(--paper);
       }
 
-      .rail a {
-        display: grid;
-        place-items: center;
-        width: 30px;
-        height: 30px;
-        border: 1px solid var(--paper-line);
-        border-radius: 50%;
-        background: color-mix(in srgb, var(--paper) 70%, transparent);
-        color: var(--muted);
-        font-family: "DM Mono", monospace;
-        font-size: 10px;
-        transition:
-          background 0.25s ease,
-          color 0.25s ease,
-          border-color 0.25s ease;
-      }
-
-      .rail a:hover,
-      .rail a.current {
-        background: var(--ink);
-        border-color: var(--ink);
-        color: var(--paper);
-      }
-
-      @media (max-width: 1180px) {
-        .rail {
-          display: none;
-        }
-      }
-
-      /* ---------- Hero ---------- */
-      .hero {
-        position: relative;
-        z-index: 2;
-        padding: clamp(48px, 9vh, 110px) var(--pad) clamp(30px, 5vh, 60px);
-      }
-
-      .hero-kicker {
+      .cover-kicker {
         display: flex;
         align-items: center;
         gap: 12px;
         color: var(--muted);
       }
 
-      .hero-kicker::before {
+      .cover-kicker::before {
         content: "";
         width: 34px;
         height: 1px;
         background: var(--paper-line-strong);
       }
 
-      h1 {
-        margin: clamp(14px, 3vh, 30px) 0 0;
+      .cover-title {
+        align-self: center;
+      }
+
+      .cover-title h1 {
         font-weight: 700;
-        font-size: clamp(64px, 14.5vw, 200px);
-        line-height: 0.82;
+        font-size: clamp(60px, 13.5vw, 190px);
+        line-height: 0.84;
         letter-spacing: -0.05em;
       }
 
-      h1 em {
+      .cover-title h1 em {
         font-style: italic;
         font-weight: 340;
       }
 
-      .hero-row {
-        display: grid;
-        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-        gap: clamp(24px, 4vw, 64px);
-        align-items: end;
-        margin-top: clamp(28px, 5vh, 56px);
-      }
-
-      .hero-statement {
-        max-width: 400px;
+      .cover-title p {
+        max-width: 440px;
+        margin-top: 20px;
         color: var(--muted);
-        font-size: clamp(15px, 1.4vw, 18px);
+        font-size: clamp(14px, 1.4vw, 17px);
         line-height: 1.6;
       }
 
-      .hero-statement strong {
+      .cover-foot {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        color: var(--muted);
+      }
+
+      .cover-manifest {
+        line-height: 2;
+      }
+
+      .cover-manifest b {
         color: var(--ink);
-        font-weight: 600;
+        font-weight: 500;
       }
 
-      .hero-index {
-        list-style: none;
-        border-top: 1px solid var(--paper-line-strong);
+      .cover-tab {
+        position: absolute;
+        left: 53.5%;
+        top: 44%;
+        z-index: 82;
+        transform: translate(-50%, -50%) rotate(-2deg);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 13px 20px;
+        border: 1px dashed var(--pencil);
+        border-radius: 999px;
+        background: var(--pencil);
+        color: #fff6ee;
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        box-shadow: 0 10px 26px -10px rgba(232, 68, 46, 0.55);
+        transition: transform 0.25s ease, opacity 0.3s ease;
+        animation: tab-wiggle 2.8s ease-in-out infinite;
+        touch-action: none;
       }
 
-      .hero-index a {
+      .cover-tab:hover {
+        transform: translate(-50%, -50%) rotate(-2deg) scale(1.06);
+        animation-play-state: paused;
+      }
+
+      .cover.torn .cover-tab,
+      .cover.dragging .cover-tab {
+        animation: none;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      @keyframes tab-wiggle {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) rotate(-3deg);
+        }
+        50% {
+          transform: translate(-50%, -50%) rotate(1.5deg) scale(1.03);
+        }
+      }
+
+      .cover-skip {
+        position: absolute;
+        right: clamp(20px, 4vw, 56px);
+        bottom: clamp(18px, 3.4vw, 48px);
+        z-index: 82;
+        color: var(--muted);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border-bottom: 1px dashed var(--muted);
+        padding-bottom: 3px;
+        transition: color 0.2s ease, border-color 0.2s ease;
+      }
+
+      .cover-skip:hover {
+        color: var(--pencil);
+        border-color: var(--pencil);
+      }
+
+      .cover.torn .cover-skip {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .cover-seam {
+        position: absolute;
+        left: 53%;
+        top: 0;
+        bottom: 0;
+        z-index: 81;
+        width: 0;
+        border-left: 2px dashed rgba(24, 20, 12, 0.28);
+        pointer-events: none;
+      }
+
+      .cover.torn .cover-seam,
+      .cover.dragging .cover-seam {
+        opacity: 0;
+      }
+
+      /* =============== BENCH =============== */
+      .bench {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
         display: grid;
-        grid-template-columns: 44px minmax(0, auto) minmax(0, 1fr) 24px;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: clamp(10px, 1.6vh, 18px);
+        height: 100svh;
+        padding: clamp(12px, 2vw, 26px) clamp(14px, 2.6vw, 36px) 0;
+        overflow: hidden;
+      }
+
+      .bench-head {
+        display: flex;
         align-items: baseline;
-        gap: 14px;
-        padding: 16px 4px;
-        border-bottom: 1px solid var(--paper-line);
-        transition: background 0.25s ease, padding-left 0s;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: clamp(8px, 1.4vh, 14px);
+        border-bottom: 2px solid var(--ink);
       }
 
-      .hero-index .idx {
-        color: var(--muted);
-      }
-
-      .hero-index .name {
+      .bench-head .wordmark {
         font-family: "Fraunces", serif;
-        font-weight: 600;
-        font-size: clamp(24px, 3vw, 38px);
-        letter-spacing: -0.04em;
-        line-height: 1;
+        font-weight: 700;
+        font-size: clamp(20px, 2.6vw, 34px);
+        letter-spacing: -0.035em;
+        white-space: nowrap;
       }
 
-      .hero-index .tag {
+      .bench-hint {
         color: var(--muted);
-        font-size: 13px;
-        line-height: 1.4;
+        text-align: center;
+        flex: 1;
+        min-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      .hero-index .arrow {
-        justify-self: end;
+      .bench-hint b {
+        color: var(--pencil);
+        font-weight: 500;
+      }
+
+      .bench-reset {
+        color: var(--muted);
+        white-space: nowrap;
+        border-bottom: 1px dashed var(--muted);
+        padding-bottom: 2px;
+        transition: color 0.2s ease, border-color 0.2s ease;
+      }
+
+      .bench-reset:hover {
+        color: var(--pencil);
+        border-color: var(--pencil);
+      }
+
+      .bench-grid {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-rows: minmax(0, 1.3fr) minmax(0, 0.7fr);
+        gap: clamp(10px, 1.4vw, 16px);
+        min-height: 0;
+      }
+
+      .slot {
+        position: relative;
+        min-height: 0;
+        border: 1px solid var(--paper-line-strong);
+        border-radius: var(--frame-r);
+        background: var(--paper-soft);
+        overflow: hidden;
+      }
+
+      .slot-accept {
+        grid-column: 1 / 3;
+      }
+
+      .slot-access {
+        grid-column: 3 / 5;
+      }
+
+      .slot-fitness {
+        grid-column: 5 / 7;
+      }
+
+      .slot-background {
+        grid-column: 1 / 5;
+      }
+
+      .slot-contact {
+        grid-column: 5 / 7;
+      }
+
+      /* preview under the lid */
+      .slot-inner {
+        position: absolute;
+        inset: 0;
+        visibility: hidden;
+      }
+
+      .slot.revealed .slot-inner {
+        visibility: visible;
+      }
+
+      .slot-open {
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr) auto;
+        gap: 6px;
+        width: 100%;
+        height: 100%;
+        padding: clamp(12px, 1.6vw, 20px);
+        text-align: left;
+        transition: background 0.25s ease;
+      }
+
+      .slot-open:hover {
+        background: color-mix(in srgb, var(--slot-accent, var(--pencil)) 7%, transparent);
+      }
+
+      .slot-fig {
+        color: var(--muted);
+      }
+
+      .slot-name {
+        font-size: clamp(26px, 3.2vw, 46px);
+        font-weight: 700;
+        line-height: 0.95;
+      }
+
+      .slot-shot {
+        min-height: 0;
+        margin-top: 4px;
+        border: 1px solid var(--paper-line);
+        border-radius: 10px;
+        background-color: var(--kraft);
+        background-size: cover;
+        background-position: top center;
+      }
+
+      .slot-note {
+        min-height: 0;
+        margin-top: 4px;
+        overflow: hidden;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .slot-cta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        color: var(--pencil);
+      }
+
+      .slot-open:hover .slot-cta .arr {
+        transform: translateX(5px);
+      }
+
+      .slot-cta .arr {
         transition: transform 0.25s ease;
       }
 
-      .hero-index a:hover,
-      .hero-index a:focus-visible {
-        background: color-mix(in srgb, var(--row-accent, var(--accept)) 9%, transparent);
+      /* =============== LIDS =============== */
+      .lid {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        touch-action: pan-y;
       }
 
-      .hero-index a:hover .arrow,
-      .hero-index a:focus-visible .arrow {
-        transform: translateX(6px);
+      .lid.gone {
+        display: none;
       }
 
-      /* ---------- Ticker ---------- */
-      .ticker {
-        position: relative;
+      .piece {
+        position: absolute;
+        inset: 0;
+        transition: transform 0.75s cubic-bezier(0.5, 0.02, 0.85, 0.3), opacity 0.75s ease;
+        will-change: transform;
+      }
+
+      .piece-a {
+        clip-path: polygon(0 0, 100% 0, 100% 52%, 92% 48%, 84% 55%, 75% 49%, 66% 56%, 57% 50%, 48% 57%, 39% 50%, 30% 56%, 21% 49%, 12% 55%, 5% 50%, 0 54%);
+      }
+
+      .piece-b {
+        clip-path: polygon(0 54%, 5% 50%, 12% 55%, 21% 49%, 30% 56%, 39% 50%, 48% 57%, 57% 50%, 66% 56%, 75% 49%, 84% 55%, 92% 48%, 100% 52%, 100% 100%, 0 100%);
+      }
+
+      .lid.dragging .piece {
+        transition: none;
+      }
+
+      .lid.dragging .piece-a {
+        transform: translateY(calc(var(--tugn) * -0.35px)) rotate(calc(var(--tugn) * -0.02deg));
+      }
+
+      .lid.dragging .piece-b {
+        transform: translateY(calc(var(--tugn) * 0.3px)) rotate(calc(var(--tugn) * 0.015deg));
+      }
+
+      .lid.torn .piece-a {
+        transform: translate(-9%, -135%) rotate(-11deg);
+      }
+
+      .lid.torn .piece-b {
+        transform: translate(7%, 145%) rotate(9deg);
+      }
+
+      .lid-face {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        padding: clamp(12px, 1.6vw, 20px);
+        text-align: left;
+        background:
+          repeating-linear-gradient(-42deg, transparent 0 26px, rgba(24, 20, 12, 0.022) 26px 27px),
+          linear-gradient(160deg, var(--kraft), var(--kraft-deep));
+      }
+
+      .lid-fig {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        color: var(--muted);
+      }
+
+      .lid-name {
+        align-self: center;
+        font-size: clamp(30px, 3.6vw, 54px);
+        font-weight: 700;
+        line-height: 0.92;
+        color: var(--ink);
+        opacity: 0.88;
+      }
+
+      .lid-contents {
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        line-height: 1.6;
+        text-transform: uppercase;
+        font-size: 9.5px;
+      }
+
+      .lid-tab {
+        position: absolute;
         z-index: 2;
+        right: clamp(10px, 1.4vw, 18px);
+        top: calc(52% - 14px);
+        transition: opacity 0.25s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: var(--pencil);
+        color: #fff6ee;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        box-shadow: 0 6px 16px -6px rgba(232, 68, 46, 0.5);
+      }
+
+      .piece-a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 52%;
+        border-top: 2px dashed rgba(24, 20, 12, 0.3);
+      }
+
+      .lid.torn .lid-tab,
+      .lid.dragging .lid-tab {
+        opacity: 0;
+      }
+
+      .lid:hover .lid-tab,
+      .lid:focus-visible .lid-tab {
+        animation: tab-wiggle-s 0.8s ease-in-out infinite;
+      }
+
+      @keyframes tab-wiggle-s {
+        0%,
+        100% {
+          transform: rotate(-2deg);
+        }
+        50% {
+          transform: rotate(2deg) scale(1.05);
+        }
+      }
+
+      /* paper scraps */
+      .scrap {
+        position: fixed;
+        z-index: 150;
+        width: 12px;
+        height: 12px;
+        pointer-events: none;
+        background: var(--kraft);
+        border: 1px solid rgba(24, 20, 12, 0.12);
+        clip-path: polygon(0 0, 100% 12%, 82% 100%, 8% 84%);
+        animation: scrap-fall 1s cubic-bezier(0.35, 0.05, 0.85, 0.4) forwards;
+      }
+
+      @keyframes scrap-fall {
+        to {
+          transform: translate(var(--dx, 0px), var(--dy, 160px)) rotate(var(--dr, 220deg));
+          opacity: 0;
+        }
+      }
+
+      /* =============== TICKER =============== */
+      .ticker {
         overflow: hidden;
         border-top: 1px solid var(--paper-line-strong);
-        border-bottom: 1px solid var(--paper-line-strong);
-        padding: 13px 0;
+        padding: 11px 0;
+        margin: 0 calc(-1 * clamp(14px, 2.6vw, 36px));
         background: var(--paper-soft);
       }
 
       .ticker-track {
         display: flex;
-        gap: 0;
         width: max-content;
         animation: marquee 36s linear infinite;
       }
@@ -387,7 +687,7 @@
       }
 
       .ticker-chunk .dot {
-        color: var(--accept);
+        color: var(--pencil);
       }
 
       @keyframes marquee {
@@ -396,40 +696,66 @@
         }
       }
 
-      /* ---------- Product chapters ---------- */
-      .product {
-        position: relative;
-        z-index: 2;
+      /* =============== PANELS =============== */
+      .panel {
+        display: none;
+      }
+
+      .js .panel.open {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
         display: grid;
-        grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
-        gap: clamp(28px, 4.5vw, 80px);
+        grid-template-rows: auto minmax(0, 1fr);
+        background: var(--paper);
+        animation: panel-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+
+      @keyframes panel-in {
+        from {
+          opacity: 0;
+          transform: translateY(2.5%) scale(0.985);
+        }
+      }
+
+      .panel-chrome {
+        display: flex;
         align-items: center;
-        padding: clamp(56px, 10vh, 130px) var(--pad);
-        border-bottom: 1px solid var(--paper-line);
-        scroll-margin-top: var(--head-h);
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px clamp(16px, 3vw, 40px);
+        border-bottom: 2px solid var(--ink);
+        background: var(--paper);
       }
 
-      .product.flip .product-info {
-        order: 2;
-      }
-
-      .product.flip .teardown-stage {
-        order: 1;
+      .panel[data-theme="dark"] .panel-chrome {
+        border-bottom-color: var(--coal-line);
+        background: var(--coal);
+        color: var(--coal-ink);
       }
 
       .chapter {
         display: flex;
         align-items: center;
         gap: 12px;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         color: var(--muted);
       }
 
+      .panel[data-theme="dark"] .chapter {
+        color: var(--coal-muted);
+      }
+
       .live-dot {
+        flex: none;
         position: relative;
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: var(--p-accent);
+        background: var(--p-accent, var(--pencil));
       }
 
       .live-dot::after {
@@ -437,7 +763,7 @@
         position: absolute;
         inset: -4px;
         border-radius: 50%;
-        border: 1px solid var(--p-accent);
+        border: 1px solid var(--p-accent, var(--pencil));
         opacity: 0.5;
         animation: pulse 2.6s ease-out infinite;
       }
@@ -454,34 +780,89 @@
         }
       }
 
-      .product h2 {
-        margin-top: 16px;
-        font-size: clamp(52px, 6.5vw, 104px);
+      .panel-close {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        transform: rotate(1.5deg);
+        border: 1px dashed var(--paper-line-strong);
+        background: color-mix(in srgb, var(--kraft) 70%, transparent);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+
+      .panel-close:hover {
+        transform: rotate(-1deg) scale(1.04);
+        background: var(--kraft);
+      }
+
+      .panel[data-theme="dark"] .panel-close {
+        border-color: var(--coal-line);
+        background: var(--coal-soft);
+        color: var(--coal-ink);
+      }
+
+      .panel-scroll {
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+
+      .panel-body {
+        display: grid;
+        grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+        gap: clamp(24px, 4vw, 64px);
+        align-items: start;
+        padding: clamp(24px, 4.5vh, 52px) clamp(16px, 3vw, 40px) clamp(40px, 6vh, 72px);
+      }
+
+      .panel[data-theme="dark"] {
+        background: var(--coal);
+      }
+
+      .js .panel.open[data-theme="dark"] {
+        background: var(--coal);
+        color: var(--coal-ink);
+      }
+
+      /* product info column */
+      .product-info h2 {
+        font-size: clamp(46px, 5.6vw, 92px);
         font-weight: 700;
         line-height: 0.88;
       }
 
-      .product .tagline {
+      .tagline {
         margin-top: 14px;
         font-family: "Fraunces", serif;
         font-weight: 340;
         font-style: italic;
-        font-size: clamp(19px, 1.9vw, 26px);
+        font-size: clamp(18px, 1.8vw, 25px);
         letter-spacing: -0.02em;
         line-height: 1.25;
       }
 
-      .product .story {
-        margin-top: 18px;
+      .story {
+        margin-top: 16px;
         max-width: 430px;
         color: var(--muted);
         font-size: 15px;
         line-height: 1.65;
       }
 
+      .panel[data-theme="dark"] .story {
+        color: var(--coal-muted);
+      }
+
       .facts {
         list-style: none;
-        margin-top: 26px;
+        margin-top: 24px;
         border-top: 1px solid var(--paper-line);
       }
 
@@ -500,41 +881,48 @@
         font-size: 10px;
       }
 
+      .panel[data-theme="dark"] .facts,
+      .panel[data-theme="dark"] .facts li {
+        border-color: var(--coal-line);
+      }
+
+      .panel[data-theme="dark"] .facts .k {
+        color: var(--coal-muted);
+      }
+
       .visit {
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        margin-top: 28px;
-        padding: 14px 22px;
+        margin-top: 26px;
+        padding: 13px 20px;
         border: 1px solid var(--ink);
         border-radius: 999px;
         background: var(--ink);
         color: var(--paper);
         font-family: "DM Mono", monospace;
-        font-size: 11.5px;
+        font-size: 11px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        transition:
-          background 0.22s ease,
-          color 0.22s ease,
-          transform 0.22s ease;
+        transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
       }
 
-      .visit .arrow {
-        transition: transform 0.22s ease;
-      }
-
-      .visit:hover,
-      .visit:focus-visible {
-        background: var(--p-accent);
-        border-color: var(--p-accent);
+      .visit:hover {
+        background: var(--p-accent, var(--pencil));
+        border-color: var(--p-accent, var(--pencil));
         color: var(--visit-ink, var(--paper));
         transform: translateY(-2px);
       }
 
-      .visit:hover .arrow,
-      .visit:focus-visible .arrow {
-        transform: translate(3px, -3px);
+      .panel[data-theme="dark"] .visit {
+        background: var(--coal-ink);
+        border-color: var(--coal-ink);
+        color: var(--coal);
+      }
+
+      .panel[data-theme="dark"] .visit:hover {
+        background: var(--fitness);
+        border-color: var(--fitness);
       }
 
       .visit-url {
@@ -546,7 +934,18 @@
         overflow-wrap: anywhere;
       }
 
-      /* Screenshot frame */
+      .panel[data-theme="dark"] .visit-url {
+        color: var(--coal-muted);
+      }
+
+      /* frame + pins + notes (teardown stage) */
+      .teardown-stage {
+        display: grid;
+        gap: 14px;
+        align-content: start;
+        min-width: 0;
+      }
+
       .product-frame {
         display: block;
         perspective: 1400px;
@@ -567,20 +966,13 @@
         will-change: transform;
       }
 
-      .product-frame:hover .frame-tilt,
-      .product-frame:focus-visible .frame-tilt {
-        box-shadow:
-          0 1px 2px rgba(24, 20, 12, 0.08),
-          0 26px 60px -20px color-mix(in srgb, var(--p-accent) 42%, rgba(24, 20, 12, 0.34));
-      }
-
       .frame-bar {
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 11px 14px;
         border-bottom: 1px solid var(--paper-line);
-        background: color-mix(in srgb, var(--paper-soft) 84%, var(--p-accent) 5%);
+        background: color-mix(in srgb, var(--paper-soft) 84%, var(--p-accent, var(--pencil)) 5%);
       }
 
       .frame-bar i {
@@ -591,8 +983,8 @@
       }
 
       .frame-bar i:first-child {
-        background: var(--p-accent);
-        border-color: var(--p-accent);
+        background: var(--p-accent, var(--pencil));
+        border-color: var(--p-accent, var(--pencil));
       }
 
       .frame-url {
@@ -602,7 +994,6 @@
         color: var(--muted);
         font-family: "DM Mono", monospace;
         font-size: 10.5px;
-        letter-spacing: 0.04em;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -638,20 +1029,25 @@
         height: 100%;
         object-fit: cover;
         object-position: top center;
-        transform: scale(1.005);
-        transition: transform 0.6s cubic-bezier(0.2, 0.6, 0.2, 1);
       }
 
-      .product-frame:hover .shot img {
-        transform: scale(1.025);
+      .panel[data-theme="dark"] .frame-tilt {
+        border-color: var(--coal-line);
+        background: var(--coal-soft);
       }
 
-      /* ---------- Teardown annotations ---------- */
-      .teardown-stage {
-        display: grid;
-        gap: 14px;
-        align-content: start;
-        min-width: 0;
+      .panel[data-theme="dark"] .frame-bar {
+        border-bottom-color: var(--coal-line);
+        background: var(--coal-soft);
+      }
+
+      .panel[data-theme="dark"] .frame-url,
+      .panel[data-theme="dark"] .frame-open {
+        color: var(--coal-muted);
+      }
+
+      .panel[data-theme="dark"] .shot {
+        background: var(--coal-soft);
       }
 
       .pin {
@@ -672,7 +1068,7 @@
         line-height: 1;
         box-shadow: 0 0 0 4px color-mix(in srgb, var(--pencil) 20%, transparent);
         cursor: help;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: transform 0.2s ease;
       }
 
       .pin::after {
@@ -688,7 +1084,6 @@
       .pin:hover,
       .pin.hot {
         transform: scale(1.3);
-        box-shadow: 0 0 0 6px color-mix(in srgb, var(--pencil) 30%, transparent);
       }
 
       .note-strip {
@@ -725,161 +1120,45 @@
         transform: translateY(-2px);
       }
 
+      .panel[data-theme="dark"] .note {
+        background: rgba(255, 255, 255, 0.045);
+        color: var(--coal-muted);
+      }
+
+      .panel[data-theme="dark"] .note b {
+        color: #ff7a5c;
+      }
+
+      .panel[data-theme="dark"] .note:hover,
+      .panel[data-theme="dark"] .note.hot {
+        background: rgba(232, 68, 46, 0.16);
+      }
+
       .meta-note {
-        max-width: 330px;
+        max-width: 340px;
         margin-top: 18px;
         color: var(--pencil);
         font-family: "DM Mono", monospace;
         font-size: 11px;
-        letter-spacing: 0.02em;
         line-height: 1.7;
         transform: rotate(-1.2deg);
         transform-origin: left top;
       }
 
-      .notes-toggle {
-        display: inline-flex;
-        align-items: center;
-        padding: 6px 12px;
-        border: 1px solid var(--pencil);
-        border-radius: 999px;
-        background: transparent;
-        color: var(--pencil);
-        font-family: "DM Mono", monospace;
-        font-size: 10.5px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: background 0.2s ease, color 0.2s ease;
+      /* about / contact panel bodies */
+      .plain-body {
+        max-width: 900px;
+        padding: clamp(28px, 6vh, 64px) clamp(16px, 3vw, 40px) clamp(48px, 8vh, 88px);
       }
 
-      .notes-toggle[aria-pressed="true"] {
-        background: var(--pencil);
-        color: #fff6ee;
-      }
-
-      .notes-toggle .state {
-        display: inline-block;
-        width: 3ch;
-        text-align: left;
-        margin-left: 1ch;
-      }
-
-      .notes-off .pin,
-      .notes-off .meta-note,
-      .notes-off .note-strip {
-        display: none;
-      }
-
-      /* Per-product accents */
-      #accept {
-        --p-accent: var(--accept);
-      }
-
-      #access {
-        --p-accent: var(--access);
-      }
-
-      #fitness {
-        --p-accent: var(--fitness);
-        --visit-ink: var(--coal);
-        background: var(--coal);
-        color: var(--coal-ink);
-        border-bottom-color: var(--coal-line);
-      }
-
-      #fitness .story,
-      #fitness .chapter,
-      #fitness .facts .k,
-      #fitness .visit-url,
-      #fitness .frame-url,
-      #fitness .frame-open {
-        color: var(--coal-muted);
-      }
-
-      #fitness .facts,
-      #fitness .facts li {
-        border-color: var(--coal-line);
-      }
-
-      #fitness .visit {
-        background: var(--coal-ink);
-        border-color: var(--coal-ink);
-        color: var(--coal);
-      }
-
-      #fitness .visit:hover,
-      #fitness .visit:focus-visible {
-        background: var(--fitness);
-        border-color: var(--fitness);
-        color: var(--coal);
-      }
-
-      #fitness .frame-tilt {
-        border-color: var(--coal-line);
-        background: var(--coal-soft);
-        box-shadow:
-          0 1px 2px rgba(0, 0, 0, 0.5),
-          0 20px 50px -16px rgba(0, 0, 0, 0.7);
-      }
-
-      #fitness .frame-bar {
-        border-bottom-color: var(--coal-line);
-        background: var(--coal-soft);
-      }
-
-      #fitness .frame-bar i {
-        border-color: var(--coal-line);
-      }
-
-      #fitness .frame-bar i:first-child {
-        background: var(--fitness);
-        border-color: var(--fitness);
-      }
-
-      #fitness .shot {
-        background: var(--coal-soft);
-      }
-
-      #fitness ::selection {
-        background: var(--fitness);
-        color: var(--coal);
-      }
-
-      #fitness .note {
-        background: rgba(255, 255, 255, 0.045);
-        color: var(--coal-muted);
-      }
-
-      #fitness .note b {
-        color: #ff7a5c;
-      }
-
-      #fitness .note:hover,
-      #fitness .note.hot {
-        background: rgba(232, 68, 46, 0.16);
-      }
-
-      /* ---------- About ---------- */
-      .about {
-        position: relative;
-        z-index: 2;
-        padding: clamp(56px, 10vh, 120px) var(--pad);
-        border-bottom: 1px solid var(--paper-line);
-        scroll-margin-top: var(--head-h);
-      }
-
-      .about h2 {
-        margin-top: 16px;
-        max-width: 760px;
-        font-size: clamp(38px, 5.4vw, 84px);
+      .plain-body h2 {
+        font-size: clamp(36px, 5vw, 76px);
         font-weight: 700;
         line-height: 0.95;
       }
 
-      .about .lede {
-        margin-top: 22px;
+      .lede {
+        margin-top: 20px;
         max-width: 620px;
         color: var(--muted);
         font-size: clamp(15px, 1.5vw, 18px);
@@ -889,18 +1168,22 @@
       .cred-row {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        margin-top: clamp(32px, 5vh, 56px);
+        margin-top: clamp(28px, 4vh, 44px);
         border-top: 1px solid var(--paper-line-strong);
       }
 
       .cred {
-        padding: 20px 18px 22px 0;
+        padding: 18px 16px 20px 0;
         border-bottom: 1px solid var(--paper-line);
       }
 
       .cred + .cred {
-        padding-left: 18px;
+        padding-left: 16px;
         border-left: 1px solid var(--paper-line);
+      }
+
+      .cred .mono {
+        color: var(--muted);
       }
 
       .cred strong {
@@ -908,12 +1191,12 @@
         margin-top: 10px;
         font-family: "Fraunces", serif;
         font-weight: 600;
-        font-size: clamp(19px, 1.9vw, 26px);
+        font-size: clamp(18px, 1.8vw, 24px);
         letter-spacing: -0.03em;
         line-height: 1.05;
       }
 
-      .cred span {
+      .cred span:not(.mono) {
         display: block;
         margin-top: 8px;
         color: var(--muted);
@@ -921,27 +1204,11 @@
         line-height: 1.5;
       }
 
-      /* ---------- Contact ---------- */
-      .contact {
-        position: relative;
-        z-index: 2;
-        padding: clamp(56px, 10vh, 120px) var(--pad);
-        scroll-margin-top: var(--head-h);
-      }
-
-      .contact h2 {
-        margin-top: 16px;
-        max-width: 720px;
-        font-size: clamp(38px, 5.4vw, 84px);
-        font-weight: 700;
-        line-height: 0.95;
-      }
-
       .contact-links {
         list-style: none;
-        margin-top: clamp(30px, 5vh, 52px);
+        margin-top: clamp(24px, 4vh, 40px);
         border-top: 1px solid var(--paper-line-strong);
-        max-width: 760px;
+        max-width: 720px;
       }
 
       .contact-links a {
@@ -949,7 +1216,7 @@
         grid-template-columns: 28px minmax(0, auto) minmax(0, 1fr) 24px;
         align-items: center;
         gap: 16px;
-        padding: 18px 4px;
+        padding: 17px 4px;
         border-bottom: 1px solid var(--paper-line);
         transition: background 0.25s ease;
       }
@@ -957,13 +1224,12 @@
       .contact-links svg {
         width: 19px;
         height: 19px;
-        color: var(--ink);
       }
 
       .contact-links .name {
         font-family: "Fraunces", serif;
         font-weight: 600;
-        font-size: clamp(20px, 2.4vw, 30px);
+        font-size: clamp(20px, 2.2vw, 28px);
         letter-spacing: -0.03em;
         line-height: 1;
       }
@@ -981,79 +1247,35 @@
         transition: transform 0.25s ease;
       }
 
-      .contact-links a:hover,
-      .contact-links a:focus-visible {
-        background: color-mix(in srgb, var(--accept) 8%, transparent);
+      .contact-links a:hover {
+        background: color-mix(in srgb, var(--pencil) 8%, transparent);
       }
 
-      .contact-links a:hover .arrow,
-      .contact-links a:focus-visible .arrow {
+      .contact-links a:hover .arrow {
         transform: translate(4px, -4px);
       }
 
-      /* ---------- Footer ---------- */
-      .site-foot {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 10px 20px;
-        padding: 22px var(--pad) 28px;
-        border-top: 1px solid var(--paper-line-strong);
-        color: var(--muted);
+      /* =============== STATIC FALLBACK (no JS) =============== */
+      html:not(.js) .cover,
+      html:not(.js) .bench,
+      html:not(.js) .panel-close {
+        display: none;
       }
 
-      .site-foot .top-link {
-        transition: color 0.2s ease;
+      html:not(.js) .panel {
+        display: block;
+        border-bottom: 1px solid var(--paper-line);
       }
 
-      .site-foot .top-link:hover {
-        color: var(--ink);
+      html:not(.js) .panel[data-theme="dark"] {
+        color: var(--coal-ink);
       }
 
-      /* ---------- Reveal ---------- */
-      .js .reveal {
-        opacity: 0;
-        transform: translateY(26px);
-        transition:
-          opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1),
-          transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
-      }
-
-      .js .reveal.in {
-        opacity: 1;
-        transform: none;
-      }
-
-      /* ---------- Responsive ---------- */
+      /* =============== RESPONSIVE =============== */
       @media (max-width: 980px) {
-        .product {
+        .panel-body {
           grid-template-columns: 1fr;
-          gap: 30px;
-          align-items: start;
-        }
-
-        .product.flip .product-info {
-          order: 1;
-        }
-
-        .product.flip .teardown-stage {
-          order: 2;
-        }
-
-        .hero-row {
-          grid-template-columns: 1fr;
-          align-items: start;
-        }
-
-        .hero-index .tag {
-          display: none;
-        }
-
-        .hero-index a {
-          grid-template-columns: 44px minmax(0, 1fr) 24px;
+          gap: 26px;
         }
 
         .cred-row {
@@ -1066,19 +1288,57 @@
         }
 
         .cred:nth-child(even) {
-          padding-left: 18px;
+          padding-left: 16px;
+        }
+      }
+
+      @media (max-width: 840px) {
+        .js body {
+          height: auto;
+          overflow: auto;
+        }
+
+        .bench {
+          position: relative;
+          inset: auto;
+          height: auto;
+          min-height: 100svh;
+          overflow: visible;
+        }
+
+        .bench-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .slot {
+          min-height: 168px;
+        }
+
+        .slot-shot {
+          min-height: 52px;
+        }
+
+        .bench-hint {
+          display: none;
+        }
+
+        .cover-tab {
+          left: 50%;
+          top: 70%;
+        }
+
+        .lid-name {
+          font-size: clamp(28px, 9vw, 40px);
+        }
+
+        .lid-contents {
+          display: none;
         }
       }
 
       @media (max-width: 720px) {
-        :root {
-          --head-h: 56px;
-        }
-
-        h1 {
-          font-size: clamp(58px, 17vw, 96px);
-        }
-
         .shot {
           aspect-ratio: 375 / 812;
         }
@@ -1111,10 +1371,6 @@
           display: none;
         }
 
-        .product h2 {
-          font-size: clamp(46px, 13vw, 64px);
-        }
-
         .contact-links a {
           grid-template-columns: 24px minmax(0, 1fr) 24px;
         }
@@ -1123,35 +1379,24 @@
           display: none;
         }
 
-        .ticker-chunk {
-          gap: 18px;
-          padding-right: 18px;
+        .cover-manifest {
+          font-size: 10px;
+        }
+
+        .cover-title h1 {
+          font-size: clamp(52px, 16vw, 90px);
+        }
+
+        .panel-chrome {
+          padding: 12px 14px;
+        }
+
+        .chapter {
+          font-size: 9.5px;
         }
       }
 
       @media (max-width: 460px) {
-        .site-head nav {
-          gap: 12px;
-        }
-
-        .site-head nav a {
-          font-size: 10px;
-          letter-spacing: 0.08em;
-        }
-
-        .notes-toggle {
-          padding: 5px 9px;
-          font-size: 9.5px;
-        }
-
-        .notes-toggle .label {
-          display: none;
-        }
-
-        .wordmark {
-          font-size: 17px;
-        }
-
         .cred-row {
           grid-template-columns: 1fr;
         }
@@ -1161,20 +1406,30 @@
           padding-left: 0;
           border-left: 0;
         }
-      }
 
-      /* ---------- Reduced motion ---------- */
-      @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
+        .cover-skip {
+          right: auto;
+          left: 20px;
+          bottom: 14px;
         }
 
+        .cover-foot .cover-manifest {
+          display: none;
+        }
+      }
+
+      /* =============== REDUCED MOTION =============== */
+      @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
         *::after {
           animation-duration: 0.01ms !important;
           animation-iteration-count: 1 !important;
           transition-duration: 0.01ms !important;
+        }
+
+        .cover-tab {
+          animation: none;
         }
 
         .ticker-track {
@@ -1194,77 +1449,200 @@
         .frame-tilt {
           transform: none !important;
         }
+
+        .scrap {
+          display: none;
+        }
       }
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#work">Skip to products</a>
     <div class="spotlight" aria-hidden="true"></div>
 
-    <header class="site-head">
-      <a class="wordmark" href="#top" aria-label="Yash Shah — back to top">Yash Shah</a>
-      <nav aria-label="Site">
-        <a href="#work" data-spy="work">Work</a>
-        <a href="#about" data-spy="about">About</a>
-        <a href="#contact" data-spy="contact">Contact</a>
-        <button class="notes-toggle" type="button" aria-pressed="true">
-          ✳<span class="label">&nbsp;Notes</span><span class="state">on</span>
-        </button>
-      </nav>
-    </header>
-
-    <nav class="rail" aria-label="Product chapters">
-      <a href="#accept" data-spy="accept" aria-label="Chapter 1: Accept">1</a>
-      <a href="#access" data-spy="access" aria-label="Chapter 2: Access">2</a>
-      <a href="#fitness" data-spy="fitness" aria-label="Chapter 3: Fitness">3</a>
-    </nav>
-
-    <main id="top">
-      <section class="hero" aria-labelledby="site-title">
-        <p class="hero-kicker mono reveal">Fig. 00 — A portfolio, torn down by its owner</p>
-        <h1 id="site-title" class="reveal">Yash <em>Shah</em></h1>
-
-        <div class="hero-row">
-          <div class="reveal">
-            <p class="hero-statement">
-              I build products end to end — <strong>the idea, the interface, and the shipping.</strong>
-              Three of them are live below, each torn down the way I'd review anyone's product: pinned,
-              annotated, and open to inspection.
-            </p>
-            <p class="meta-note">
-              ✳ Fair is fair — the page annotates itself too. Red pins and notes mark the thinking.
-              Toggle them in the header if you'd rather browse clean.
+    <!-- ============ COVER ============ -->
+    <div class="cover" id="cover">
+      <div class="cover-piece cover-a" aria-hidden="true">
+        <div class="cover-face">
+          <p class="cover-kicker mono">Fig. 00 — A portfolio you take apart</p>
+          <div class="cover-title">
+            <h1>Yash <em>Shah</em></h1>
+            <p>Three live products are sealed inside, each pinned and annotated like a proper teardown. Nothing here is browsed — it's opened.</p>
+          </div>
+          <div class="cover-foot mono">
+            <p class="cover-manifest">
+              Contents — <b>01 Accept</b> · <b>02 Access</b> · <b>03 Fitness</b> · Background · Contact
             </p>
           </div>
-
-          <ol class="hero-index reveal" aria-label="Product index">
-            <li>
-              <a href="#accept" style="--row-accent: var(--accept)">
-                <span class="idx mono">01</span>
-                <span class="name">Accept</span>
-                <span class="tag">Buy and sell locally, without the haggling</span>
-                <span class="arrow" aria-hidden="true">↓</span>
-              </a>
-            </li>
-            <li>
-              <a href="#access" style="--row-accent: var(--access)">
-                <span class="idx mono">02</span>
-                <span class="name">Access</span>
-                <span class="tag">Every photo from the night, in one album</span>
-                <span class="arrow" aria-hidden="true">↓</span>
-              </a>
-            </li>
-            <li>
-              <a href="#fitness" style="--row-accent: var(--fitness)">
-                <span class="idx mono">03</span>
-                <span class="name">Fitness</span>
-                <span class="tag">Body recomposition tracking, built to be used daily</span>
-                <span class="arrow" aria-hidden="true">↓</span>
-              </a>
-            </li>
-          </ol>
         </div>
-      </section>
+      </div>
+      <div class="cover-piece cover-b" aria-hidden="true">
+        <div class="cover-face">
+          <p class="cover-kicker mono">Fig. 00 — A portfolio you take apart</p>
+          <div class="cover-title">
+            <h1>Yash <em>Shah</em></h1>
+            <p>Three live products are sealed inside, each pinned and annotated like a proper teardown. Nothing here is browsed — it's opened.</p>
+          </div>
+          <div class="cover-foot mono">
+            <p class="cover-manifest">
+              Contents — <b>01 Accept</b> · <b>02 Access</b> · <b>03 Fitness</b> · Background · Contact
+            </p>
+          </div>
+        </div>
+      </div>
+      <span class="cover-seam" aria-hidden="true"></span>
+      <button class="cover-tab" id="cover-tab" type="button">✂ Tear to open</button>
+      <button class="cover-skip" id="cover-skip" type="button">In a hurry? Open everything</button>
+    </div>
+
+    <!-- ============ BENCH ============ -->
+    <main class="bench" id="bench" aria-label="Workbench">
+      <header class="bench-head">
+        <span class="wordmark serif">Yash Shah</span>
+        <p class="bench-hint mono">Everything on this bench tears open — <b>pull, don't be gentle</b></p>
+        <button class="bench-reset mono" id="bench-reset" type="button">Reassemble</button>
+      </header>
+
+      <div class="bench-grid">
+        <section class="slot slot-accept" style="--slot-accent: var(--accept)" aria-label="Accept — sealed compartment">
+          <div class="slot-inner">
+            <button class="slot-open" data-panel="panel-accept" type="button">
+              <span class="slot-fig mono">Fig. 01 — Live product</span>
+              <span class="slot-name serif">Accept</span>
+              <span class="slot-shot" style="background-image: url('assets/accept-snapshot.png')" role="img" aria-label="Accept landing page screenshot"></span>
+              <span class="slot-cta mono"><span>Inspect the teardown</span><span class="arr" aria-hidden="true">→</span></span>
+            </button>
+          </div>
+          <button class="lid" data-slot="accept" type="button" aria-label="Tear open the Accept compartment">
+            <span class="piece piece-a" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 01 — sealed</span><span>Live</span></span>
+                <span class="lid-name serif">Accept</span>
+                <span class="lid-contents mono">Contents: 1 local marketplace, negotiations included</span>
+              </span>
+            </span>
+            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
+            <span class="piece piece-b" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 01 — sealed</span><span>Live</span></span>
+                <span class="lid-name serif">Accept</span>
+                <span class="lid-contents mono">Contents: 1 local marketplace, negotiations included</span>
+              </span>
+            </span>
+          </button>
+        </section>
+
+        <section class="slot slot-access" style="--slot-accent: var(--access)" aria-label="Access — sealed compartment">
+          <div class="slot-inner">
+            <button class="slot-open" data-panel="panel-access" type="button">
+              <span class="slot-fig mono">Fig. 02 — Live product</span>
+              <span class="slot-name serif">Access</span>
+              <span class="slot-shot" style="background-image: url('assets/access-snapshot.png')" role="img" aria-label="Access landing page screenshot"></span>
+              <span class="slot-cta mono"><span>Inspect the teardown</span><span class="arr" aria-hidden="true">→</span></span>
+            </button>
+          </div>
+          <button class="lid" data-slot="access" type="button" aria-label="Tear open the Access compartment">
+            <span class="piece piece-a" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 02 — sealed</span><span>Live</span></span>
+                <span class="lid-name serif">Access</span>
+                <span class="lid-contents mono">Contents: every photo from the night</span>
+              </span>
+            </span>
+            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
+            <span class="piece piece-b" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 02 — sealed</span><span>Live</span></span>
+                <span class="lid-name serif">Access</span>
+                <span class="lid-contents mono">Contents: every photo from the night</span>
+              </span>
+            </span>
+          </button>
+        </section>
+
+        <section class="slot slot-fitness" style="--slot-accent: var(--fitness)" aria-label="Fitness — sealed compartment">
+          <div class="slot-inner">
+            <button class="slot-open" data-panel="panel-fitness" type="button">
+              <span class="slot-fig mono">Fig. 03 — Live product</span>
+              <span class="slot-name serif">Fitness</span>
+              <span class="slot-shot" style="background-image: url('assets/fitness-snapshot.png')" role="img" aria-label="Disciplined training dashboard screenshot"></span>
+              <span class="slot-cta mono"><span>Inspect the teardown</span><span class="arr" aria-hidden="true">→</span></span>
+            </button>
+          </div>
+          <button class="lid" data-slot="fitness" type="button" aria-label="Tear open the Fitness compartment">
+            <span class="piece piece-a" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 03 — sealed</span><span>Live</span></span>
+                <span class="lid-name serif">Fitness</span>
+                <span class="lid-contents mono">Contents: one very consistent training log</span>
+              </span>
+            </span>
+            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
+            <span class="piece piece-b" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 03 — sealed</span><span>Live</span></span>
+                <span class="lid-name serif">Fitness</span>
+                <span class="lid-contents mono">Contents: one very consistent training log</span>
+              </span>
+            </span>
+          </button>
+        </section>
+
+        <section class="slot slot-background" aria-label="Background — sealed compartment">
+          <div class="slot-inner">
+            <button class="slot-open" data-panel="panel-background" type="button">
+              <span class="slot-fig mono">Fig. 04 — The operator</span>
+              <span class="slot-name serif">Background</span>
+              <span class="slot-note">John Deere → Bookchange (Shark Tank India finals) → SwitchOn → Ivey MBA.</span>
+              <span class="slot-cta mono"><span>Read the label</span><span class="arr" aria-hidden="true">→</span></span>
+            </button>
+          </div>
+          <button class="lid" data-slot="background" type="button" aria-label="Tear open the Background compartment">
+            <span class="piece piece-a" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 04 — sealed</span><span>1 of 1</span></span>
+                <span class="lid-name serif">Background</span>
+                <span class="lid-contents mono">Contents: résumé, compressed to four stops</span>
+              </span>
+            </span>
+            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
+            <span class="piece piece-b" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 04 — sealed</span><span>1 of 1</span></span>
+                <span class="lid-name serif">Background</span>
+                <span class="lid-contents mono">Contents: résumé, compressed to four stops</span>
+              </span>
+            </span>
+          </button>
+        </section>
+
+        <section class="slot slot-contact" aria-label="Contact — sealed compartment">
+          <div class="slot-inner">
+            <button class="slot-open" data-panel="panel-contact" type="button">
+              <span class="slot-fig mono">Fig. 05 — Exit points</span>
+              <span class="slot-name serif">Contact</span>
+              <span class="slot-note">GitHub, LinkedIn, X — the three places I actually look.</span>
+              <span class="slot-cta mono"><span>Open the channels</span><span class="arr" aria-hidden="true">→</span></span>
+            </button>
+          </div>
+          <button class="lid" data-slot="contact" type="button" aria-label="Tear open the Contact compartment">
+            <span class="piece piece-a" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 05 — sealed</span><span>3 inside</span></span>
+                <span class="lid-name serif">Contact</span>
+                <span class="lid-contents mono">Contents: three ways to reach me</span>
+              </span>
+            </span>
+            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
+            <span class="piece piece-b" aria-hidden="true">
+              <span class="lid-face">
+                <span class="lid-fig mono"><span>Fig. 05 — sealed</span><span>3 inside</span></span>
+                <span class="lid-name serif">Contact</span>
+                <span class="lid-contents mono">Contents: three ways to reach me</span>
+              </span>
+            </span>
+          </button>
+        </section>
+      </div>
 
       <div class="ticker" aria-hidden="true">
         <div class="ticker-track">
@@ -1280,32 +1658,36 @@
           </div>
         </div>
       </div>
+    </main>
 
-      <div id="work">
-        <article class="product" id="accept" data-accent="#e8442e" aria-labelledby="accept-title">
+    <!-- ============ PANELS ============ -->
+    <section class="panel" id="panel-accept" style="--p-accent: var(--accept)" role="dialog" aria-modal="true" aria-label="Accept — torn open">
+      <div class="panel-chrome">
+        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 01 — Live product · torn open</p>
+        <button class="panel-close" type="button">Tape it back ✕</button>
+      </div>
+      <div class="panel-scroll">
+        <div class="panel-body">
           <div class="product-info">
-            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>Fig. 01 — Live product · teardown</p>
-            <h2 id="accept-title" class="reveal">Accept</h2>
-            <p class="tagline reveal">Buy and sell locally. We negotiate so you don't have to.</p>
-            <p class="story reveal">
+            <h2>Accept</h2>
+            <p class="tagline">Buy and sell locally. We negotiate so you don't have to.</p>
+            <p class="story">
               Local marketplaces die in the DMs — lowball offers, ghosting, twenty messages to move one
               desk. Accept puts an agent in the middle of every deal: it fields offers, counters within
               your limits, and comes back with a single decision to make. Accept or pass.
             </p>
-            <ul class="facts reveal">
+            <ul class="facts">
               <li><span class="k mono">Status</span><span>Live in production</span></li>
               <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
               <li><span class="k mono">Core loop</span><span>List it — agent negotiates — you decide</span></li>
             </ul>
-            <div class="reveal">
-              <a class="visit" href="https://accept.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
-                Open Accept <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="visit-url mono">accept.yashvipulkumarshah.com</span>
-            </div>
+            <a class="visit" href="https://accept.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
+              Open Accept <span aria-hidden="true">↗</span>
+            </a>
+            <span class="visit-url mono">accept.yashvipulkumarshah.com</span>
           </div>
 
-          <div class="teardown-stage reveal">
+          <div class="teardown-stage">
             <a
               class="product-frame"
               href="https://accept.yashvipulkumarshah.com"
@@ -1326,6 +1708,7 @@
                       src="assets/accept-snapshot.png"
                       width="1425"
                       height="891"
+                      loading="lazy"
                       alt="Accept landing page: the headline 'We negotiate so you don't have to', a three-step deal flow, and buy/sell entry points."
                     />
                   </picture>
@@ -1350,32 +1733,37 @@
               </li>
             </ol>
           </div>
-        </article>
+        </div>
+      </div>
+    </section>
 
-        <article class="product flip" id="access" data-accent="#f05e23" aria-labelledby="access-title">
+    <section class="panel" id="panel-access" style="--p-accent: var(--access)" role="dialog" aria-modal="true" aria-label="Access — torn open">
+      <div class="panel-chrome">
+        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 02 — Live product · torn open</p>
+        <button class="panel-close" type="button">Tape it back ✕</button>
+      </div>
+      <div class="panel-scroll">
+        <div class="panel-body">
           <div class="product-info">
-            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>Fig. 02 — Live product · teardown</p>
-            <h2 id="access-title" class="reveal">Access</h2>
-            <p class="tagline reveal">Every photo from the night. From everyone who was there.</p>
-            <p class="story reveal">
+            <h2>Access</h2>
+            <p class="tagline">Every photo from the night. From everyone who was there.</p>
+            <p class="story">
               Thirty phones at a party, and nobody ever sees the photos that aren't theirs. Access gives
               each event one private album behind a PIN — guests scan, join, and fill in the angles you
               missed, while the host controls who's in and what stays.
             </p>
-            <ul class="facts reveal">
+            <ul class="facts">
               <li><span class="k mono">Status</span><span>Live in production</span></li>
               <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
               <li><span class="k mono">Core loop</span><span>Create — share the PIN — collect the night</span></li>
             </ul>
-            <div class="reveal">
-              <a class="visit" href="https://access.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
-                Open Access <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="visit-url mono">access.yashvipulkumarshah.com</span>
-            </div>
+            <a class="visit" href="https://access.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
+              Open Access <span aria-hidden="true">↗</span>
+            </a>
+            <span class="visit-url mono">access.yashvipulkumarshah.com</span>
           </div>
 
-          <div class="teardown-stage reveal">
+          <div class="teardown-stage">
             <a
               class="product-frame"
               href="https://access.yashvipulkumarshah.com"
@@ -1421,32 +1809,37 @@
               </li>
             </ol>
           </div>
-        </article>
+        </div>
+      </div>
+    </section>
 
-        <article class="product" id="fitness" data-accent="#c3f400" aria-labelledby="fitness-title">
+    <section class="panel" id="panel-fitness" style="--p-accent: var(--fitness); --visit-ink: var(--coal)" data-theme="dark" role="dialog" aria-modal="true" aria-label="Fitness — torn open">
+      <div class="panel-chrome">
+        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 03 — Live product · torn open</p>
+        <button class="panel-close" type="button">Tape it back ✕</button>
+      </div>
+      <div class="panel-scroll">
+        <div class="panel-body">
           <div class="product-info">
-            <p class="chapter mono reveal"><span class="live-dot" aria-hidden="true"></span>Fig. 03 — Live product · teardown</p>
-            <h2 id="fitness-title" class="reveal">Fitness</h2>
-            <p class="tagline reveal">Body recomposition tracking. Built for how I train.</p>
-            <p class="story reveal">
+            <h2>Fitness</h2>
+            <p class="tagline">Body recomposition tracking. Built for how I train.</p>
+            <p class="story">
               Most trackers count workouts. Disciplined — my training log — tracks the recomposition
               itself: weight trend, session volume, and PRs on one dashboard. I built it because I use
               it; every day it earns its data.
             </p>
-            <ul class="facts reveal">
+            <ul class="facts">
               <li><span class="k mono">Status</span><span>Live, in daily use</span></li>
               <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
               <li><span class="k mono">Core loop</span><span>Log — see the trend — keep the streak</span></li>
             </ul>
-            <div class="reveal">
-              <a class="visit" href="https://fitness.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
-                Open Fitness <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="visit-url mono">fitness.yashvipulkumarshah.com</span>
-            </div>
+            <a class="visit" href="https://fitness.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
+              Open Fitness <span aria-hidden="true">↗</span>
+            </a>
+            <span class="visit-url mono">fitness.yashvipulkumarshah.com</span>
           </div>
 
-          <div class="teardown-stage reveal">
+          <div class="teardown-stage">
             <a
               class="product-frame"
               href="https://fitness.yashvipulkumarshah.com"
@@ -1492,231 +1885,335 @@
               </li>
             </ol>
           </div>
-        </article>
+        </div>
       </div>
+    </section>
 
-      <section class="about" id="about" aria-labelledby="about-title">
-        <p class="hero-kicker mono reveal">Fig. 04 — Background</p>
-        <h2 id="about-title" class="reveal">The pattern is shipping.</h2>
-        <p class="lede reveal">
-          Software engineering at John Deere. Founded Bookchange, a peer-to-peer book-sharing platform
-          that reached the finals of Shark Tank India. Product management at SwitchOn, a Series B
-          computer-vision startup. Currently completing an MBA at Ivey Business School, Western University.
-        </p>
-        <p class="meta-note reveal">
-          ✳ The résumé section every portfolio has — kept to one paragraph and four stops.
-          The products above make the longer argument.
-        </p>
-
-        <div class="cred-row reveal">
-          <div class="cred">
-            <span class="mono" style="color: var(--muted)">Engineering</span>
-            <strong>John Deere</strong>
-            <span>Software engineer on production systems.</span>
-          </div>
-          <div class="cred">
-            <span class="mono" style="color: var(--muted)">Founder</span>
-            <strong>Bookchange</strong>
-            <span>Peer-to-peer book sharing. Shark Tank India finalist.</span>
-          </div>
-          <div class="cred">
-            <span class="mono" style="color: var(--muted)">Product</span>
-            <strong>SwitchOn</strong>
-            <span>Associate PM at a Series B computer-vision startup.</span>
-          </div>
-          <div class="cred">
-            <span class="mono" style="color: var(--muted)">Business</span>
-            <strong>Ivey MBA</strong>
-            <span>Ivey Business School, Western University.</span>
+    <section class="panel" id="panel-background" role="dialog" aria-modal="true" aria-label="Background — torn open">
+      <div class="panel-chrome">
+        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 04 — Background · torn open</p>
+        <button class="panel-close" type="button">Tape it back ✕</button>
+      </div>
+      <div class="panel-scroll">
+        <div class="plain-body">
+          <h2>The pattern is shipping.</h2>
+          <p class="lede">
+            Software engineering at John Deere. Founded Bookchange, a peer-to-peer book-sharing platform
+            that reached the finals of Shark Tank India. Product management at SwitchOn, a Series B
+            computer-vision startup. Currently completing an MBA at Ivey Business School, Western University.
+          </p>
+          <p class="meta-note">
+            ✳ The résumé section every portfolio has — kept to one paragraph and four stops.
+            The products on the bench make the longer argument.
+          </p>
+          <div class="cred-row">
+            <div class="cred">
+              <span class="mono">Engineering</span>
+              <strong>John Deere</strong>
+              <span>Software engineer on production systems.</span>
+            </div>
+            <div class="cred">
+              <span class="mono">Founder</span>
+              <strong>Bookchange</strong>
+              <span>Peer-to-peer book sharing. Shark Tank India finalist.</span>
+            </div>
+            <div class="cred">
+              <span class="mono">Product</span>
+              <strong>SwitchOn</strong>
+              <span>Associate PM at a Series B computer-vision startup.</span>
+            </div>
+            <div class="cred">
+              <span class="mono">Business</span>
+              <strong>Ivey MBA</strong>
+              <span>Ivey Business School, Western University.</span>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="contact" id="contact" aria-labelledby="contact-title">
-        <p class="hero-kicker mono reveal">Fig. 05 — Contact</p>
-        <h2 id="contact-title" class="reveal">Building something? Let's talk.</h2>
-        <p class="meta-note reveal">
-          ✳ No contact form — forms are where messages go to die. These three land where I actually look.
-        </p>
-
-        <ul class="contact-links reveal" aria-label="Profiles">
-          <li>
-            <a href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-              <span class="name">GitHub</span>
-              <span class="hint">github.com/yash272 — the code</span>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-          <li>
-            <a href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-              <span class="name">LinkedIn</span>
-              <span class="hint">in/yashvipulkumarshah — the career</span>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-          <li>
-            <a href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              <span class="name">X</span>
-              <span class="hint">@YashSha06255909 — the notes</span>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-    </main>
-
-    <footer class="site-foot mono">
-      <span>© 2026 Yash Shah</span>
-      <span>Designed and built by hand</span>
-      <a class="top-link" href="#top">Back to top ↑</a>
-    </footer>
+    <section class="panel" id="panel-contact" role="dialog" aria-modal="true" aria-label="Contact — torn open">
+      <div class="panel-chrome">
+        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 05 — Contact · torn open</p>
+        <button class="panel-close" type="button">Tape it back ✕</button>
+      </div>
+      <div class="panel-scroll">
+        <div class="plain-body">
+          <h2>Building something? Let's talk.</h2>
+          <p class="meta-note">
+            ✳ No contact form — forms are where messages go to die. These three land where I actually look.
+          </p>
+          <ul class="contact-links" aria-label="Profiles">
+            <li>
+              <a href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                <span class="name">GitHub</span>
+                <span class="hint">github.com/yash272 — the code</span>
+                <span class="arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://linkedin.com/in/yashvipulkumarshah" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <span class="name">LinkedIn</span>
+                <span class="hint">in/yashvipulkumarshah — the career</span>
+                <span class="arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/YashSha06255909" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <span class="name">X</span>
+                <span class="hint">@YashSha06255909 — the notes</span>
+                <span class="arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
     <script>
-      document.documentElement.classList.add("js");
+      (() => {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        const root = document.documentElement;
+        const cover = document.getElementById("cover");
+        const bench = document.getElementById("bench");
+        const TEAR_MS = reduceMotion ? 0 : 900;
+        let openPanelEl = null;
+        let lastOpener = null;
 
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-      const root = document.documentElement;
+        bench.setAttribute("inert", "");
 
-      /* Scroll reveal */
-      const revealables = document.querySelectorAll(".reveal");
-      if ("IntersectionObserver" in window && !reduceMotion.matches) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("in");
-                io.unobserve(entry.target);
+        /* ---------- paper scraps ---------- */
+        function scraps(x, y) {
+          if (reduceMotion) return;
+          for (let i = 0; i < 9; i++) {
+            const s = document.createElement("span");
+            s.className = "scrap";
+            s.style.left = x + (Math.random() * 60 - 30) + "px";
+            s.style.top = y + (Math.random() * 30 - 15) + "px";
+            s.style.setProperty("--dx", (Math.random() * 220 - 110).toFixed(0) + "px");
+            s.style.setProperty("--dy", (90 + Math.random() * 260).toFixed(0) + "px");
+            s.style.setProperty("--dr", (Math.random() * 520 - 260).toFixed(0) + "deg");
+            s.style.width = 7 + Math.random() * 12 + "px";
+            s.style.height = 7 + Math.random() * 12 + "px";
+            document.body.appendChild(s);
+            s.addEventListener("animationend", () => s.remove());
+          }
+        }
+
+        /* ---------- cover ---------- */
+        function tearCover(instant) {
+          if (cover.classList.contains("torn")) return;
+          cover.classList.remove("dragging");
+          cover.classList.add("torn");
+          bench.removeAttribute("inert");
+          const rect = cover.getBoundingClientRect();
+          scraps(rect.width * 0.53, rect.height * 0.45);
+          window.setTimeout(() => {
+            cover.classList.add("gone");
+            if (!openPanelEl) {
+              const firstLid = bench.querySelector(".lid:not(.torn)");
+              if (firstLid && !instant) firstLid.focus({ preventScroll: true });
+            }
+          }, instant ? 0 : TEAR_MS);
+        }
+
+        document.getElementById("cover-tab").addEventListener("click", () => tearCover(false));
+
+        /* ---------- lids ---------- */
+        function tearLid(lid, instant) {
+          if (lid.classList.contains("torn")) return;
+          lid.classList.remove("dragging");
+          lid.classList.add("torn");
+          lid.setAttribute("aria-hidden", "true");
+          lid.tabIndex = -1;
+          const slot = lid.closest(".slot");
+          slot.classList.add("revealed");
+          const rect = lid.getBoundingClientRect();
+          scraps(rect.left + rect.width / 2, rect.top + rect.height * 0.52);
+          window.setTimeout(() => {
+            lid.classList.add("gone");
+            if (!instant && !openPanelEl) {
+              const opener = slot.querySelector(".slot-open");
+              if (opener) opener.focus({ preventScroll: true });
+            }
+          }, instant ? 0 : TEAR_MS * 0.85);
+        }
+
+        document.querySelectorAll(".lid").forEach((lid) => {
+          lid.addEventListener("click", () => tearLid(lid, false));
+        });
+
+        /* ---------- drag-to-tear (fine pointers) ---------- */
+        function attachDrag(el, commit) {
+          if (!finePointer || reduceMotion) return;
+          el.addEventListener("pointerdown", (event) => {
+            if (el.classList.contains("torn")) return;
+            const sx = event.clientX;
+            const sy = event.clientY;
+            let raf = 0;
+
+            const move = (ev) => {
+              const d = Math.hypot(ev.clientX - sx, ev.clientY - sy);
+              el.classList.add("dragging");
+              cancelAnimationFrame(raf);
+              raf = requestAnimationFrame(() => {
+                el.style.setProperty("--tugn", Math.min(d, 90).toFixed(1));
+              });
+              if (d > 90) {
+                cleanup();
+                commit();
               }
-            });
-          },
-          { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
-        );
-        revealables.forEach((el) => io.observe(el));
-      } else {
-        revealables.forEach((el) => el.classList.add("in"));
-      }
+            };
 
-      /* Cursor spotlight position */
-      if (finePointer.matches && !reduceMotion.matches) {
-        window.addEventListener(
-          "pointermove",
-          (event) => {
-            root.style.setProperty("--mx", event.clientX + "px");
-            root.style.setProperty("--my", event.clientY + "px");
-          },
-          { passive: true }
-        );
-      }
+            const cleanup = () => {
+              cancelAnimationFrame(raf);
+              el.classList.remove("dragging");
+              el.style.removeProperty("--tugn");
+              window.removeEventListener("pointermove", move);
+              window.removeEventListener("pointerup", cleanup);
+              window.removeEventListener("pointercancel", cleanup);
+            };
 
-      /* Spotlight color follows the chapter in view */
-      const accentSections = document.querySelectorAll("[data-accent]");
-      if ("IntersectionObserver" in window) {
-        const accentIo = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                root.style.setProperty("--spot", entry.target.dataset.accent);
-              }
-            });
-          },
-          { threshold: 0.4 }
-        );
-        accentSections.forEach((section) => accentIo.observe(section));
-      }
+            window.addEventListener("pointermove", move);
+            window.addEventListener("pointerup", cleanup);
+            window.addEventListener("pointercancel", cleanup);
+          });
+        }
 
-      /* Scroll spy for header nav + chapter rail */
-      const spyLinks = document.querySelectorAll("[data-spy]");
-      const spyTargets = ["work", "about", "contact", "accept", "access", "fitness"]
-        .map((id) => document.getElementById(id))
-        .filter(Boolean);
+        attachDrag(cover, () => tearCover(false));
+        document.querySelectorAll(".lid").forEach((lid) => {
+          attachDrag(lid, () => tearLid(lid, false));
+        });
 
-      function updateSpy() {
-        const probe = window.scrollY + window.innerHeight * 0.4;
-        const current = new Set();
-        spyTargets.forEach((section) => {
-          if (probe >= section.offsetTop && probe < section.offsetTop + section.offsetHeight) {
-            current.add(section.id);
+        /* ---------- panels ---------- */
+        function openPanel(id, opener) {
+          const panel = document.getElementById(id);
+          if (!panel || openPanelEl === panel) return;
+          if (openPanelEl) closePanel(true);
+          openPanelEl = panel;
+          lastOpener = opener || null;
+          panel.classList.add("open");
+          bench.setAttribute("inert", "");
+          root.style.setProperty(
+            "--spot",
+            getComputedStyle(panel).getPropertyValue("--p-accent").trim() || "#e8442e"
+          );
+          const close = panel.querySelector(".panel-close");
+          if (close) close.focus({ preventScroll: true });
+        }
+
+        function closePanel(silent) {
+          if (!openPanelEl) return;
+          openPanelEl.classList.remove("open");
+          openPanelEl = null;
+          bench.removeAttribute("inert");
+          root.style.setProperty("--spot", "#e8442e");
+          if (!silent && lastOpener) lastOpener.focus({ preventScroll: true });
+        }
+
+        document.querySelectorAll(".slot-open").forEach((btn) => {
+          btn.addEventListener("click", () => openPanel(btn.dataset.panel, btn));
+        });
+
+        document.querySelectorAll(".panel-close").forEach((btn) => {
+          btn.addEventListener("click", () => closePanel(false));
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") closePanel(false);
+          if (event.key === "Tab" && openPanelEl) {
+            const focusables = openPanelEl.querySelectorAll("a[href], button:not([disabled])");
+            if (!focusables.length) return;
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault();
+              last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault();
+              first.focus();
+            }
           }
         });
-        if (current.has("accept") || current.has("access") || current.has("fitness")) {
-          current.add("work");
+
+        /* ---------- open everything / reassemble ---------- */
+        function openEverything() {
+          tearCover(false);
+          document.querySelectorAll(".lid").forEach((lid, i) => {
+            window.setTimeout(() => tearLid(lid, false), reduceMotion ? 0 : 160 + i * 140);
+          });
         }
-        spyLinks.forEach((link) => {
-          link.classList.toggle("current", current.has(link.dataset.spy));
+
+        document.getElementById("cover-skip").addEventListener("click", openEverything);
+        document.getElementById("bench-reset").addEventListener("click", () => window.location.reload());
+
+        /* ---------- deep links (#accept etc.) ---------- */
+        const hash = window.location.hash.replace("#", "");
+        const deepSlots = ["accept", "access", "fitness", "background", "contact"];
+        if (deepSlots.includes(hash)) {
+          tearCover(true);
+          cover.classList.add("gone");
+          const lid = document.querySelector('.lid[data-slot="' + hash + '"]');
+          if (lid) tearLid(lid, true);
+          openPanel("panel-" + hash, null);
+        }
+
+        /* ---------- pin <-> note sync ---------- */
+        document.querySelectorAll(".pin").forEach((pin) => {
+          const note = document.getElementById(pin.dataset.note);
+          if (!note) return;
+          pin.addEventListener("mouseenter", () => note.classList.add("hot"));
+          pin.addEventListener("mouseleave", () => note.classList.remove("hot"));
+          pin.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            note.classList.add("hot");
+            window.setTimeout(() => note.classList.remove("hot"), 1400);
+          });
         });
-      }
 
-      window.addEventListener("scroll", updateSpy, { passive: true });
-      window.addEventListener("resize", updateSpy, { passive: true });
-      updateSpy();
-
-      /* Teardown notes toggle */
-      const notesToggle = document.querySelector(".notes-toggle");
-      const notesState = notesToggle.querySelector(".state");
-
-      function setNotes(on) {
-        root.classList.toggle("notes-off", !on);
-        notesToggle.setAttribute("aria-pressed", String(on));
-        notesState.textContent = on ? "on" : "off";
-        try {
-          localStorage.setItem("teardown-notes", on ? "on" : "off");
-        } catch (e) {}
-      }
-
-      try {
-        if (localStorage.getItem("teardown-notes") === "off") setNotes(false);
-      } catch (e) {}
-
-      notesToggle.addEventListener("click", () => {
-        setNotes(root.classList.contains("notes-off"));
-      });
-
-      /* Pin <-> note hover sync */
-      document.querySelectorAll(".pin").forEach((pin) => {
-        const note = document.getElementById(pin.dataset.note);
-        if (!note) return;
-        pin.addEventListener("mouseenter", () => note.classList.add("hot"));
-        pin.addEventListener("mouseleave", () => note.classList.remove("hot"));
-        pin.addEventListener("click", (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          note.classList.add("hot");
-          setTimeout(() => note.classList.remove("hot"), 1400);
+        document.querySelectorAll(".note").forEach((note) => {
+          const pin = document.querySelector('.pin[data-note="' + note.id + '"]');
+          if (!pin) return;
+          note.addEventListener("mouseenter", () => pin.classList.add("hot"));
+          note.addEventListener("mouseleave", () => pin.classList.remove("hot"));
         });
-      });
 
-      document.querySelectorAll(".note").forEach((note) => {
-        const pin = document.querySelector('.pin[data-note="' + note.id + '"]');
-        if (!pin) return;
-        note.addEventListener("mouseenter", () => pin.classList.add("hot"));
-        note.addEventListener("mouseleave", () => pin.classList.remove("hot"));
-      });
-
-      /* Pointer tilt on screenshot frames (fine pointers only) */
-      if (finePointer.matches && !reduceMotion.matches) {
-        document.querySelectorAll(".product-frame").forEach((frame) => {
-          const card = frame.querySelector(".frame-tilt");
-          frame.addEventListener(
+        /* ---------- spotlight + frame tilt ---------- */
+        if (finePointer && !reduceMotion) {
+          window.addEventListener(
             "pointermove",
             (event) => {
-              const box = frame.getBoundingClientRect();
-              const px = (event.clientX - box.left) / box.width - 0.5;
-              const py = (event.clientY - box.top) / box.height - 0.5;
-              card.style.setProperty("--ry", (px * 4).toFixed(2) + "deg");
-              card.style.setProperty("--rx", (py * -3).toFixed(2) + "deg");
+              root.style.setProperty("--mx", event.clientX + "px");
+              root.style.setProperty("--my", event.clientY + "px");
             },
             { passive: true }
           );
-          frame.addEventListener("pointerleave", () => {
-            card.style.setProperty("--ry", "0deg");
-            card.style.setProperty("--rx", "0deg");
+
+          document.querySelectorAll(".product-frame").forEach((frame) => {
+            const card = frame.querySelector(".frame-tilt");
+            frame.addEventListener(
+              "pointermove",
+              (event) => {
+                const box = frame.getBoundingClientRect();
+                const px = (event.clientX - box.left) / box.width - 0.5;
+                const py = (event.clientY - box.top) / box.height - 0.5;
+                card.style.setProperty("--ry", (px * 4).toFixed(2) + "deg");
+                card.style.setProperty("--rx", (py * -3).toFixed(2) + "deg");
+              },
+              { passive: true }
+            );
+            frame.addEventListener("pointerleave", () => {
+              card.style.setProperty("--ry", "0deg");
+              card.style.setProperty("--rx", "0deg");
+            });
           });
-        });
-      }
+        }
+      })();
     </script>
   </body>
 </html>
