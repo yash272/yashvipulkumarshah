@@ -156,8 +156,12 @@
         position: absolute;
         inset: 0;
         background: var(--paper);
-        transition: transform 0.9s cubic-bezier(0.45, 0.02, 0.85, 0.3);
+        transition: transform 0.55s cubic-bezier(0.2, 1.35, 0.3, 1);
         will-change: transform;
+      }
+
+      .cover.torn .cover-piece {
+        transition: transform 0.95s cubic-bezier(0.45, 0.02, 0.85, 0.3);
       }
 
       .cover-a {
@@ -173,11 +177,11 @@
       }
 
       .cover.dragging .cover-a {
-        transform: translateX(calc(var(--tugn) * -0.4px)) rotate(calc(var(--tugn) * -0.012deg));
+        transform: translateX(calc(var(--p, 0) * -17%)) translateY(calc(var(--p, 0) * -1%)) rotate(calc(var(--p, 0) * -2.5deg));
       }
 
       .cover.dragging .cover-b {
-        transform: translateX(calc(var(--tugn) * 0.4px)) rotate(calc(var(--tugn) * 0.012deg));
+        transform: translateX(calc(var(--p, 0) * 17%)) translateY(calc(var(--p, 0) * 1.6%)) rotate(calc(var(--p, 0) * 2deg));
       }
 
       .cover.torn .cover-a {
@@ -300,6 +304,23 @@
         }
       }
 
+      .cover-hint {
+        position: absolute;
+        left: 53.5%;
+        top: calc(44% + 42px);
+        z-index: 82;
+        transform: translateX(-50%);
+        color: var(--muted);
+        letter-spacing: 0.18em;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .cover.torn .cover-hint,
+      .cover.dragging .cover-hint {
+        opacity: 0;
+      }
+
       .cover-skip {
         position: absolute;
         right: clamp(20px, 4vw, 56px);
@@ -346,7 +367,14 @@
         position: fixed;
         inset: 0;
         z-index: 10;
+        transform: scale(0.982);
+        transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
         display: grid;
+      }
+
+      body.opened .bench {
+        transform: none;
+      }
         grid-template-rows: auto minmax(0, 1fr) auto;
         gap: clamp(10px, 1.6vh, 18px);
         height: 100svh;
@@ -436,15 +464,10 @@
         grid-column: 5 / 7;
       }
 
-      /* preview under the lid */
+      /* preview under the lid — always rendered so tears reveal it live */
       .slot-inner {
         position: absolute;
         inset: 0;
-        visibility: hidden;
-      }
-
-      .slot.revealed .slot-inner {
-        visibility: visible;
       }
 
       .slot-open {
@@ -522,8 +545,22 @@
       .piece {
         position: absolute;
         inset: 0;
-        transition: transform 0.75s cubic-bezier(0.5, 0.02, 0.85, 0.3), opacity 0.75s ease;
+        transition: transform 0.5s cubic-bezier(0.2, 1.35, 0.3, 1), opacity 0.75s ease;
         will-change: transform;
+      }
+
+      .lid.torn .piece {
+        transition: transform 0.75s cubic-bezier(0.5, 0.02, 0.85, 0.3), opacity 0.75s ease;
+      }
+
+      .lid:not(.torn):not(.dragging):hover .piece-a,
+      .lid:not(.torn):focus-visible .piece-a {
+        transform: translateY(-1.8%) rotate(-0.6deg);
+      }
+
+      .lid:not(.torn):not(.dragging):hover .piece-b,
+      .lid:not(.torn):focus-visible .piece-b {
+        transform: translateY(1.4%) rotate(0.45deg);
       }
 
       .piece-a {
@@ -539,11 +576,11 @@
       }
 
       .lid.dragging .piece-a {
-        transform: translateY(calc(var(--tugn) * -0.35px)) rotate(calc(var(--tugn) * -0.02deg));
+        transform: translateY(calc(var(--p, 0) * -40%)) rotate(calc(var(--p, 0) * -4.5deg));
       }
 
       .lid.dragging .piece-b {
-        transform: translateY(calc(var(--tugn) * 0.3px)) rotate(calc(var(--tugn) * 0.015deg));
+        transform: translateY(calc(var(--p, 0) * 36%)) rotate(calc(var(--p, 0) * 3.5deg));
       }
 
       .lid.torn .piece-a {
@@ -1491,6 +1528,7 @@
       </div>
       <span class="cover-seam" aria-hidden="true"></span>
       <button class="cover-tab" id="cover-tab" type="button">✂ Tear to open</button>
+      <span class="cover-hint mono" aria-hidden="true">scroll · drag · click</span>
       <button class="cover-skip" id="cover-skip" type="button">In a hurry? Open everything</button>
     </div>
 
@@ -1498,13 +1536,13 @@
     <main class="bench" id="bench" aria-label="Workbench">
       <header class="bench-head">
         <span class="wordmark serif">Yash Shah</span>
-        <p class="bench-hint mono">Everything on this bench tears open — <b>pull, don't be gentle</b></p>
+        <p class="bench-hint mono">Everything here tears open — <b>drag it, scroll on it, don't be gentle</b></p>
         <button class="bench-reset mono" id="bench-reset" type="button">Reassemble</button>
       </header>
 
       <div class="bench-grid">
         <section class="slot slot-accept" style="--slot-accent: var(--accept)" aria-label="Accept — sealed compartment">
-          <div class="slot-inner">
+          <div class="slot-inner" inert>
             <button class="slot-open" data-panel="panel-accept" type="button">
               <span class="slot-fig mono">Fig. 01 — Live product</span>
               <span class="slot-name serif">Accept</span>
@@ -1532,7 +1570,7 @@
         </section>
 
         <section class="slot slot-access" style="--slot-accent: var(--access)" aria-label="Access — sealed compartment">
-          <div class="slot-inner">
+          <div class="slot-inner" inert>
             <button class="slot-open" data-panel="panel-access" type="button">
               <span class="slot-fig mono">Fig. 02 — Live product</span>
               <span class="slot-name serif">Access</span>
@@ -1560,11 +1598,11 @@
         </section>
 
         <section class="slot slot-fitness" style="--slot-accent: var(--fitness)" aria-label="Fitness — sealed compartment">
-          <div class="slot-inner">
+          <div class="slot-inner" inert>
             <button class="slot-open" data-panel="panel-fitness" type="button">
               <span class="slot-fig mono">Fig. 03 — Live product</span>
               <span class="slot-name serif">Fitness</span>
-              <span class="slot-shot" style="background-image: url('assets/fitness-snapshot.png')" role="img" aria-label="Disciplined training dashboard screenshot"></span>
+              <span class="slot-shot" style="background-image: url('assets/fitness-snapshot.png')" role="img" aria-label="Fitness training log dashboard screenshot"></span>
               <span class="slot-cta mono"><span>Inspect the teardown</span><span class="arr" aria-hidden="true">→</span></span>
             </button>
           </div>
@@ -1588,7 +1626,7 @@
         </section>
 
         <section class="slot slot-background" aria-label="Background — sealed compartment">
-          <div class="slot-inner">
+          <div class="slot-inner" inert>
             <button class="slot-open" data-panel="panel-background" type="button">
               <span class="slot-fig mono">Fig. 04 — The operator</span>
               <span class="slot-name serif">Background</span>
@@ -1616,7 +1654,7 @@
         </section>
 
         <section class="slot slot-contact" aria-label="Contact — sealed compartment">
-          <div class="slot-inner">
+          <div class="slot-inner" inert>
             <button class="slot-open" data-panel="panel-contact" type="button">
               <span class="slot-fig mono">Fig. 05 — Exit points</span>
               <span class="slot-name serif">Contact</span>
@@ -1824,9 +1862,9 @@
             <h2>Fitness</h2>
             <p class="tagline">Body recomposition tracking. Built for how I train.</p>
             <p class="story">
-              Most trackers count workouts. Disciplined — my training log — tracks the recomposition
-              itself: weight trend, session volume, and PRs on one dashboard. I built it because I use
-              it; every day it earns its data.
+              Most trackers count workouts. Mine tracks the recomposition itself: weight trend, session
+              volume, steps, and PRs on one dashboard. I built it because I use it; every day it earns
+              its data.
             </p>
             <ul class="facts">
               <li><span class="k mono">Status</span><span>Live, in daily use</span></li>
@@ -1861,12 +1899,12 @@
                       width="1425"
                       height="891"
                       loading="lazy"
-                      alt="Disciplined training dashboard: latest weight of 67.8 kg and a 30-day weight-trend chart on a dark interface."
+                      alt="Fitness training log dashboard: latest weight of 67.9 kg, a 30-day weight-trend chart, and workout, steps, and PR cards."
                     />
                   </picture>
-                  <span class="pin" data-note="fitness-note-1" style="--px: 11%; --py: 45%" aria-hidden="true">1</span>
-                  <span class="pin" data-note="fitness-note-2" style="--px: 36%; --py: 28%" aria-hidden="true">2</span>
-                  <span class="pin" data-note="fitness-note-3" style="--px: 64%; --py: 68%" aria-hidden="true">3</span>
+                  <span class="pin" data-note="fitness-note-1" style="--px: 52%; --py: 4%" aria-hidden="true">1</span>
+                  <span class="pin" data-note="fitness-note-2" style="--px: 17%; --py: 21%" aria-hidden="true">2</span>
+                  <span class="pin" data-note="fitness-note-3" style="--px: 55%; --py: 52%" aria-hidden="true">3</span>
                 </span>
               </span>
             </a>
@@ -1987,9 +2025,9 @@
         bench.setAttribute("inert", "");
 
         /* ---------- paper scraps ---------- */
-        function scraps(x, y) {
+        function scraps(x, y, count) {
           if (reduceMotion) return;
-          for (let i = 0; i < 9; i++) {
+          for (let i = 0; i < (count || 9); i++) {
             const s = document.createElement("span");
             s.className = "scrap";
             s.style.left = x + (Math.random() * 60 - 30) + "px";
@@ -2009,6 +2047,7 @@
           if (cover.classList.contains("torn")) return;
           cover.classList.remove("dragging");
           cover.classList.add("torn");
+          document.body.classList.add("opened");
           bench.removeAttribute("inert");
           const rect = cover.getBoundingClientRect();
           scraps(rect.width * 0.53, rect.height * 0.45);
@@ -2021,7 +2060,18 @@
           }, instant ? 0 : TEAR_MS);
         }
 
-        document.getElementById("cover-tab").addEventListener("click", () => tearCover(false));
+        function consumeSuppressedClick(el) {
+          if (el._suppressClick) {
+            el._suppressClick = false;
+            return true;
+          }
+          return false;
+        }
+
+        document.getElementById("cover-tab").addEventListener("click", () => {
+          if (consumeSuppressedClick(cover)) return;
+          tearCover(false);
+        });
 
         /* ---------- lids ---------- */
         function tearLid(lid, instant) {
@@ -2032,6 +2082,8 @@
           lid.tabIndex = -1;
           const slot = lid.closest(".slot");
           slot.classList.add("revealed");
+          const inner = slot.querySelector(".slot-inner");
+          if (inner) inner.removeAttribute("inert");
           const rect = lid.getBoundingClientRect();
           scraps(rect.left + rect.width / 2, rect.top + rect.height * 0.52);
           window.setTimeout(() => {
@@ -2044,49 +2096,109 @@
         }
 
         document.querySelectorAll(".lid").forEach((lid) => {
-          lid.addEventListener("click", () => tearLid(lid, false));
+          lid.addEventListener("click", () => {
+            if (consumeSuppressedClick(lid)) return;
+            tearLid(lid, false);
+          });
         });
 
-        /* ---------- drag-to-tear (fine pointers) ---------- */
-        function attachDrag(el, commit) {
-          if (!finePointer || reduceMotion) return;
+        /* ---------- progressive tearing: drag or scroll, spring back on release ---------- */
+        function makeTearable(el, commit, dragGain, wheelGain) {
+          if (reduceMotion) return;
+          let wheelP = 0;
+          let wheelTimer = 0;
+          let lastScrapAt = 0;
+
+          const seamPoint = () => {
+            const box = el.getBoundingClientRect();
+            return [box.left + box.width * 0.53, box.top + box.height * 0.5];
+          };
+
+          const apply = (p) => {
+            el.classList.add("dragging");
+            el.style.setProperty("--p", Math.min(p, 1).toFixed(3));
+            if (p - lastScrapAt > 0.22) {
+              lastScrapAt = p;
+              const [sx, sy] = seamPoint();
+              scraps(sx, sy, 3);
+            }
+          };
+
+          const springBack = () => {
+            lastScrapAt = 0;
+            el.classList.remove("dragging");
+            el.style.setProperty("--p", "0");
+          };
+
+          const rip = () => {
+            lastScrapAt = 0;
+            wheelP = 0;
+            el.classList.remove("dragging");
+            el.style.removeProperty("--p");
+            commit();
+          };
+
           el.addEventListener("pointerdown", (event) => {
-            if (el.classList.contains("torn")) return;
+            if (el.classList.contains("torn") || event.button > 0) return;
             const sx = event.clientX;
             const sy = event.clientY;
-            let raf = 0;
+            let done = false;
+            let dist = 0;
 
             const move = (ev) => {
-              const d = Math.hypot(ev.clientX - sx, ev.clientY - sy);
-              el.classList.add("dragging");
-              cancelAnimationFrame(raf);
-              raf = requestAnimationFrame(() => {
-                el.style.setProperty("--tugn", Math.min(d, 90).toFixed(1));
-              });
-              if (d > 90) {
+              if (done) return;
+              dist = Math.hypot(ev.clientX - sx, ev.clientY - sy);
+              apply(dist / dragGain);
+              if (dist >= dragGain) {
+                done = true;
                 cleanup();
-                commit();
+                rip();
               }
             };
 
             const cleanup = () => {
-              cancelAnimationFrame(raf);
-              el.classList.remove("dragging");
-              el.style.removeProperty("--tugn");
               window.removeEventListener("pointermove", move);
-              window.removeEventListener("pointerup", cleanup);
-              window.removeEventListener("pointercancel", cleanup);
+              window.removeEventListener("pointerup", up);
+              window.removeEventListener("pointercancel", up);
+            };
+
+            const up = () => {
+              cleanup();
+              if (done) return;
+              if (dist > 12) el._suppressClick = true;
+              springBack();
             };
 
             window.addEventListener("pointermove", move);
-            window.addEventListener("pointerup", cleanup);
-            window.addEventListener("pointercancel", cleanup);
+            window.addEventListener("pointerup", up);
+            window.addEventListener("pointercancel", up);
           });
+
+          el.addEventListener(
+            "wheel",
+            (event) => {
+              if (el.classList.contains("torn")) return;
+              event.preventDefault();
+              const delta = event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY;
+              wheelP = Math.max(0, wheelP + delta / wheelGain);
+              window.clearTimeout(wheelTimer);
+              if (wheelP >= 1) {
+                rip();
+                return;
+              }
+              apply(wheelP);
+              wheelTimer = window.setTimeout(() => {
+                wheelP = 0;
+                springBack();
+              }, 650);
+            },
+            { passive: false }
+          );
         }
 
-        attachDrag(cover, () => tearCover(false));
+        makeTearable(cover, () => tearCover(false), 260, 1000);
         document.querySelectorAll(".lid").forEach((lid) => {
-          attachDrag(lid, () => tearLid(lid, false));
+          makeTearable(lid, () => tearLid(lid, false), 150, 640);
         });
 
         /* ---------- panels ---------- */
