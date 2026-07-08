@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Yash Shah — tear to open</title>
+    <title>Yash Shah — a portfolio you tear open by scrolling</title>
     <meta
       name="description"
-      content="Yash Shah's portfolio, packed as a teardown: rip the cover, tear open the compartments, and inspect three live products — Accept, Access, and Fitness."
+      content="Yash Shah builds products end to end. Scroll to tear the page open: three live products — Accept, Access, and Fitness — pinned and annotated like a proper teardown."
     />
     <script>
       document.documentElement.classList.add("js");
@@ -38,7 +38,7 @@
         --mx: 50vw;
         --my: 30vh;
         --frame-r: 16px;
-        --tugn: 0;
+        --head-h: 58px;
       }
 
       * {
@@ -48,6 +48,12 @@
         min-width: 0;
       }
 
+      @media (prefers-reduced-motion: no-preference) {
+        html {
+          scroll-behavior: smooth;
+        }
+      }
+
       body {
         background: var(--paper);
         color: var(--ink);
@@ -55,11 +61,7 @@
         font-size: 16px;
         line-height: 1.5;
         -webkit-tap-highlight-color: transparent;
-      }
-
-      .js body {
-        height: 100svh;
-        overflow: hidden;
+        overflow-x: hidden;
       }
 
       body::after {
@@ -99,15 +101,6 @@
         text-decoration: none;
       }
 
-      button {
-        font: inherit;
-        color: inherit;
-        background: none;
-        border: 0;
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-      }
-
       a:focus-visible,
       button:focus-visible {
         outline: 2px solid var(--pencil);
@@ -127,69 +120,214 @@
         pointer-events: none;
         background: radial-gradient(
           520px circle at var(--mx) var(--my),
-          color-mix(in srgb, var(--spot) 13%, transparent),
+          color-mix(in srgb, var(--spot) 12%, transparent),
           transparent 72%
         );
         transition: background 0.4s ease;
       }
 
-      /* =============== COVER SHEET =============== */
-      .cover {
+      /* ---------- fixed chrome ---------- */
+      .site-head {
         position: fixed;
-        inset: 0;
-        z-index: 80;
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 90;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        height: var(--head-h);
+        padding: 0 clamp(16px, 3vw, 40px);
+        background: color-mix(in srgb, var(--paper) 88%, transparent);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--paper-line);
       }
 
-      .lid {
-        user-select: none;
-        -webkit-user-select: none;
+      .wordmark {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 19px;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
       }
 
-      .cover.gone {
-        display: none;
+      .site-head nav {
+        display: flex;
+        gap: clamp(14px, 2.4vw, 30px);
       }
 
+      .site-head nav a {
+        position: relative;
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        transition: color 0.2s ease;
+      }
+
+      .site-head nav a:hover {
+        color: var(--ink);
+      }
+
+      .site-head nav a.active {
+        color: var(--pencil);
+      }
+
+      .progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 95;
+        height: 3px;
+        pointer-events: none;
+      }
+
+      .progress i {
+        display: block;
+        height: 100%;
+        width: 100%;
+        background: var(--pencil);
+        transform-origin: left;
+        transform: scaleX(var(--sp, 0));
+      }
+
+      /* ---------- scrolly machinery ---------- */
+      .scrolly {
+        position: relative;
+        height: var(--len, 240vh);
+      }
+
+      .stage {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        overflow: hidden;
+      }
+
+      /* ---------- hero: the cover tears as you scroll ---------- */
+      .hero-scrolly {
+        --len: 220vh;
+      }
+
+      .hero-inner {
+        height: 100%;
+        display: grid;
+        align-content: center;
+        gap: clamp(20px, 3.5vh, 36px);
+        padding: calc(var(--head-h) + 2vh) clamp(16px, 4vw, 56px) 10vh;
+        max-width: 1200px;
+        margin-inline: auto;
+        opacity: calc((var(--p, 0) - 0.12) / 0.45);
+        transform: scale(calc(0.965 + min(1, var(--p, 0) / 0.6) * 0.035));
+      }
+
+      .hero-kicker {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+      }
+
+      .hero-kicker::before {
+        content: "";
+        width: 34px;
+        height: 1px;
+        background: var(--paper-line-strong);
+      }
+
+      .hero-statement {
+        max-width: 720px;
+        font-family: "Fraunces", serif;
+        font-weight: 340;
+        font-size: clamp(24px, 3.6vw, 44px);
+        letter-spacing: -0.02em;
+        line-height: 1.18;
+      }
+
+      .hero-statement strong {
+        font-weight: 600;
+        font-style: italic;
+      }
+
+      .meta-note {
+        max-width: 360px;
+        color: var(--pencil);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        line-height: 1.7;
+        transform: rotate(-1.2deg);
+        transform-origin: left top;
+      }
+
+      .hero-index {
+        list-style: none;
+        border-top: 1px solid var(--paper-line-strong);
+        max-width: 860px;
+      }
+
+      .hero-index a {
+        display: grid;
+        grid-template-columns: 44px minmax(0, auto) minmax(0, 1fr) 24px;
+        align-items: baseline;
+        gap: 14px;
+        padding: 13px 4px;
+        border-bottom: 1px solid var(--paper-line);
+        transition: background 0.25s ease, padding-left 0.25s ease;
+      }
+
+      .hero-index a:hover {
+        background: color-mix(in srgb, var(--pencil) 7%, transparent);
+        padding-left: 12px;
+      }
+
+      .hero-index .no {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .hero-index .nm {
+        font-family: "Fraunces", serif;
+        font-weight: 600;
+        font-size: clamp(20px, 2.4vw, 30px);
+        letter-spacing: -0.03em;
+      }
+
+      .hero-index .tg {
+        color: var(--muted);
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .hero-index .ar {
+        justify-self: end;
+        color: var(--muted);
+      }
+
+      /* cover pieces */
       .cover-piece {
         position: absolute;
         inset: 0;
+        z-index: 10;
         background: var(--paper);
-        transition: transform 0.55s cubic-bezier(0.2, 1.35, 0.3, 1);
         will-change: transform;
-      }
-
-      .cover.torn .cover-piece {
-        transition: transform 0.95s cubic-bezier(0.45, 0.02, 0.85, 0.3);
+        pointer-events: none;
       }
 
       .cover-a {
         clip-path: polygon(0 0, 54% 0, 50% 7%, 56% 15%, 51% 24%, 57% 33%, 51% 41%, 56% 50%, 50% 58%, 56% 67%, 51% 75%, 57% 84%, 52% 92%, 55% 100%, 0 100%);
+        transform: translateX(calc(min(1, var(--p, 0) / 0.92) * -63%)) rotate(calc(min(1, var(--p, 0) / 0.92) * -2.5deg));
       }
 
       .cover-b {
         clip-path: polygon(54% 0, 100% 0, 100% 100%, 55% 100%, 52% 92%, 57% 84%, 51% 75%, 56% 67%, 50% 58%, 56% 50%, 51% 41%, 57% 33%, 51% 24%, 56% 15%, 50% 7%);
-      }
-
-      .cover.dragging .cover-piece {
-        transition: none;
-      }
-
-      .cover.dragging .cover-a {
-        transform: translateX(calc(var(--p, 0) * -17%)) translateY(calc(var(--p, 0) * -1%)) rotate(calc(var(--p, 0) * -2.5deg));
-      }
-
-      .cover.dragging .cover-b {
-        transform: translateX(calc(var(--p, 0) * 17%)) translateY(calc(var(--p, 0) * 1.6%)) rotate(calc(var(--p, 0) * 2deg));
-      }
-
-      .cover.torn .cover-a {
-        transform: translate(-118%, 3%) rotate(-8deg);
-      }
-
-      .cover.torn .cover-b {
-        transform: translate(118%, 5%) rotate(7deg);
+        transform: translateX(calc(min(1, var(--p, 0) / 0.92) * 63%)) translateY(calc(min(1, var(--p, 0) / 0.92) * 2%)) rotate(calc(min(1, var(--p, 0) / 0.92) * 2.2deg));
       }
 
       .cover-face {
@@ -203,18 +341,8 @@
           var(--paper);
       }
 
-      .cover-kicker {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--muted);
-      }
-
-      .cover-kicker::before {
-        content: "";
-        width: 34px;
-        height: 1px;
-        background: var(--paper-line-strong);
+      .cover-face .hero-kicker {
+        margin-top: var(--head-h);
       }
 
       .cover-title {
@@ -234,7 +362,7 @@
       }
 
       .cover-title p {
-        max-width: 440px;
+        max-width: 460px;
         margin-top: 20px;
         color: var(--muted);
         font-size: clamp(14px, 1.4vw, 17px);
@@ -258,448 +386,56 @@
         font-weight: 500;
       }
 
-      .cover-tab {
-        position: absolute;
-        left: 53.5%;
-        top: 44%;
-        z-index: 82;
-        transform: translate(-50%, -50%) rotate(-2deg);
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 13px 20px;
-        border: 1px dashed var(--pencil);
-        border-radius: 999px;
-        background: var(--pencil);
-        color: #fff6ee;
-        font-family: "DM Mono", monospace;
-        font-size: 12px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        box-shadow: 0 10px 26px -10px rgba(232, 68, 46, 0.55);
-        transition: transform 0.25s ease, opacity 0.3s ease;
-        animation: tab-wiggle 2.8s ease-in-out infinite;
-        touch-action: none;
-      }
-
-      .cover-tab:hover {
-        transform: translate(-50%, -50%) rotate(-2deg) scale(1.06);
-        animation-play-state: paused;
-      }
-
-      .cover.torn .cover-tab,
-      .cover.dragging .cover-tab {
-        animation: none;
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      @keyframes tab-wiggle {
-        0%,
-        100% {
-          transform: translate(-50%, -50%) rotate(-3deg);
-        }
-        50% {
-          transform: translate(-50%, -50%) rotate(1.5deg) scale(1.03);
-        }
-      }
-
-      .cover-hint {
-        position: absolute;
-        left: 53.5%;
-        top: calc(44% + 42px);
-        z-index: 82;
-        transform: translateX(-50%);
-        color: var(--muted);
-        letter-spacing: 0.18em;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-      }
-
-      .cover.torn .cover-hint,
-      .cover.dragging .cover-hint {
-        opacity: 0;
-      }
-
-      .cover-skip {
-        position: absolute;
-        right: clamp(20px, 4vw, 56px);
-        bottom: clamp(18px, 3.4vw, 48px);
-        z-index: 82;
-        color: var(--muted);
-        font-family: "DM Mono", monospace;
-        font-size: 11px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        border-bottom: 1px dashed var(--muted);
-        padding-bottom: 3px;
-        transition: color 0.2s ease, border-color 0.2s ease;
-      }
-
-      .cover-skip:hover {
-        color: var(--pencil);
-        border-color: var(--pencil);
-      }
-
-      .cover.torn .cover-skip {
-        opacity: 0;
-        pointer-events: none;
-      }
-
       .cover-seam {
         position: absolute;
         left: 53%;
         top: 0;
         bottom: 0;
-        z-index: 81;
+        z-index: 11;
         width: 0;
         border-left: 2px dashed rgba(24, 20, 12, 0.28);
         pointer-events: none;
+        opacity: calc(1 - min(1, var(--p, 0) / 0.25));
       }
 
-      .cover.torn .cover-seam,
-      .cover.dragging .cover-seam {
-        opacity: 0;
-      }
-
-      /* =============== BENCH =============== */
-      .bench {
-        position: fixed;
-        inset: 0;
-        z-index: 10;
-        transform: scale(0.982);
-        transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
-        display: grid;
-      }
-
-      body.opened .bench {
-        transform: none;
-      }
-        grid-template-rows: auto minmax(0, 1fr) auto;
-        gap: clamp(10px, 1.6vh, 18px);
-        height: 100svh;
-        padding: clamp(12px, 2vw, 26px) clamp(14px, 2.6vw, 36px) 0;
-        overflow: hidden;
-      }
-
-      .bench-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 16px;
-        padding-bottom: clamp(8px, 1.4vh, 14px);
-        border-bottom: 2px solid var(--ink);
-      }
-
-      .bench-head .wordmark {
-        font-family: "Fraunces", serif;
-        font-weight: 700;
-        font-size: clamp(20px, 2.6vw, 34px);
-        letter-spacing: -0.035em;
-        white-space: nowrap;
-      }
-
-      .bench-hint {
-        color: var(--muted);
-        text-align: center;
-        flex: 1;
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .bench-hint b {
-        color: var(--pencil);
-        font-weight: 500;
-      }
-
-      .bench-reset {
-        color: var(--muted);
-        white-space: nowrap;
-        border-bottom: 1px dashed var(--muted);
-        padding-bottom: 2px;
-        transition: color 0.2s ease, border-color 0.2s ease;
-      }
-
-      .bench-reset:hover {
-        color: var(--pencil);
-        border-color: var(--pencil);
-      }
-
-      .bench-grid {
-        display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        grid-template-rows: minmax(0, 1.3fr) minmax(0, 0.7fr);
-        gap: clamp(10px, 1.4vw, 16px);
-        min-height: 0;
-      }
-
-      .slot {
-        position: relative;
-        min-height: 0;
-        border: 1px solid var(--paper-line-strong);
-        border-radius: var(--frame-r);
-        background: var(--paper-soft);
-        overflow: hidden;
-      }
-
-      .slot-accept {
-        grid-column: 1 / 3;
-      }
-
-      .slot-access {
-        grid-column: 3 / 5;
-      }
-
-      .slot-fitness {
-        grid-column: 5 / 7;
-      }
-
-      .slot-background {
-        grid-column: 1 / 5;
-      }
-
-      .slot-contact {
-        grid-column: 5 / 7;
-      }
-
-      /* preview under the lid — always rendered so tears reveal it live */
-      .slot-inner {
+      .tear-cue {
         position: absolute;
-        inset: 0;
-      }
-
-      .slot-open {
-        display: grid;
-        grid-template-rows: auto auto minmax(0, 1fr) auto;
-        gap: 6px;
-        width: 100%;
-        height: 100%;
-        padding: clamp(12px, 1.6vw, 20px);
-        text-align: left;
-        transition: background 0.25s ease;
-      }
-
-      .slot-open:hover {
-        background: color-mix(in srgb, var(--slot-accent, var(--pencil)) 7%, transparent);
-      }
-
-      .slot-fig {
-        color: var(--muted);
-      }
-
-      .slot-name {
-        font-size: clamp(26px, 3.2vw, 46px);
-        font-weight: 700;
-        line-height: 0.95;
-      }
-
-      .slot-shot {
-        min-height: 0;
-        margin-top: 4px;
-        border: 1px solid var(--paper-line);
-        border-radius: 10px;
-        background-color: var(--kraft);
-        background-size: cover;
-        background-position: top center;
-      }
-
-      .slot-note {
-        min-height: 0;
-        margin-top: 4px;
-        overflow: hidden;
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.5;
-      }
-
-      .slot-cta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        color: var(--pencil);
-      }
-
-      .slot-open:hover .slot-cta .arr {
-        transform: translateX(5px);
-      }
-
-      .slot-cta .arr {
-        transition: transform 0.25s ease;
-      }
-
-      /* =============== LIDS =============== */
-      .lid {
-        position: absolute;
-        inset: 0;
-        z-index: 5;
-        touch-action: pan-y;
-      }
-
-      .lid.gone {
-        display: none;
-      }
-
-      .piece {
-        position: absolute;
-        inset: 0;
-        transition: transform 0.5s cubic-bezier(0.2, 1.35, 0.3, 1), opacity 0.75s ease;
-        will-change: transform;
-      }
-
-      .lid.torn .piece {
-        transition: transform 0.75s cubic-bezier(0.5, 0.02, 0.85, 0.3), opacity 0.75s ease;
-      }
-
-      .lid:not(.torn):not(.dragging):hover .piece-a,
-      .lid:not(.torn):focus-visible .piece-a {
-        transform: translateY(-1.8%) rotate(-0.6deg);
-      }
-
-      .lid:not(.torn):not(.dragging):hover .piece-b,
-      .lid:not(.torn):focus-visible .piece-b {
-        transform: translateY(1.4%) rotate(0.45deg);
-      }
-
-      .piece-a {
-        clip-path: polygon(0 0, 100% 0, 100% 52%, 92% 48%, 84% 55%, 75% 49%, 66% 56%, 57% 50%, 48% 57%, 39% 50%, 30% 56%, 21% 49%, 12% 55%, 5% 50%, 0 54%);
-      }
-
-      .piece-b {
-        clip-path: polygon(0 54%, 5% 50%, 12% 55%, 21% 49%, 30% 56%, 39% 50%, 48% 57%, 57% 50%, 66% 56%, 75% 49%, 84% 55%, 92% 48%, 100% 52%, 100% 100%, 0 100%);
-      }
-
-      .lid.dragging .piece {
-        transition: none;
-      }
-
-      .lid.dragging .piece-a {
-        transform: translateY(calc(var(--p, 0) * -40%)) rotate(calc(var(--p, 0) * -4.5deg));
-      }
-
-      .lid.dragging .piece-b {
-        transform: translateY(calc(var(--p, 0) * 36%)) rotate(calc(var(--p, 0) * 3.5deg));
-      }
-
-      .lid.torn .piece-a {
-        transform: translate(-9%, -135%) rotate(-11deg);
-      }
-
-      .lid.torn .piece-b {
-        transform: translate(7%, 145%) rotate(9deg);
-      }
-
-      .lid-face {
-        position: absolute;
-        inset: 0;
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr) auto;
-        padding: clamp(12px, 1.6vw, 20px);
-        text-align: left;
-        background:
-          repeating-linear-gradient(-42deg, transparent 0 26px, rgba(24, 20, 12, 0.022) 26px 27px),
-          linear-gradient(160deg, var(--kraft), var(--kraft-deep));
-      }
-
-      .lid-fig {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        color: var(--muted);
-      }
-
-      .lid-name {
-        align-self: center;
-        font-size: clamp(30px, 3.6vw, 54px);
-        font-weight: 700;
-        line-height: 0.92;
-        color: var(--ink);
-        opacity: 0.88;
-      }
-
-      .lid-contents {
-        color: var(--muted);
-        letter-spacing: 0.08em;
-        line-height: 1.6;
-        text-transform: uppercase;
-        font-size: 9.5px;
-      }
-
-      .lid-tab {
-        position: absolute;
-        z-index: 2;
-        right: clamp(10px, 1.4vw, 18px);
-        top: calc(52% - 14px);
-        transition: opacity 0.25s ease;
+        left: 50%;
+        bottom: 4.5vh;
+        z-index: 12;
+        transform: translateX(-50%);
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
+        gap: 10px;
+        padding: 12px 20px;
         border-radius: 999px;
         background: var(--pencil);
         color: #fff6ee;
-        font-size: 10px;
-        letter-spacing: 0.12em;
-        box-shadow: 0 6px 16px -6px rgba(232, 68, 46, 0.5);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        box-shadow: 0 10px 26px -10px rgba(232, 68, 46, 0.55);
+        pointer-events: none;
+        opacity: calc(1 - min(1, var(--p, 0) / 0.18));
+        animation: cue-bob 2.2s ease-in-out infinite;
       }
 
-      .piece-a::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 52%;
-        border-top: 2px dashed rgba(24, 20, 12, 0.3);
-      }
-
-      .lid.torn .lid-tab,
-      .lid.dragging .lid-tab {
-        opacity: 0;
-      }
-
-      .lid:hover .lid-tab,
-      .lid:focus-visible .lid-tab {
-        animation: tab-wiggle-s 0.8s ease-in-out infinite;
-      }
-
-      @keyframes tab-wiggle-s {
+      @keyframes cue-bob {
         0%,
         100% {
-          transform: rotate(-2deg);
+          transform: translateX(-50%) translateY(0);
         }
         50% {
-          transform: rotate(2deg) scale(1.05);
+          transform: translateX(-50%) translateY(6px);
         }
       }
 
-      /* paper scraps */
-      .scrap {
-        position: fixed;
-        z-index: 150;
-        width: 12px;
-        height: 12px;
-        pointer-events: none;
-        background: var(--kraft);
-        border: 1px solid rgba(24, 20, 12, 0.12);
-        clip-path: polygon(0 0, 100% 12%, 82% 100%, 8% 84%);
-        animation: scrap-fall 1s cubic-bezier(0.35, 0.05, 0.85, 0.4) forwards;
-      }
-
-      @keyframes scrap-fall {
-        to {
-          transform: translate(var(--dx, 0px), var(--dy, 160px)) rotate(var(--dr, 220deg));
-          opacity: 0;
-        }
-      }
-
-      /* =============== TICKER =============== */
+      /* ---------- ticker ---------- */
       .ticker {
         overflow: hidden;
-        border-top: 1px solid var(--paper-line-strong);
-        padding: 11px 0;
-        margin: 0 calc(-1 * clamp(14px, 2.6vw, 36px));
+        border-block: 1px solid var(--paper-line-strong);
+        padding: 12px 0;
         background: var(--paper-soft);
       }
 
@@ -733,57 +469,41 @@
         }
       }
 
-      /* =============== PANELS =============== */
-      .panel {
-        display: none;
-      }
-
-      .js .panel.open {
-        position: fixed;
-        inset: 0;
-        z-index: 100;
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr);
-        background: var(--paper);
-        animation: panel-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
-      }
-
-      @keyframes panel-in {
-        from {
-          opacity: 0;
-          transform: translateY(2.5%) scale(0.985);
-        }
-      }
-
-      .panel-chrome {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        padding: 14px clamp(16px, 3vw, 40px);
-        border-bottom: 2px solid var(--ink);
-        background: var(--paper);
-      }
-
-      .panel[data-theme="dark"] .panel-chrome {
-        border-bottom-color: var(--coal-line);
-        background: var(--coal);
-        color: var(--coal-ink);
-      }
-
+      /* ---------- product chapters ---------- */
       .chapter {
+        --len: 270vh;
+      }
+
+      .chapter .stage {
+        display: grid;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+        gap: clamp(24px, 3.6vw, 60px);
+        align-content: center;
+        align-items: center;
+        width: min(1500px, 100%);
+        margin-inline: auto;
+        height: 100%;
+        padding: calc(var(--head-h) + 2vh) clamp(16px, 3vw, 40px) 4vh;
+      }
+
+      .chapter.flip .product-grid > .product-info {
+        order: 2;
+      }
+
+      .chapter.flip .product-grid > .teardown-stage {
+        order: 1;
+      }
+
+      .chapter-label {
         display: flex;
         align-items: center;
         gap: 12px;
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         color: var(--muted);
-      }
-
-      .panel[data-theme="dark"] .chapter {
-        color: var(--coal-muted);
+        margin-bottom: 14px;
       }
 
       .live-dot {
@@ -792,7 +512,7 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: var(--p-accent, var(--pencil));
+        background: var(--accent, var(--pencil));
       }
 
       .live-dot::after {
@@ -800,7 +520,7 @@
         position: absolute;
         inset: -4px;
         border-radius: 50%;
-        border: 1px solid var(--p-accent, var(--pencil));
+        border: 1px solid var(--accent, var(--pencil));
         opacity: 0.5;
         animation: pulse 2.6s ease-out infinite;
       }
@@ -817,89 +537,33 @@
         }
       }
 
-      .panel-close {
-        flex: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 16px;
-        transform: rotate(1.5deg);
-        border: 1px dashed var(--paper-line-strong);
-        background: color-mix(in srgb, var(--kraft) 70%, transparent);
-        color: var(--ink);
-        font-family: "DM Mono", monospace;
-        font-size: 10.5px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        transition: transform 0.2s ease, background 0.2s ease;
-      }
-
-      .panel-close:hover {
-        transform: rotate(-1deg) scale(1.04);
-        background: var(--kraft);
-      }
-
-      .panel[data-theme="dark"] .panel-close {
-        border-color: var(--coal-line);
-        background: var(--coal-soft);
-        color: var(--coal-ink);
-      }
-
-      .panel-scroll {
-        min-height: 0;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-      }
-
-      .panel-body {
-        display: grid;
-        grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
-        gap: clamp(24px, 4vw, 64px);
-        align-items: start;
-        padding: clamp(24px, 4.5vh, 52px) clamp(16px, 3vw, 40px) clamp(40px, 6vh, 72px);
-      }
-
-      .panel[data-theme="dark"] {
-        background: var(--coal);
-      }
-
-      .js .panel.open[data-theme="dark"] {
-        background: var(--coal);
-        color: var(--coal-ink);
-      }
-
-      /* product info column */
       .product-info h2 {
-        font-size: clamp(46px, 5.6vw, 92px);
+        font-size: clamp(44px, 5vw, 86px);
         font-weight: 700;
         line-height: 0.88;
       }
 
       .tagline {
-        margin-top: 14px;
+        margin-top: 12px;
         font-family: "Fraunces", serif;
         font-weight: 340;
         font-style: italic;
-        font-size: clamp(18px, 1.8vw, 25px);
+        font-size: clamp(17px, 1.7vw, 24px);
         letter-spacing: -0.02em;
         line-height: 1.25;
       }
 
       .story {
-        margin-top: 16px;
+        margin-top: 14px;
         max-width: 430px;
         color: var(--muted);
-        font-size: 15px;
-        line-height: 1.65;
-      }
-
-      .panel[data-theme="dark"] .story {
-        color: var(--coal-muted);
+        font-size: 14.5px;
+        line-height: 1.6;
       }
 
       .facts {
         list-style: none;
-        margin-top: 24px;
+        margin-top: 20px;
         border-top: 1px solid var(--paper-line);
       }
 
@@ -908,7 +572,7 @@
         grid-template-columns: 92px minmax(0, 1fr);
         gap: 14px;
         align-items: baseline;
-        padding: 9px 0;
+        padding: 8px 0;
         border-bottom: 1px solid var(--paper-line);
         font-size: 13px;
       }
@@ -918,20 +582,11 @@
         font-size: 10px;
       }
 
-      .panel[data-theme="dark"] .facts,
-      .panel[data-theme="dark"] .facts li {
-        border-color: var(--coal-line);
-      }
-
-      .panel[data-theme="dark"] .facts .k {
-        color: var(--coal-muted);
-      }
-
       .visit {
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        margin-top: 26px;
+        margin-top: 22px;
         padding: 13px 20px;
         border: 1px solid var(--ink);
         border-radius: 999px;
@@ -941,46 +596,33 @@
         font-size: 11px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
+        transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.22s ease;
       }
 
       .visit:hover {
-        background: var(--p-accent, var(--pencil));
-        border-color: var(--p-accent, var(--pencil));
+        background: var(--accent, var(--pencil));
+        border-color: var(--accent, var(--pencil));
         color: var(--visit-ink, var(--paper));
         transform: translateY(-2px);
       }
 
-      .panel[data-theme="dark"] .visit {
-        background: var(--coal-ink);
-        border-color: var(--coal-ink);
-        color: var(--coal);
-      }
-
-      .panel[data-theme="dark"] .visit:hover {
-        background: var(--fitness);
-        border-color: var(--fitness);
-      }
-
       .visit-url {
         display: block;
-        margin-top: 12px;
+        margin-top: 10px;
         color: var(--muted);
         font-size: 10px;
         letter-spacing: 0.08em;
         overflow-wrap: anywhere;
       }
 
-      .panel[data-theme="dark"] .visit-url {
-        color: var(--coal-muted);
-      }
-
-      /* frame + pins + notes (teardown stage) */
+      /* frame + pins + notes */
       .teardown-stage {
         display: grid;
-        gap: 14px;
-        align-content: start;
+        gap: 12px;
+        align-content: center;
         min-width: 0;
+        transform: scale(calc(0.955 + min(1, var(--p, 0) / 0.5) * 0.045));
+        transform-origin: center;
       }
 
       .product-frame {
@@ -1007,9 +649,9 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 11px 14px;
+        padding: 10px 14px;
         border-bottom: 1px solid var(--paper-line);
-        background: color-mix(in srgb, var(--paper-soft) 84%, var(--p-accent, var(--pencil)) 5%);
+        background: color-mix(in srgb, var(--paper-soft) 84%, var(--accent, var(--pencil)) 5%);
       }
 
       .frame-bar i {
@@ -1020,8 +662,8 @@
       }
 
       .frame-bar i:first-child {
-        background: var(--p-accent, var(--pencil));
-        border-color: var(--p-accent, var(--pencil));
+        background: var(--accent, var(--pencil));
+        border-color: var(--accent, var(--pencil));
       }
 
       .frame-url {
@@ -1057,6 +699,8 @@
       .shot {
         display: block;
         aspect-ratio: 1425 / 891;
+        max-height: 56svh;
+        width: 100%;
         overflow: hidden;
         background: var(--paper-soft);
       }
@@ -1066,25 +710,6 @@
         height: 100%;
         object-fit: cover;
         object-position: top center;
-      }
-
-      .panel[data-theme="dark"] .frame-tilt {
-        border-color: var(--coal-line);
-        background: var(--coal-soft);
-      }
-
-      .panel[data-theme="dark"] .frame-bar {
-        border-bottom-color: var(--coal-line);
-        background: var(--coal-soft);
-      }
-
-      .panel[data-theme="dark"] .frame-url,
-      .panel[data-theme="dark"] .frame-open {
-        color: var(--coal-muted);
-      }
-
-      .panel[data-theme="dark"] .shot {
-        background: var(--coal-soft);
       }
 
       .pin {
@@ -1105,7 +730,8 @@
         line-height: 1;
         box-shadow: 0 0 0 4px color-mix(in srgb, var(--pencil) 20%, transparent);
         cursor: help;
-        transition: transform 0.2s ease;
+        transform: scale(0);
+        transition: transform 0.45s cubic-bezier(0.2, 1.6, 0.35, 1);
       }
 
       .pin::after {
@@ -1118,9 +744,17 @@
         animation: pulse 2.6s ease-out infinite;
       }
 
-      .pin:hover,
+      .chapter.s1 .pin[data-i="1"],
+      .chapter.s2 .pin[data-i="2"],
+      .chapter.s3 .pin[data-i="3"] {
+        transform: scale(1);
+      }
+
+      .chapter.s1 .pin[data-i="1"]:hover,
+      .chapter.s2 .pin[data-i="2"]:hover,
+      .chapter.s3 .pin[data-i="3"]:hover,
       .pin.hot {
-        transform: scale(1.3);
+        transform: scale(1.3) !important;
       }
 
       .note-strip {
@@ -1131,18 +765,27 @@
       }
 
       .note {
-        padding: 12px 14px;
+        padding: 11px 13px;
         border-left: 3px solid var(--pencil);
         background: color-mix(in srgb, var(--paper-soft) 72%, transparent);
         color: var(--muted);
-        font-size: 12.5px;
-        line-height: 1.55;
-        transition: background 0.2s ease, transform 0.2s ease;
+        font-size: 12px;
+        line-height: 1.5;
+        opacity: 0.25;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s ease;
+      }
+
+      .chapter.s1 .note:nth-child(1),
+      .chapter.s2 .note:nth-child(2),
+      .chapter.s3 .note:nth-child(3) {
+        opacity: 1;
+        transform: none;
       }
 
       .note b {
         display: block;
-        margin-bottom: 6px;
+        margin-bottom: 5px;
         color: var(--pencil);
         font-family: "DM Mono", monospace;
         font-weight: 500;
@@ -1154,48 +797,213 @@
       .note:hover,
       .note.hot {
         background: color-mix(in srgb, var(--pencil) 9%, transparent);
-        transform: translateY(-2px);
       }
 
-      .panel[data-theme="dark"] .note {
+      /* chapter lids: kraft seals torn by scroll */
+      .lid {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+        pointer-events: none;
+      }
+
+      .piece {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+      }
+
+      .piece-a {
+        clip-path: polygon(0 0, 100% 0, 100% 52%, 92% 48%, 84% 55%, 75% 49%, 66% 56%, 57% 50%, 48% 57%, 39% 50%, 30% 56%, 21% 49%, 12% 55%, 5% 50%, 0 54%);
+        transform: translateY(calc(min(1, var(--p, 0) / 0.38) * -108%)) rotate(calc(min(1, var(--p, 0) / 0.38) * -1.5deg));
+      }
+
+      .piece-b {
+        clip-path: polygon(0 54%, 5% 50%, 12% 55%, 21% 49%, 30% 56%, 39% 50%, 48% 57%, 57% 50%, 66% 56%, 75% 49%, 84% 55%, 92% 48%, 100% 52%, 100% 100%, 0 100%);
+        transform: translateY(calc(min(1, var(--p, 0) / 0.38) * 108%)) rotate(calc(min(1, var(--p, 0) / 0.38) * 1.2deg));
+      }
+
+      .lid-face {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding: calc(var(--head-h) + 3vh) clamp(20px, 4vw, 56px) 5vh;
+        background:
+          repeating-linear-gradient(-42deg, transparent 0 26px, rgba(24, 20, 12, 0.022) 26px 27px),
+          linear-gradient(160deg, var(--kraft), var(--kraft-deep));
+      }
+
+      .lid-fig {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        color: var(--muted);
+      }
+
+      .lid-name {
+        align-self: center;
+        justify-self: start;
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: clamp(56px, 11vw, 160px);
+        letter-spacing: -0.05em;
+        line-height: 0.9;
+        color: var(--ink);
+        opacity: 0.9;
+      }
+
+      .lid-contents {
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        line-height: 1.6;
+        text-transform: uppercase;
+        font-size: 10px;
+      }
+
+      .lid-seamline {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 52%;
+        border-top: 2px dashed rgba(24, 20, 12, 0.3);
+      }
+
+      /* once a section's teardown has played, its packaging never paints again */
+      .scrolly.done .cover-piece,
+      .scrolly.done .cover-seam,
+      .scrolly.done .tear-cue,
+      .scrolly.done .lid {
+        display: none;
+      }
+
+      .lid-cue {
+        position: absolute;
+        right: clamp(20px, 4vw, 56px);
+        top: calc(52% - 16px);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: var(--pencil);
+        color: #fff6ee;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        box-shadow: 0 6px 16px -6px rgba(232, 68, 46, 0.5);
+      }
+
+      /* ---------- dark chapter (fitness) ---------- */
+      .chapter.dark {
+        background: var(--coal);
+        color: var(--coal-ink);
+      }
+
+      .chapter.dark .stage {
+        background: var(--coal);
+      }
+
+      .chapter.dark .chapter-label,
+      .chapter.dark .story,
+      .chapter.dark .facts .k,
+      .chapter.dark .visit-url,
+      .chapter.dark .frame-url,
+      .chapter.dark .frame-open {
+        color: var(--coal-muted);
+      }
+
+      .chapter.dark .facts,
+      .chapter.dark .facts li {
+        border-color: var(--coal-line);
+      }
+
+      .chapter.dark .visit {
+        background: var(--coal-ink);
+        border-color: var(--coal-ink);
+        color: var(--coal);
+      }
+
+      .chapter.dark .visit:hover {
+        background: var(--fitness);
+        border-color: var(--fitness);
+      }
+
+      .chapter.dark .frame-tilt {
+        border-color: var(--coal-line);
+        background: var(--coal-soft);
+        box-shadow: 0 18px 44px -18px rgba(0, 0, 0, 0.65);
+      }
+
+      .chapter.dark .frame-bar {
+        border-bottom-color: var(--coal-line);
+        background: var(--coal-soft);
+      }
+
+      .chapter.dark .shot {
+        background: var(--coal-soft);
+      }
+
+      .chapter.dark .note {
         background: rgba(255, 255, 255, 0.045);
         color: var(--coal-muted);
       }
 
-      .panel[data-theme="dark"] .note b {
+      .chapter.dark .note b {
         color: #ff7a5c;
       }
 
-      .panel[data-theme="dark"] .note:hover,
-      .panel[data-theme="dark"] .note.hot {
+      .chapter.dark .note:hover,
+      .chapter.dark .note.hot {
         background: rgba(232, 68, 46, 0.16);
       }
 
-      .meta-note {
-        max-width: 340px;
-        margin-top: 18px;
-        color: var(--pencil);
-        font-family: "DM Mono", monospace;
-        font-size: 11px;
-        line-height: 1.7;
-        transform: rotate(-1.2deg);
-        transform-origin: left top;
+      .chapter.dark ::selection {
+        background: var(--fitness);
+        color: var(--coal);
       }
 
-      /* about / contact panel bodies */
-      .plain-body {
-        max-width: 900px;
-        padding: clamp(28px, 6vh, 64px) clamp(16px, 3vw, 40px) clamp(48px, 8vh, 88px);
+      /* paper scraps */
+      .scrap {
+        position: fixed;
+        z-index: 150;
+        width: 12px;
+        height: 12px;
+        pointer-events: none;
+        background: var(--kraft);
+        border: 1px solid rgba(24, 20, 12, 0.12);
+        clip-path: polygon(0 0, 100% 12%, 82% 100%, 8% 84%);
+        animation: scrap-fall 1s cubic-bezier(0.35, 0.05, 0.85, 0.4) forwards;
       }
 
-      .plain-body h2 {
-        font-size: clamp(36px, 5vw, 76px);
+      @keyframes scrap-fall {
+        to {
+          transform: translate(var(--dx, 0px), var(--dy, 160px)) rotate(var(--dr, 220deg));
+          opacity: 0;
+        }
+      }
+
+      /* ---------- about ---------- */
+      .about {
+        padding: clamp(70px, 12vh, 130px) clamp(16px, 3vw, 40px);
+        border-top: 1px solid var(--paper-line-strong);
+      }
+
+      .about-inner,
+      .contact-inner {
+        max-width: 1000px;
+        margin-inline: auto;
+      }
+
+      .about h2,
+      .contact h2 {
+        font-size: clamp(34px, 4.6vw, 72px);
         font-weight: 700;
         line-height: 0.95;
+        max-width: 700px;
       }
 
       .lede {
-        margin-top: 20px;
+        margin-top: 18px;
         max-width: 620px;
         color: var(--muted);
         font-size: clamp(15px, 1.5vw, 18px);
@@ -1241,11 +1049,18 @@
         line-height: 1.5;
       }
 
+      /* ---------- contact ---------- */
+      .contact {
+        padding: clamp(70px, 12vh, 130px) clamp(16px, 3vw, 40px) clamp(40px, 7vh, 70px);
+        border-top: 1px solid var(--paper-line-strong);
+        background: var(--paper-soft);
+      }
+
       .contact-links {
         list-style: none;
         margin-top: clamp(24px, 4vh, 40px);
         border-top: 1px solid var(--paper-line-strong);
-        max-width: 720px;
+        max-width: 760px;
       }
 
       .contact-links a {
@@ -1292,27 +1107,120 @@
         transform: translate(4px, -4px);
       }
 
-      /* =============== STATIC FALLBACK (no JS) =============== */
-      html:not(.js) .cover,
-      html:not(.js) .bench,
-      html:not(.js) .panel-close {
+      .site-foot {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        max-width: 1000px;
+        margin: clamp(40px, 8vh, 70px) auto 0;
+        padding-top: 18px;
+        border-top: 1px solid var(--paper-line);
+        color: var(--muted);
+      }
+
+      /* reveal on scroll (about/contact) */
+      .js .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+
+      .js .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ---------- static fallback (no JS / reduced motion) ---------- */
+      html:not(.js) .scrolly,
+      html.static .scrolly {
+        height: auto;
+      }
+
+      html:not(.js) .stage,
+      html.static .stage {
+        position: static;
+        height: auto;
+        min-height: 100svh;
+        overflow: visible;
+      }
+
+      html:not(.js) .cover-piece,
+      html:not(.js) .cover-seam,
+      html:not(.js) .tear-cue,
+      html:not(.js) .lid,
+      html.static .cover-piece,
+      html.static .cover-seam,
+      html.static .tear-cue,
+      html.static .lid {
         display: none;
       }
 
-      html:not(.js) .panel {
-        display: block;
-        border-bottom: 1px solid var(--paper-line);
+      html:not(.js) .hero-inner,
+      html.static .hero-inner {
+        opacity: 1;
+        transform: none;
       }
 
-      html:not(.js) .panel[data-theme="dark"] {
-        color: var(--coal-ink);
+      html:not(.js) .pin,
+      html.static .pin {
+        transform: scale(1);
       }
 
-      /* =============== RESPONSIVE =============== */
+      html:not(.js) .note,
+      html.static .note {
+        opacity: 1;
+        transform: none;
+      }
+
+      html:not(.js) .teardown-stage,
+      html.static .teardown-stage {
+        transform: none;
+      }
+
+      /* ---------- responsive ---------- */
       @media (max-width: 980px) {
-        .panel-body {
+        .hero-scrolly {
+          --len: 190vh;
+        }
+
+        .chapter {
+          --len: 240vh;
+        }
+
+        .product-grid {
           grid-template-columns: 1fr;
-          gap: 26px;
+          gap: 16px;
+          align-content: center;
+          padding-top: calc(var(--head-h) + 1vh);
+        }
+
+        .chapter.flip .product-grid > .product-info {
+          order: 1;
+        }
+
+        .chapter.flip .product-grid > .teardown-stage {
+          order: 2;
+        }
+
+        .product-info h2 {
+          font-size: clamp(36px, 7vw, 56px);
+        }
+
+        .story {
+          display: none;
+        }
+
+        .facts {
+          display: none;
+        }
+
+        .visit {
+          margin-top: 14px;
+        }
+
+        .shot {
+          max-height: 44svh;
         }
 
         .cred-row {
@@ -1329,55 +1237,14 @@
         }
       }
 
-      @media (max-width: 840px) {
-        .js body {
-          height: auto;
-          overflow: auto;
-        }
-
-        .bench {
-          position: relative;
-          inset: auto;
-          height: auto;
-          min-height: 100svh;
-          overflow: visible;
-        }
-
-        .bench-grid {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .slot {
-          min-height: 168px;
-        }
-
-        .slot-shot {
-          min-height: 52px;
-        }
-
-        .bench-hint {
-          display: none;
-        }
-
-        .cover-tab {
-          left: 50%;
-          top: 70%;
-        }
-
-        .lid-name {
-          font-size: clamp(28px, 9vw, 40px);
-        }
-
-        .lid-contents {
-          display: none;
-        }
-      }
-
       @media (max-width: 720px) {
+        .site-head nav a:not(.keep) {
+          display: none;
+        }
+
         .shot {
-          aspect-ratio: 375 / 812;
+          aspect-ratio: auto;
+          height: 38svh;
         }
 
         .pin {
@@ -1385,27 +1252,41 @@
         }
 
         .note-strip {
-          grid-template-columns: 1fr;
-          width: min(320px, 100%);
-          margin-inline: auto;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 6px;
+        }
+
+        .note {
+          font-size: 10.5px;
+          padding: 8px 9px;
+        }
+
+        .note span {
+          display: none;
         }
 
         .meta-note {
           transform: none;
         }
 
-        .product-frame {
-          width: min(320px, 100%);
-          margin-inline: auto;
-          perspective: none;
-        }
-
-        .frame-tilt {
-          transform: none;
-        }
-
-        .frame-open {
+        .hero-index .tg {
           display: none;
+        }
+
+        .hero-index a {
+          grid-template-columns: 34px minmax(0, 1fr) 24px;
+        }
+
+        .cover-title h1 {
+          font-size: clamp(52px, 16vw, 90px);
+        }
+
+        .cover-manifest {
+          font-size: 10px;
+        }
+
+        .lid-cue {
+          right: 16px;
         }
 
         .contact-links a {
@@ -1414,22 +1295,6 @@
 
         .contact-links .hint {
           display: none;
-        }
-
-        .cover-manifest {
-          font-size: 10px;
-        }
-
-        .cover-title h1 {
-          font-size: clamp(52px, 16vw, 90px);
-        }
-
-        .panel-chrome {
-          padding: 12px 14px;
-        }
-
-        .chapter {
-          font-size: 9.5px;
         }
       }
 
@@ -1444,18 +1309,12 @@
           border-left: 0;
         }
 
-        .cover-skip {
-          right: auto;
-          left: 20px;
-          bottom: 14px;
-        }
-
         .cover-foot .cover-manifest {
           display: none;
         }
       }
 
-      /* =============== REDUCED MOTION =============== */
+      /* ---------- reduced motion ---------- */
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -1463,10 +1322,6 @@
           animation-duration: 0.01ms !important;
           animation-iteration-count: 1 !important;
           transition-duration: 0.01ms !important;
-        }
-
-        .cover-tab {
-          animation: none;
         }
 
         .ticker-track {
@@ -1479,208 +1334,106 @@
           display: none;
         }
 
-        .spotlight {
+        .spotlight,
+        .scrap {
           display: none;
         }
 
         .frame-tilt {
           transform: none !important;
         }
-
-        .scrap {
-          display: none;
-        }
       }
     </style>
   </head>
   <body>
     <div class="spotlight" aria-hidden="true"></div>
+    <div class="progress" aria-hidden="true"><i></i></div>
 
-    <!-- ============ COVER ============ -->
-    <div class="cover" id="cover">
-      <div class="cover-piece cover-a" aria-hidden="true">
-        <div class="cover-face">
-          <p class="cover-kicker mono">Fig. 00 — A portfolio you take apart</p>
-          <div class="cover-title">
-            <h1>Yash <em>Shah</em></h1>
-            <p>Three live products are sealed inside, each pinned and annotated like a proper teardown. Nothing here is browsed — it's opened.</p>
-          </div>
-          <div class="cover-foot mono">
-            <p class="cover-manifest">
-              Contents — <b>01 Accept</b> · <b>02 Access</b> · <b>03 Fitness</b> · Background · Contact
+    <header class="site-head">
+      <a class="wordmark serif" href="#top">Yash Shah</a>
+      <nav aria-label="Site">
+        <a href="#accept" data-spy="accept">Accept</a>
+        <a href="#access" data-spy="access">Access</a>
+        <a href="#fitness" data-spy="fitness">Fitness</a>
+        <a class="keep" href="#about" data-spy="about">About</a>
+        <a class="keep" href="#contact" data-spy="contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ======= HERO: scroll tears the cover ======= -->
+      <section class="scrolly hero-scrolly" aria-label="Introduction">
+        <div class="stage">
+          <div class="hero-inner">
+            <p class="hero-kicker mono">Fig. 00 — The inside</p>
+            <p class="hero-statement">
+              I build products end to end — <strong>the idea, the interface, and the shipping.</strong>
+              Three of them are live below, each torn open and annotated like a proper teardown.
             </p>
-          </div>
-        </div>
-      </div>
-      <div class="cover-piece cover-b" aria-hidden="true">
-        <div class="cover-face">
-          <p class="cover-kicker mono">Fig. 00 — A portfolio you take apart</p>
-          <div class="cover-title">
-            <h1>Yash <em>Shah</em></h1>
-            <p>Three live products are sealed inside, each pinned and annotated like a proper teardown. Nothing here is browsed — it's opened.</p>
-          </div>
-          <div class="cover-foot mono">
-            <p class="cover-manifest">
-              Contents — <b>01 Accept</b> · <b>02 Access</b> · <b>03 Fitness</b> · Background · Contact
+            <p class="meta-note">
+              ✳ Fair is fair — the page annotates itself too. Red pins and notes mark the thinking.
+              Keep scrolling; the paper does the rest.
             </p>
+            <ol class="hero-index">
+              <li>
+                <a href="#accept">
+                  <span class="no">01</span>
+                  <span class="nm">Accept</span>
+                  <span class="tg">Buy and sell locally, without the haggling</span>
+                  <span class="ar" aria-hidden="true">↓</span>
+                </a>
+              </li>
+              <li>
+                <a href="#access">
+                  <span class="no">02</span>
+                  <span class="nm">Access</span>
+                  <span class="tg">Every photo from the night, in one album</span>
+                  <span class="ar" aria-hidden="true">↓</span>
+                </a>
+              </li>
+              <li>
+                <a href="#fitness">
+                  <span class="no">03</span>
+                  <span class="nm">Fitness</span>
+                  <span class="tg">Body recomposition tracking, built to be used daily</span>
+                  <span class="ar" aria-hidden="true">↓</span>
+                </a>
+              </li>
+            </ol>
           </div>
+
+          <div class="cover-piece cover-a" aria-hidden="true">
+            <div class="cover-face">
+              <p class="hero-kicker mono">Fig. 00 — A portfolio you take apart</p>
+              <div class="cover-title">
+                <h1>Yash <em>Shah</em></h1>
+                <p>Three live products are sealed inside, each pinned and annotated like a proper teardown. Nothing here is browsed — it's opened.</p>
+              </div>
+              <div class="cover-foot mono">
+                <p class="cover-manifest">
+                  Contents — <b>01 Accept</b> · <b>02 Access</b> · <b>03 Fitness</b> · Background · Contact
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="cover-piece cover-b" aria-hidden="true">
+            <div class="cover-face">
+              <p class="hero-kicker mono">Fig. 00 — A portfolio you take apart</p>
+              <div class="cover-title">
+                <h1>Yash <em>Shah</em></h1>
+                <p>Three live products are sealed inside, each pinned and annotated like a proper teardown. Nothing here is browsed — it's opened.</p>
+              </div>
+              <div class="cover-foot mono">
+                <p class="cover-manifest">
+                  Contents — <b>01 Accept</b> · <b>02 Access</b> · <b>03 Fitness</b> · Background · Contact
+                </p>
+              </div>
+            </div>
+          </div>
+          <span class="cover-seam" aria-hidden="true"></span>
+          <span class="tear-cue mono" aria-hidden="true">✂ Scroll to tear open</span>
         </div>
-      </div>
-      <span class="cover-seam" aria-hidden="true"></span>
-      <button class="cover-tab" id="cover-tab" type="button">✂ Tear to open</button>
-      <span class="cover-hint mono" aria-hidden="true">scroll · drag · click</span>
-      <button class="cover-skip" id="cover-skip" type="button">In a hurry? Open everything</button>
-    </div>
-
-    <!-- ============ BENCH ============ -->
-    <main class="bench" id="bench" aria-label="Workbench">
-      <header class="bench-head">
-        <span class="wordmark serif">Yash Shah</span>
-        <p class="bench-hint mono">Everything here tears open — <b>drag it, scroll on it, don't be gentle</b></p>
-        <button class="bench-reset mono" id="bench-reset" type="button">Reassemble</button>
-      </header>
-
-      <div class="bench-grid">
-        <section class="slot slot-accept" style="--slot-accent: var(--accept)" aria-label="Accept — sealed compartment">
-          <div class="slot-inner" inert>
-            <button class="slot-open" data-panel="panel-accept" type="button">
-              <span class="slot-fig mono">Fig. 01 — Live product</span>
-              <span class="slot-name serif">Accept</span>
-              <span class="slot-shot" style="background-image: url('assets/accept-snapshot.png')" role="img" aria-label="Accept landing page screenshot"></span>
-              <span class="slot-cta mono"><span>Inspect the teardown</span><span class="arr" aria-hidden="true">→</span></span>
-            </button>
-          </div>
-          <button class="lid" data-slot="accept" type="button" aria-label="Tear open the Accept compartment">
-            <span class="piece piece-a" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 01 — sealed</span><span>Live</span></span>
-                <span class="lid-name serif">Accept</span>
-                <span class="lid-contents mono">Contents: 1 local marketplace, negotiations included</span>
-              </span>
-            </span>
-            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
-            <span class="piece piece-b" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 01 — sealed</span><span>Live</span></span>
-                <span class="lid-name serif">Accept</span>
-                <span class="lid-contents mono">Contents: 1 local marketplace, negotiations included</span>
-              </span>
-            </span>
-          </button>
-        </section>
-
-        <section class="slot slot-access" style="--slot-accent: var(--access)" aria-label="Access — sealed compartment">
-          <div class="slot-inner" inert>
-            <button class="slot-open" data-panel="panel-access" type="button">
-              <span class="slot-fig mono">Fig. 02 — Live product</span>
-              <span class="slot-name serif">Access</span>
-              <span class="slot-shot" style="background-image: url('assets/access-snapshot.png')" role="img" aria-label="Access landing page screenshot"></span>
-              <span class="slot-cta mono"><span>Inspect the teardown</span><span class="arr" aria-hidden="true">→</span></span>
-            </button>
-          </div>
-          <button class="lid" data-slot="access" type="button" aria-label="Tear open the Access compartment">
-            <span class="piece piece-a" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 02 — sealed</span><span>Live</span></span>
-                <span class="lid-name serif">Access</span>
-                <span class="lid-contents mono">Contents: every photo from the night</span>
-              </span>
-            </span>
-            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
-            <span class="piece piece-b" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 02 — sealed</span><span>Live</span></span>
-                <span class="lid-name serif">Access</span>
-                <span class="lid-contents mono">Contents: every photo from the night</span>
-              </span>
-            </span>
-          </button>
-        </section>
-
-        <section class="slot slot-fitness" style="--slot-accent: var(--fitness)" aria-label="Fitness — sealed compartment">
-          <div class="slot-inner" inert>
-            <button class="slot-open" data-panel="panel-fitness" type="button">
-              <span class="slot-fig mono">Fig. 03 — Live product</span>
-              <span class="slot-name serif">Fitness</span>
-              <span class="slot-shot" style="background-image: url('assets/fitness-snapshot.png?v=2')" role="img" aria-label="Fitness training log dashboard screenshot"></span>
-              <span class="slot-cta mono"><span>Inspect the teardown</span><span class="arr" aria-hidden="true">→</span></span>
-            </button>
-          </div>
-          <button class="lid" data-slot="fitness" type="button" aria-label="Tear open the Fitness compartment">
-            <span class="piece piece-a" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 03 — sealed</span><span>Live</span></span>
-                <span class="lid-name serif">Fitness</span>
-                <span class="lid-contents mono">Contents: one very consistent training log</span>
-              </span>
-            </span>
-            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
-            <span class="piece piece-b" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 03 — sealed</span><span>Live</span></span>
-                <span class="lid-name serif">Fitness</span>
-                <span class="lid-contents mono">Contents: one very consistent training log</span>
-              </span>
-            </span>
-          </button>
-        </section>
-
-        <section class="slot slot-background" aria-label="Background — sealed compartment">
-          <div class="slot-inner" inert>
-            <button class="slot-open" data-panel="panel-background" type="button">
-              <span class="slot-fig mono">Fig. 04 — The operator</span>
-              <span class="slot-name serif">Background</span>
-              <span class="slot-note">John Deere → Bookchange (Shark Tank India finals) → SwitchOn → Ivey MBA.</span>
-              <span class="slot-cta mono"><span>Read the label</span><span class="arr" aria-hidden="true">→</span></span>
-            </button>
-          </div>
-          <button class="lid" data-slot="background" type="button" aria-label="Tear open the Background compartment">
-            <span class="piece piece-a" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 04 — sealed</span><span>1 of 1</span></span>
-                <span class="lid-name serif">Background</span>
-                <span class="lid-contents mono">Contents: résumé, compressed to four stops</span>
-              </span>
-            </span>
-            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
-            <span class="piece piece-b" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 04 — sealed</span><span>1 of 1</span></span>
-                <span class="lid-name serif">Background</span>
-                <span class="lid-contents mono">Contents: résumé, compressed to four stops</span>
-              </span>
-            </span>
-          </button>
-        </section>
-
-        <section class="slot slot-contact" aria-label="Contact — sealed compartment">
-          <div class="slot-inner" inert>
-            <button class="slot-open" data-panel="panel-contact" type="button">
-              <span class="slot-fig mono">Fig. 05 — Exit points</span>
-              <span class="slot-name serif">Contact</span>
-              <span class="slot-note">GitHub, LinkedIn, X — the three places I actually look.</span>
-              <span class="slot-cta mono"><span>Open the channels</span><span class="arr" aria-hidden="true">→</span></span>
-            </button>
-          </div>
-          <button class="lid" data-slot="contact" type="button" aria-label="Tear open the Contact compartment">
-            <span class="piece piece-a" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 05 — sealed</span><span>3 inside</span></span>
-                <span class="lid-name serif">Contact</span>
-                <span class="lid-contents mono">Contents: three ways to reach me</span>
-              </span>
-            </span>
-            <span class="lid-tab mono" aria-hidden="true">✂ Pull</span>
-            <span class="piece piece-b" aria-hidden="true">
-              <span class="lid-face">
-                <span class="lid-fig mono"><span>Fig. 05 — sealed</span><span>3 inside</span></span>
-                <span class="lid-name serif">Contact</span>
-                <span class="lid-contents mono">Contents: three ways to reach me</span>
-              </span>
-            </span>
-          </button>
-        </section>
-      </div>
+      </section>
 
       <div class="ticker" aria-hidden="true">
         <div class="ticker-track">
@@ -1696,255 +1449,300 @@
           </div>
         </div>
       </div>
-    </main>
 
-    <!-- ============ PANELS ============ -->
-    <section class="panel" id="panel-accept" style="--p-accent: var(--accept)" role="dialog" aria-modal="true" aria-label="Accept — torn open">
-      <div class="panel-chrome">
-        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 01 — Live product · torn open</p>
-        <button class="panel-close" type="button">Tape it back ✕</button>
-      </div>
-      <div class="panel-scroll">
-        <div class="panel-body">
-          <div class="product-info">
-            <h2>Accept</h2>
-            <p class="tagline">Buy and sell locally. We negotiate so you don't have to.</p>
-            <p class="story">
-              Local marketplaces die in the DMs — lowball offers, ghosting, twenty messages to move one
-              desk. Accept puts an agent in the middle of every deal: it fields offers, counters within
-              your limits, and comes back with a single decision to make. Accept or pass.
-            </p>
-            <ul class="facts">
-              <li><span class="k mono">Status</span><span>Live in production</span></li>
-              <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
-              <li><span class="k mono">Core loop</span><span>List it — agent negotiates — you decide</span></li>
-            </ul>
-            <a class="visit" href="https://accept.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
-              Open Accept <span aria-hidden="true">↗</span>
-            </a>
-            <span class="visit-url mono">accept.yashvipulkumarshah.com</span>
+      <!-- ======= ACCEPT ======= -->
+      <section class="scrolly chapter" id="accept" style="--accent: var(--accept)" aria-labelledby="accept-title">
+        <div class="stage">
+          <div class="product-grid">
+            <div class="product-info">
+              <p class="chapter-label mono"><span class="live-dot" aria-hidden="true"></span>Fig. 01 — Live product · teardown</p>
+              <h2 id="accept-title">Accept</h2>
+              <p class="tagline">Buy and sell locally. We negotiate so you don't have to.</p>
+              <p class="story">
+                Local marketplaces die in the DMs — lowball offers, ghosting, twenty messages to move one
+                desk. Accept puts an agent in the middle of every deal: it fields offers, counters within
+                your limits, and comes back with a single decision to make. Accept or pass.
+              </p>
+              <ul class="facts">
+                <li><span class="k mono">Status</span><span>Live in production</span></li>
+                <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
+                <li><span class="k mono">Core loop</span><span>List it — agent negotiates — you decide</span></li>
+              </ul>
+              <a class="visit" href="https://accept.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
+                Open Accept <span aria-hidden="true">↗</span>
+              </a>
+              <span class="visit-url mono">accept.yashvipulkumarshah.com</span>
+            </div>
+
+            <div class="teardown-stage">
+              <a
+                class="product-frame"
+                href="https://accept.yashvipulkumarshah.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Accept in a new tab — live screenshot shown"
+              >
+                <span class="frame-tilt">
+                  <span class="frame-bar">
+                    <i></i><i></i><i></i>
+                    <span class="frame-url">accept.yashvipulkumarshah.com</span>
+                    <span class="frame-open">Open ↗</span>
+                  </span>
+                  <span class="shot">
+                    <picture>
+                      <source media="(max-width: 720px)" srcset="assets/accept-mobile-snapshot.png" width="375" height="812" />
+                      <img
+                        src="assets/accept-snapshot.png"
+                        width="1425"
+                        height="891"
+                        alt="Accept landing page: the headline 'We negotiate so you don't have to', a three-step deal flow, and buy/sell entry points."
+                      />
+                    </picture>
+                    <span class="pin" data-i="1" data-note="accept-note-1" style="--px: 46%; --py: 15%" aria-hidden="true">1</span>
+                    <span class="pin" data-i="2" data-note="accept-note-2" style="--px: 60%; --py: 37%" aria-hidden="true">2</span>
+                    <span class="pin" data-i="3" data-note="accept-note-3" style="--px: 73%; --py: 72%" aria-hidden="true">3</span>
+                  </span>
+                </span>
+              </a>
+              <ol class="note-strip" aria-label="Teardown notes for Accept">
+                <li class="note" id="accept-note-1">
+                  <b>01 · The promise</b>
+                  <span>The headline names the enemy — haggling — in six words. No feature list needed when the pain is this specific.</span>
+                </li>
+                <li class="note" id="accept-note-2">
+                  <b>02 · The handoff</b>
+                  <span>Step two is the whole product: an AI agent runs the messages and offers. The strip earns the two buttons under it.</span>
+                </li>
+                <li class="note" id="accept-note-3">
+                  <b>03 · Loop as UI</b>
+                  <span>List it, agree the price, accept or pass. The core loop is drawn as interface, not claimed in copy.</span>
+                </li>
+              </ol>
+            </div>
           </div>
 
-          <div class="teardown-stage">
-            <a
-              class="product-frame"
-              href="https://accept.yashvipulkumarshah.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open Accept in a new tab — live screenshot shown"
-            >
-              <span class="frame-tilt">
-                <span class="frame-bar">
-                  <i></i><i></i><i></i>
-                  <span class="frame-url">accept.yashvipulkumarshah.com</span>
-                  <span class="frame-open">Open ↗</span>
-                </span>
-                <span class="shot">
-                  <picture>
-                    <source media="(max-width: 720px)" srcset="assets/accept-mobile-snapshot.png" width="375" height="812" />
-                    <img
-                      src="assets/accept-snapshot.png"
-                      width="1425"
-                      height="891"
-                      loading="lazy"
-                      alt="Accept landing page: the headline 'We negotiate so you don't have to', a three-step deal flow, and buy/sell entry points."
-                    />
-                  </picture>
-                  <span class="pin" data-note="accept-note-1" style="--px: 46%; --py: 15%" aria-hidden="true">1</span>
-                  <span class="pin" data-note="accept-note-2" style="--px: 60%; --py: 37%" aria-hidden="true">2</span>
-                  <span class="pin" data-note="accept-note-3" style="--px: 73%; --py: 72%" aria-hidden="true">3</span>
-                </span>
-              </span>
-            </a>
-            <ol class="note-strip" aria-label="Teardown notes for Accept">
-              <li class="note" id="accept-note-1">
-                <b>01 · The promise</b>
-                <span>The headline names the enemy — haggling — in six words. No feature list needed when the pain is this specific.</span>
-              </li>
-              <li class="note" id="accept-note-2">
-                <b>02 · The handoff</b>
-                <span>Step two is the whole product: an AI agent runs the messages and offers. The strip earns the two buttons under it.</span>
-              </li>
-              <li class="note" id="accept-note-3">
-                <b>03 · Loop as UI</b>
-                <span>List it, agree the price, accept or pass. The core loop is drawn as interface, not claimed in copy.</span>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel" id="panel-access" style="--p-accent: var(--access)" role="dialog" aria-modal="true" aria-label="Access — torn open">
-      <div class="panel-chrome">
-        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 02 — Live product · torn open</p>
-        <button class="panel-close" type="button">Tape it back ✕</button>
-      </div>
-      <div class="panel-scroll">
-        <div class="panel-body">
-          <div class="product-info">
-            <h2>Access</h2>
-            <p class="tagline">Every photo from the night. From everyone who was there.</p>
-            <p class="story">
-              Thirty phones at a party, and nobody ever sees the photos that aren't theirs. Access gives
-              each event one private album behind a PIN — guests scan, join, and fill in the angles you
-              missed, while the host controls who's in and what stays.
-            </p>
-            <ul class="facts">
-              <li><span class="k mono">Status</span><span>Live in production</span></li>
-              <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
-              <li><span class="k mono">Core loop</span><span>Create — share the PIN — collect the night</span></li>
-            </ul>
-            <a class="visit" href="https://access.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
-              Open Access <span aria-hidden="true">↗</span>
-            </a>
-            <span class="visit-url mono">access.yashvipulkumarshah.com</span>
-          </div>
-
-          <div class="teardown-stage">
-            <a
-              class="product-frame"
-              href="https://access.yashvipulkumarshah.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open Access in a new tab — live screenshot shown"
-            >
-              <span class="frame-tilt">
-                <span class="frame-bar">
-                  <i></i><i></i><i></i>
-                  <span class="frame-url">access.yashvipulkumarshah.com</span>
-                  <span class="frame-open">Open ↗</span>
-                </span>
-                <span class="shot">
-                  <picture>
-                    <source media="(max-width: 720px)" srcset="assets/access-mobile-snapshot.png" width="375" height="812" />
-                    <img
-                      src="assets/access-snapshot.png"
-                      width="1425"
-                      height="891"
-                      loading="lazy"
-                      alt="Access landing page: the headline 'See the moments through everyone's eyes', with create-album and join-with-PIN actions beside an event photo."
-                    />
-                  </picture>
-                  <span class="pin" data-note="access-note-1" style="--px: 36%; --py: 40%" aria-hidden="true">1</span>
-                  <span class="pin" data-note="access-note-2" style="--px: 30%; --py: 66%" aria-hidden="true">2</span>
-                  <span class="pin" data-note="access-note-3" style="--px: 77%; --py: 28%" aria-hidden="true">3</span>
-                </span>
-              </span>
-            </a>
-            <ol class="note-strip" aria-label="Teardown notes for Access">
-              <li class="note" id="access-note-1">
-                <b>01 · Feeling first</b>
-                <span>The headline sells the payoff — the night through everyone's eyes — before any mechanics show up.</span>
-              </li>
-              <li class="note" id="access-note-2">
-                <b>02 · Two doors</b>
-                <span>Hosts create, guests join with a PIN. Each audience gets exactly one obvious action, side by side.</span>
-              </li>
-              <li class="note" id="access-note-3">
-                <b>03 · Output as proof</b>
-                <span>The hero image is what the product collects — a real table at a real event. The output does the persuading.</span>
-              </li>
-            </ol>
+          <div class="lid" aria-hidden="true">
+            <div class="piece piece-a">
+              <div class="lid-face">
+                <p class="lid-fig mono"><span>Fig. 01 — sealed</span><span>Live</span></p>
+                <p class="lid-name">Accept</p>
+                <p class="lid-contents mono">Contents: 1 local marketplace, negotiations included — keep scrolling to tear</p>
+                <span class="lid-seamline"></span>
+                <span class="lid-cue mono">✂ Scroll</span>
+              </div>
+            </div>
+            <div class="piece piece-b">
+              <div class="lid-face">
+                <p class="lid-fig mono"><span>Fig. 01 — sealed</span><span>Live</span></p>
+                <p class="lid-name">Accept</p>
+                <p class="lid-contents mono">Contents: 1 local marketplace, negotiations included — keep scrolling to tear</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="panel" id="panel-fitness" style="--p-accent: var(--fitness); --visit-ink: var(--coal)" data-theme="dark" role="dialog" aria-modal="true" aria-label="Fitness — torn open">
-      <div class="panel-chrome">
-        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 03 — Live product · torn open</p>
-        <button class="panel-close" type="button">Tape it back ✕</button>
-      </div>
-      <div class="panel-scroll">
-        <div class="panel-body">
-          <div class="product-info">
-            <h2>Fitness</h2>
-            <p class="tagline">Body recomposition tracking. Built for how I train.</p>
-            <p class="story">
-              Most trackers count workouts. Mine tracks the recomposition itself: weight trend, session
-              volume, steps, and PRs on one dashboard. I built it because I use it; every day it earns
-              its data.
-            </p>
-            <ul class="facts">
-              <li><span class="k mono">Status</span><span>Live, in daily use</span></li>
-              <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
-              <li><span class="k mono">Core loop</span><span>Log — see the trend — keep the streak</span></li>
-            </ul>
-            <a class="visit" href="https://fitness.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
-              Open Fitness <span aria-hidden="true">↗</span>
-            </a>
-            <span class="visit-url mono">fitness.yashvipulkumarshah.com</span>
+      <!-- ======= ACCESS ======= -->
+      <section class="scrolly chapter flip" id="access" style="--accent: var(--access)" aria-labelledby="access-title">
+        <div class="stage">
+          <div class="product-grid">
+            <div class="product-info">
+              <p class="chapter-label mono"><span class="live-dot" aria-hidden="true"></span>Fig. 02 — Live product · teardown</p>
+              <h2 id="access-title">Access</h2>
+              <p class="tagline">Every photo from the night. From everyone who was there.</p>
+              <p class="story">
+                Thirty phones at a party, and nobody ever sees the photos that aren't theirs. Access gives
+                each event one private album behind a PIN — guests scan, join, and fill in the angles you
+                missed, while the host controls who's in and what stays.
+              </p>
+              <ul class="facts">
+                <li><span class="k mono">Status</span><span>Live in production</span></li>
+                <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
+                <li><span class="k mono">Core loop</span><span>Create — share the PIN — collect the night</span></li>
+              </ul>
+              <a class="visit" href="https://access.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
+                Open Access <span aria-hidden="true">↗</span>
+              </a>
+              <span class="visit-url mono">access.yashvipulkumarshah.com</span>
+            </div>
+
+            <div class="teardown-stage">
+              <a
+                class="product-frame"
+                href="https://access.yashvipulkumarshah.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Access in a new tab — live screenshot shown"
+              >
+                <span class="frame-tilt">
+                  <span class="frame-bar">
+                    <i></i><i></i><i></i>
+                    <span class="frame-url">access.yashvipulkumarshah.com</span>
+                    <span class="frame-open">Open ↗</span>
+                  </span>
+                  <span class="shot">
+                    <picture>
+                      <source media="(max-width: 720px)" srcset="assets/access-mobile-snapshot.png" width="375" height="812" />
+                      <img
+                        src="assets/access-snapshot.png"
+                        width="1425"
+                        height="891"
+                        loading="lazy"
+                        alt="Access landing page: the headline 'See the moments through everyone's eyes', with create-album and join-with-PIN actions beside an event photo."
+                      />
+                    </picture>
+                    <span class="pin" data-i="1" data-note="access-note-1" style="--px: 36%; --py: 40%" aria-hidden="true">1</span>
+                    <span class="pin" data-i="2" data-note="access-note-2" style="--px: 30%; --py: 66%" aria-hidden="true">2</span>
+                    <span class="pin" data-i="3" data-note="access-note-3" style="--px: 77%; --py: 28%" aria-hidden="true">3</span>
+                  </span>
+                </span>
+              </a>
+              <ol class="note-strip" aria-label="Teardown notes for Access">
+                <li class="note" id="access-note-1">
+                  <b>01 · Feeling first</b>
+                  <span>The headline sells the payoff — the night through everyone's eyes — before any mechanics show up.</span>
+                </li>
+                <li class="note" id="access-note-2">
+                  <b>02 · Two doors</b>
+                  <span>Hosts create, guests join with a PIN. Each audience gets exactly one obvious action, side by side.</span>
+                </li>
+                <li class="note" id="access-note-3">
+                  <b>03 · Output as proof</b>
+                  <span>The hero image is what the product collects — a real table at a real event. The output does the persuading.</span>
+                </li>
+              </ol>
+            </div>
           </div>
 
-          <div class="teardown-stage">
-            <a
-              class="product-frame"
-              href="https://fitness.yashvipulkumarshah.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open Fitness in a new tab — live screenshot shown"
-            >
-              <span class="frame-tilt">
-                <span class="frame-bar">
-                  <i></i><i></i><i></i>
-                  <span class="frame-url">fitness.yashvipulkumarshah.com</span>
-                  <span class="frame-open">Open ↗</span>
-                </span>
-                <span class="shot">
-                  <picture>
-                    <source media="(max-width: 720px)" srcset="assets/fitness-mobile-snapshot.png?v=2" width="375" height="812" />
-                    <img
-                      src="assets/fitness-snapshot.png?v=2"
-                      width="1425"
-                      height="891"
-                      loading="lazy"
-                      alt="Fitness training log dashboard: latest weight of 67.9 kg, a 30-day weight-trend chart, and workout, steps, and PR cards."
-                    />
-                  </picture>
-                  <span class="pin" data-note="fitness-note-1" style="--px: 52%; --py: 4%" aria-hidden="true">1</span>
-                  <span class="pin" data-note="fitness-note-2" style="--px: 17%; --py: 21%" aria-hidden="true">2</span>
-                  <span class="pin" data-note="fitness-note-3" style="--px: 55%; --py: 52%" aria-hidden="true">3</span>
-                </span>
-              </span>
-            </a>
-            <ol class="note-strip" aria-label="Teardown notes for Fitness">
-              <li class="note" id="fitness-note-1">
-                <b>01 · Four surfaces</b>
-                <span>Dashboard, logs, workout, progress. No feed, no streak-shaming — a tool shaped like a training session.</span>
-              </li>
-              <li class="note" id="fitness-note-2">
-                <b>02 · One number leads</b>
-                <span>Latest weight gets top billing because recomposition is the goal. Everything else on the page supports that number.</span>
-              </li>
-              <li class="note" id="fitness-note-3">
-                <b>03 · The receipt</b>
-                <span>A 30-day trend with real dates. This chart is only full if the owner logs daily — and it's full.</span>
-              </li>
-            </ol>
+          <div class="lid" aria-hidden="true">
+            <div class="piece piece-a">
+              <div class="lid-face">
+                <p class="lid-fig mono"><span>Fig. 02 — sealed</span><span>Live</span></p>
+                <p class="lid-name">Access</p>
+                <p class="lid-contents mono">Contents: every photo from the night — keep scrolling to tear</p>
+                <span class="lid-seamline"></span>
+                <span class="lid-cue mono">✂ Scroll</span>
+              </div>
+            </div>
+            <div class="piece piece-b">
+              <div class="lid-face">
+                <p class="lid-fig mono"><span>Fig. 02 — sealed</span><span>Live</span></p>
+                <p class="lid-name">Access</p>
+                <p class="lid-contents mono">Contents: every photo from the night — keep scrolling to tear</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="panel" id="panel-background" role="dialog" aria-modal="true" aria-label="Background — torn open">
-      <div class="panel-chrome">
-        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 04 — Background · torn open</p>
-        <button class="panel-close" type="button">Tape it back ✕</button>
-      </div>
-      <div class="panel-scroll">
-        <div class="plain-body">
-          <h2>The pattern is shipping.</h2>
-          <p class="lede">
+      <!-- ======= FITNESS ======= -->
+      <section class="scrolly chapter dark" id="fitness" style="--accent: var(--fitness); --visit-ink: var(--coal)" aria-labelledby="fitness-title">
+        <div class="stage">
+          <div class="product-grid">
+            <div class="product-info">
+              <p class="chapter-label mono"><span class="live-dot" aria-hidden="true"></span>Fig. 03 — Live product · teardown</p>
+              <h2 id="fitness-title">Fitness</h2>
+              <p class="tagline">Body recomposition tracking. Built for how I train.</p>
+              <p class="story">
+                Most trackers count workouts. Mine tracks the recomposition itself: weight trend, session
+                volume, steps, and PRs on one dashboard. I built it because I use it; every day it earns
+                its data.
+              </p>
+              <ul class="facts">
+                <li><span class="k mono">Status</span><span>Live, in daily use</span></li>
+                <li><span class="k mono">Role</span><span>Designed, built, and shipped solo</span></li>
+                <li><span class="k mono">Core loop</span><span>Log — see the trend — keep the streak</span></li>
+              </ul>
+              <a class="visit" href="https://fitness.yashvipulkumarshah.com" target="_blank" rel="noopener noreferrer">
+                Open Fitness <span aria-hidden="true">↗</span>
+              </a>
+              <span class="visit-url mono">fitness.yashvipulkumarshah.com</span>
+            </div>
+
+            <div class="teardown-stage">
+              <a
+                class="product-frame"
+                href="https://fitness.yashvipulkumarshah.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Fitness in a new tab — live screenshot shown"
+              >
+                <span class="frame-tilt">
+                  <span class="frame-bar">
+                    <i></i><i></i><i></i>
+                    <span class="frame-url">fitness.yashvipulkumarshah.com</span>
+                    <span class="frame-open">Open ↗</span>
+                  </span>
+                  <span class="shot">
+                    <picture>
+                      <source media="(max-width: 720px)" srcset="assets/fitness-mobile-snapshot.png?v=2" width="375" height="812" />
+                      <img
+                        src="assets/fitness-snapshot.png?v=2"
+                        width="1425"
+                        height="891"
+                        loading="lazy"
+                        alt="Fitness training log dashboard: latest weight of 67.9 kg, a 30-day weight-trend chart, and workout, steps, and PR cards."
+                      />
+                    </picture>
+                    <span class="pin" data-i="1" data-note="fitness-note-1" style="--px: 52%; --py: 4%" aria-hidden="true">1</span>
+                    <span class="pin" data-i="2" data-note="fitness-note-2" style="--px: 17%; --py: 21%" aria-hidden="true">2</span>
+                    <span class="pin" data-i="3" data-note="fitness-note-3" style="--px: 55%; --py: 52%" aria-hidden="true">3</span>
+                  </span>
+                </span>
+              </a>
+              <ol class="note-strip" aria-label="Teardown notes for Fitness">
+                <li class="note" id="fitness-note-1">
+                  <b>01 · Four surfaces</b>
+                  <span>Dashboard, logs, workout, progress. No feed, no streak-shaming — a tool shaped like a training session.</span>
+                </li>
+                <li class="note" id="fitness-note-2">
+                  <b>02 · One number leads</b>
+                  <span>Latest weight gets top billing because recomposition is the goal. Everything else on the page supports that number.</span>
+                </li>
+                <li class="note" id="fitness-note-3">
+                  <b>03 · The receipt</b>
+                  <span>A 30-day trend with real dates. This chart is only full if the owner logs daily — and it's full.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="lid" aria-hidden="true">
+            <div class="piece piece-a">
+              <div class="lid-face">
+                <p class="lid-fig mono"><span>Fig. 03 — sealed</span><span>Live</span></p>
+                <p class="lid-name">Fitness</p>
+                <p class="lid-contents mono">Contents: one very consistent training log — keep scrolling to tear</p>
+                <span class="lid-seamline"></span>
+                <span class="lid-cue mono">✂ Scroll</span>
+              </div>
+            </div>
+            <div class="piece piece-b">
+              <div class="lid-face">
+                <p class="lid-fig mono"><span>Fig. 03 — sealed</span><span>Live</span></p>
+                <p class="lid-name">Fitness</p>
+                <p class="lid-contents mono">Contents: one very consistent training log — keep scrolling to tear</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======= ABOUT ======= -->
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="about-inner">
+          <p class="hero-kicker mono reveal">Fig. 04 — Background</p>
+          <h2 id="about-title" class="reveal">The pattern is shipping.</h2>
+          <p class="lede reveal">
             Software engineering at John Deere. Founded Bookchange, a peer-to-peer book-sharing platform
             that reached the finals of Shark Tank India. Product management at SwitchOn, a Series B
             computer-vision startup. Currently completing an MBA at Ivey Business School, Western University.
           </p>
-          <p class="meta-note">
+          <p class="meta-note reveal" style="margin-top: 18px">
             ✳ The résumé section every portfolio has — kept to one paragraph and four stops.
-            The products on the bench make the longer argument.
+            The products above make the longer argument.
           </p>
-          <div class="cred-row">
+          <div class="cred-row reveal">
             <div class="cred">
               <span class="mono">Engineering</span>
               <strong>John Deere</strong>
@@ -1967,21 +1765,17 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="panel" id="panel-contact" role="dialog" aria-modal="true" aria-label="Contact — torn open">
-      <div class="panel-chrome">
-        <p class="chapter mono"><span class="live-dot" aria-hidden="true"></span>Fig. 05 — Contact · torn open</p>
-        <button class="panel-close" type="button">Tape it back ✕</button>
-      </div>
-      <div class="panel-scroll">
-        <div class="plain-body">
-          <h2>Building something? Let's talk.</h2>
-          <p class="meta-note">
+      <!-- ======= CONTACT ======= -->
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="contact-inner">
+          <p class="hero-kicker mono reveal">Fig. 05 — Contact</p>
+          <h2 id="contact-title" class="reveal">Building something? Let's talk.</h2>
+          <p class="meta-note reveal" style="margin-top: 16px">
             ✳ No contact form — forms are where messages go to die. These three land where I actually look.
           </p>
-          <ul class="contact-links" aria-label="Profiles">
+          <ul class="contact-links reveal" aria-label="Profiles">
             <li>
               <a href="https://github.com/yash272" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
@@ -2007,22 +1801,20 @@
               </a>
             </li>
           </ul>
+
+          <footer class="site-foot mono">
+            <span>© 2026 Yash Shah</span>
+            <span>Torn, not browsed · London, ON</span>
+          </footer>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <script>
       (() => {
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
         const root = document.documentElement;
-        const cover = document.getElementById("cover");
-        const bench = document.getElementById("bench");
-        const TEAR_MS = reduceMotion ? 0 : 900;
-        let openPanelEl = null;
-        let lastOpener = null;
-
-        bench.setAttribute("inert", "");
 
         /* ---------- paper scraps ---------- */
         function scraps(x, y, count) {
@@ -2030,7 +1822,7 @@
           for (let i = 0; i < (count || 9); i++) {
             const s = document.createElement("span");
             s.className = "scrap";
-            s.style.left = x + (Math.random() * 60 - 30) + "px";
+            s.style.left = x + (Math.random() * 80 - 40) + "px";
             s.style.top = y + (Math.random() * 30 - 15) + "px";
             s.style.setProperty("--dx", (Math.random() * 220 - 110).toFixed(0) + "px");
             s.style.setProperty("--dy", (90 + Math.random() * 260).toFixed(0) + "px");
@@ -2042,236 +1834,127 @@
           }
         }
 
-        /* ---------- cover ---------- */
-        function tearCover(instant) {
-          if (cover.classList.contains("torn")) return;
-          cover.classList.remove("dragging");
-          cover.classList.add("torn");
-          document.body.classList.add("opened");
-          bench.removeAttribute("inert");
-          const rect = cover.getBoundingClientRect();
-          scraps(rect.width * 0.53, rect.height * 0.45);
-          window.setTimeout(() => {
-            cover.classList.add("gone");
-            if (!openPanelEl) {
-              const firstLid = bench.querySelector(".lid:not(.torn)");
-              if (firstLid && !instant) firstLid.focus({ preventScroll: true });
-            }
-          }, instant ? 0 : TEAR_MS);
-        }
+        /* ---------- scroll-driven tearing ---------- */
+        if (reduceMotion) {
+          root.classList.add("static");
+        } else {
+          const sections = [...document.querySelectorAll(".scrolly")].map((el) => ({
+            el,
+            isChapter: el.classList.contains("chapter"),
+            burst: false,
+            max: 0,
+            done: false,
+          }));
+          const progressBar = document.querySelector(".progress");
+          let ticking = false;
 
-        function consumeSuppressedClick(el) {
-          if (el._suppressClick) {
-            el._suppressClick = false;
-            return true;
+          function update() {
+            ticking = false;
+            const vh = window.innerHeight;
+            const doc = document.documentElement;
+            progressBar.style.setProperty(
+              "--sp",
+              (window.scrollY / Math.max(1, doc.scrollHeight - vh)).toFixed(4)
+            );
+
+            for (const s of sections) {
+              if (s.done) continue;
+              const rect = s.el.getBoundingClientRect();
+              const total = rect.height - vh;
+              const raw = Math.max(0, Math.min(1, -rect.top / Math.max(1, total)));
+              /* tears are one-way: progress never rewinds, so scrolling back
+                 up shows the finished state until a refresh */
+              s.max = Math.max(s.max, raw);
+              const p = s.max;
+              s.el.style.setProperty("--p", p.toFixed(4));
+
+              if (s.isChapter) {
+                s.el.classList.toggle("s1", p > 0.42);
+                s.el.classList.toggle("s2", p > 0.56);
+                s.el.classList.toggle("s3", p > 0.7);
+              }
+
+              const burstAt = 0.3;
+              if (!s.burst && p > burstAt && p < 0.6 && rect.top <= 0 && rect.bottom >= vh) {
+                s.burst = true;
+                scraps(window.innerWidth * 0.5, vh * 0.5, 10);
+              }
+
+              /* the teardown plays once: when the section leaves the viewport
+                 after its reveal (past it below, or backed away above it),
+                 retire the packaging for good and collapse the section to one
+                 viewport so all further scrolling is normal. shift scroll by
+                 the removed height so nothing visibly jumps */
+              const leftAbove = rect.bottom <= 0;
+              const leftBelow = s.max >= 0.72 && rect.top >= vh;
+              if (leftAbove || leftBelow) {
+                s.done = true;
+                s.el.classList.add("done");
+                s.el.style.setProperty("--p", "1.0000");
+                if (s.isChapter) s.el.classList.add("s1", "s2", "s3");
+                const before = rect.height;
+                s.el.style.height = "100svh";
+                const after = s.el.getBoundingClientRect().height;
+                const delta = before - after;
+                if (delta > 0 && leftAbove) {
+                  const prevBehavior = doc.style.scrollBehavior;
+                  doc.style.scrollBehavior = "auto";
+                  window.scrollTo(0, window.scrollY - delta);
+                  doc.style.scrollBehavior = prevBehavior;
+                }
+              }
+            }
           }
-          return false;
-        }
 
-        document.getElementById("cover-tab").addEventListener("click", () => {
-          if (consumeSuppressedClick(cover)) return;
-          tearCover(false);
-        });
-
-        /* ---------- lids ---------- */
-        function tearLid(lid, instant) {
-          if (lid.classList.contains("torn")) return;
-          lid.classList.remove("dragging");
-          lid.classList.add("torn");
-          lid.setAttribute("aria-hidden", "true");
-          lid.tabIndex = -1;
-          const slot = lid.closest(".slot");
-          slot.classList.add("revealed");
-          const inner = slot.querySelector(".slot-inner");
-          if (inner) inner.removeAttribute("inert");
-          const rect = lid.getBoundingClientRect();
-          scraps(rect.left + rect.width / 2, rect.top + rect.height * 0.52);
-          window.setTimeout(() => {
-            lid.classList.add("gone");
-            if (!instant && !openPanelEl) {
-              const opener = slot.querySelector(".slot-open");
-              if (opener) opener.focus({ preventScroll: true });
-            }
-          }, instant ? 0 : TEAR_MS * 0.85);
-        }
-
-        document.querySelectorAll(".lid").forEach((lid) => {
-          lid.addEventListener("click", () => {
-            if (consumeSuppressedClick(lid)) return;
-            tearLid(lid, false);
-          });
-        });
-
-        /* ---------- progressive tearing: drag or scroll, spring back on release ---------- */
-        function makeTearable(el, commit, dragGain, wheelGain) {
-          if (reduceMotion) return;
-          let wheelP = 0;
-          let wheelTimer = 0;
-          let lastScrapAt = 0;
-
-          const seamPoint = () => {
-            const box = el.getBoundingClientRect();
-            return [box.left + box.width * 0.53, box.top + box.height * 0.5];
-          };
-
-          const apply = (p) => {
-            el.classList.add("dragging");
-            el.style.setProperty("--p", Math.min(p, 1).toFixed(3));
-            if (p - lastScrapAt > 0.22) {
-              lastScrapAt = p;
-              const [sx, sy] = seamPoint();
-              scraps(sx, sy, 3);
-            }
-          };
-
-          const springBack = () => {
-            lastScrapAt = 0;
-            el.classList.remove("dragging");
-            el.style.setProperty("--p", "0");
-          };
-
-          const rip = () => {
-            lastScrapAt = 0;
-            wheelP = 0;
-            el.classList.remove("dragging");
-            el.style.removeProperty("--p");
-            commit();
-          };
-
-          el.addEventListener("pointerdown", (event) => {
-            if (el.classList.contains("torn") || event.button > 0) return;
-            const sx = event.clientX;
-            const sy = event.clientY;
-            let done = false;
-            let dist = 0;
-
-            const move = (ev) => {
-              if (done) return;
-              dist = Math.hypot(ev.clientX - sx, ev.clientY - sy);
-              apply(dist / dragGain);
-              if (dist >= dragGain) {
-                done = true;
-                cleanup();
-                rip();
+          window.addEventListener(
+            "scroll",
+            () => {
+              if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
               }
-            };
-
-            const cleanup = () => {
-              window.removeEventListener("pointermove", move);
-              window.removeEventListener("pointerup", up);
-              window.removeEventListener("pointercancel", up);
-            };
-
-            const up = () => {
-              cleanup();
-              if (done) return;
-              if (dist > 12) el._suppressClick = true;
-              springBack();
-            };
-
-            window.addEventListener("pointermove", move);
-            window.addEventListener("pointerup", up);
-            window.addEventListener("pointercancel", up);
-          });
-
-          el.addEventListener(
-            "wheel",
-            (event) => {
-              if (el.classList.contains("torn")) return;
-              event.preventDefault();
-              const delta = event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY;
-              wheelP = Math.max(0, wheelP + delta / wheelGain);
-              window.clearTimeout(wheelTimer);
-              if (wheelP >= 1) {
-                rip();
-                return;
-              }
-              apply(wheelP);
-              wheelTimer = window.setTimeout(() => {
-                wheelP = 0;
-                springBack();
-              }, 650);
             },
-            { passive: false }
+            { passive: true }
           );
+          window.addEventListener("resize", update, { passive: true });
+          update();
         }
 
-        makeTearable(cover, () => tearCover(false), 260, 1000);
-        document.querySelectorAll(".lid").forEach((lid) => {
-          makeTearable(lid, () => tearLid(lid, false), 150, 640);
-        });
-
-        /* ---------- panels ---------- */
-        function openPanel(id, opener) {
-          const panel = document.getElementById(id);
-          if (!panel || openPanelEl === panel) return;
-          if (openPanelEl) closePanel(true);
-          openPanelEl = panel;
-          lastOpener = opener || null;
-          panel.classList.add("open");
-          bench.setAttribute("inert", "");
-          root.style.setProperty(
-            "--spot",
-            getComputedStyle(panel).getPropertyValue("--p-accent").trim() || "#e8442e"
+        /* ---------- reveals (about / contact) ---------- */
+        const revealables = document.querySelectorAll(".reveal");
+        if ("IntersectionObserver" in window && !reduceMotion) {
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                if (e.isIntersecting) {
+                  e.target.classList.add("in");
+                  io.unobserve(e.target);
+                }
+              }
+            },
+            { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
           );
-          const close = panel.querySelector(".panel-close");
-          if (close) close.focus({ preventScroll: true });
+          revealables.forEach((el) => io.observe(el));
+        } else {
+          revealables.forEach((el) => el.classList.add("in"));
         }
 
-        function closePanel(silent) {
-          if (!openPanelEl) return;
-          openPanelEl.classList.remove("open");
-          openPanelEl = null;
-          bench.removeAttribute("inert");
-          root.style.setProperty("--spot", "#e8442e");
-          if (!silent && lastOpener) lastOpener.focus({ preventScroll: true });
-        }
-
-        document.querySelectorAll(".slot-open").forEach((btn) => {
-          btn.addEventListener("click", () => openPanel(btn.dataset.panel, btn));
-        });
-
-        document.querySelectorAll(".panel-close").forEach((btn) => {
-          btn.addEventListener("click", () => closePanel(false));
-        });
-
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") closePanel(false);
-          if (event.key === "Tab" && openPanelEl) {
-            const focusables = openPanelEl.querySelectorAll("a[href], button:not([disabled])");
-            if (!focusables.length) return;
-            const first = focusables[0];
-            const last = focusables[focusables.length - 1];
-            if (event.shiftKey && document.activeElement === first) {
-              event.preventDefault();
-              last.focus();
-            } else if (!event.shiftKey && document.activeElement === last) {
-              event.preventDefault();
-              first.focus();
-            }
-          }
-        });
-
-        /* ---------- open everything / reassemble ---------- */
-        function openEverything() {
-          tearCover(false);
-          document.querySelectorAll(".lid").forEach((lid, i) => {
-            window.setTimeout(() => tearLid(lid, false), reduceMotion ? 0 : 160 + i * 140);
-          });
-        }
-
-        document.getElementById("cover-skip").addEventListener("click", openEverything);
-        document.getElementById("bench-reset").addEventListener("click", () => window.location.reload());
-
-        /* ---------- deep links (#accept etc.) ---------- */
-        const hash = window.location.hash.replace("#", "");
-        const deepSlots = ["accept", "access", "fitness", "background", "contact"];
-        if (deepSlots.includes(hash)) {
-          tearCover(true);
-          cover.classList.add("gone");
-          const lid = document.querySelector('.lid[data-slot="' + hash + '"]');
-          if (lid) tearLid(lid, true);
-          openPanel("panel-" + hash, null);
+        /* ---------- nav spy ---------- */
+        const spyLinks = [...document.querySelectorAll("[data-spy]")];
+        const spyTargets = spyLinks
+          .map((a) => document.getElementById(a.dataset.spy))
+          .filter(Boolean);
+        if ("IntersectionObserver" in window && spyTargets.length) {
+          const spy = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                const link = spyLinks.find((a) => a.dataset.spy === e.target.id);
+                if (link) link.classList.toggle("active", e.isIntersecting);
+              }
+            },
+            { rootMargin: "-40% 0px -40% 0px" }
+          );
+          spyTargets.forEach((t) => spy.observe(t));
         }
 
         /* ---------- pin <-> note sync ---------- */
@@ -2323,6 +2006,25 @@
               card.style.setProperty("--ry", "0deg");
               card.style.setProperty("--rx", "0deg");
             });
+          });
+        }
+
+        /* ---------- accent follows the visible chapter ---------- */
+        if ("IntersectionObserver" in window) {
+          const accents = { accept: "#e8442e", access: "#f05e23", fitness: "#c3f400" };
+          const accentSpy = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                if (e.isIntersecting && accents[e.target.id]) {
+                  root.style.setProperty("--spot", accents[e.target.id]);
+                }
+              }
+            },
+            { rootMargin: "-45% 0px -45% 0px" }
+          );
+          ["accept", "access", "fitness"].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) accentSpy.observe(el);
           });
         }
       })();
