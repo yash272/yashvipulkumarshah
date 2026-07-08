@@ -62,6 +62,7 @@
         line-height: 1.5;
         -webkit-tap-highlight-color: transparent;
         overflow-x: hidden;
+        overflow-x: clip;
       }
 
       body::after {
@@ -124,6 +125,14 @@
           transparent 72%
         );
         transition: background 0.4s ease;
+      }
+
+      /* touch devices: drop the compositing-heavy ambient layers */
+      @media (hover: none), (max-width: 720px) {
+        .spotlight,
+        body::after {
+          display: none;
+        }
       }
 
       /* ---------- fixed chrome ---------- */
@@ -1180,12 +1189,18 @@
 
       /* ---------- responsive ---------- */
       @media (max-width: 980px) {
+        .site-head {
+          background: var(--paper);
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+        }
+
         .hero-scrolly {
-          --len: 190vh;
+          --len: 170vh;
         }
 
         .chapter {
-          --len: 240vh;
+          --len: 200vh;
         }
 
         .product-grid {
@@ -1244,25 +1259,32 @@
 
         .shot {
           aspect-ratio: auto;
-          height: 38svh;
+          height: 34svh;
         }
 
         .pin {
           display: none;
         }
 
+        /* swipeable full-text annotation cards */
         .note-strip {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 6px;
+          display: flex;
+          gap: 8px;
+          overflow-x: auto;
+          padding-bottom: 4px;
+          scroll-snap-type: x mandatory;
+          scrollbar-width: none;
+        }
+
+        .note-strip::-webkit-scrollbar {
+          display: none;
         }
 
         .note {
-          font-size: 10.5px;
-          padding: 8px 9px;
-        }
-
-        .note span {
-          display: none;
+          flex: 0 0 76%;
+          scroll-snap-align: start;
+          font-size: 12px;
+          padding: 10px 12px;
         }
 
         .meta-note {
@@ -1495,6 +1517,8 @@
                         src="assets/accept-snapshot.png"
                         width="1425"
                         height="891"
+                        loading="lazy"
+                        decoding="async"
                         alt="Accept landing page: the headline 'We negotiate so you don't have to', a three-step deal flow, and buy/sell entry points."
                       />
                     </picture>
@@ -1844,18 +1868,21 @@
             burst: false,
             max: 0,
             done: false,
+            last: "",
           }));
           const progressBar = document.querySelector(".progress");
           let ticking = false;
+          let lastSp = "";
 
           function update() {
             ticking = false;
             const vh = window.innerHeight;
             const doc = document.documentElement;
-            progressBar.style.setProperty(
-              "--sp",
-              (window.scrollY / Math.max(1, doc.scrollHeight - vh)).toFixed(4)
-            );
+            const sp = (window.scrollY / Math.max(1, doc.scrollHeight - vh)).toFixed(3);
+            if (sp !== lastSp) {
+              lastSp = sp;
+              progressBar.style.setProperty("--sp", sp);
+            }
 
             for (const s of sections) {
               if (s.done) continue;
@@ -1866,12 +1893,19 @@
                  up shows the finished state until a refresh */
               s.max = Math.max(s.max, raw);
               const p = s.max;
-              s.el.style.setProperty("--p", p.toFixed(4));
 
-              if (s.isChapter) {
-                s.el.classList.toggle("s1", p > 0.42);
-                s.el.classList.toggle("s2", p > 0.56);
-                s.el.classList.toggle("s3", p > 0.7);
+              /* only touch the DOM when progress actually moved — writing a
+                 custom property invalidates the whole section subtree */
+              const pFixed = p.toFixed(4);
+              if (pFixed !== s.last) {
+                s.last = pFixed;
+                s.el.style.setProperty("--p", pFixed);
+
+                if (s.isChapter) {
+                  s.el.classList.toggle("s1", p > 0.42);
+                  s.el.classList.toggle("s2", p > 0.56);
+                  s.el.classList.toggle("s3", p > 0.7);
+                }
               }
 
               const burstAt = 0.3;
@@ -1980,11 +2014,14 @@
 
         /* ---------- spotlight + frame tilt ---------- */
         if (finePointer && !reduceMotion) {
+          /* scope the spotlight vars to its own element — writing them on the
+             root invalidates custom properties for the entire document */
+          const spotlightEl = document.querySelector(".spotlight");
           window.addEventListener(
             "pointermove",
             (event) => {
-              root.style.setProperty("--mx", event.clientX + "px");
-              root.style.setProperty("--my", event.clientY + "px");
+              spotlightEl.style.setProperty("--mx", event.clientX + "px");
+              spotlightEl.style.setProperty("--my", event.clientY + "px");
             },
             { passive: true }
           );
