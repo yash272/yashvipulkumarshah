@@ -37,6 +37,12 @@
         --my: 30vh;
         --frame-r: 16px;
         --head-h: 58px;
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+        --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+        --motion-fast: 180ms;
+        --motion: 240ms;
+        --motion-slow: 420ms;
       }
 
       * {
@@ -122,7 +128,7 @@
           color-mix(in srgb, var(--spot) 12%, transparent),
           transparent 72%
         );
-        transition: background 0.4s ease;
+        transition: opacity var(--motion-fast) var(--ease-out);
       }
 
       /* touch devices: drop the compositing-heavy ambient layers */
@@ -153,11 +159,13 @@
       }
 
       .wordmark {
+        display: inline-block;
         font-family: "Fraunces", serif;
         font-weight: 700;
         font-size: 19px;
         letter-spacing: -0.03em;
         white-space: nowrap;
+        transition: transform var(--motion-fast) var(--ease-out);
       }
 
       .site-head nav {
@@ -166,17 +174,25 @@
       }
 
       .site-head nav a {
+        display: inline-block;
         position: relative;
         font-family: "DM Mono", monospace;
         font-size: 11px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--muted);
-        transition: color 0.2s ease;
+        transition:
+          color var(--motion-fast) var(--ease-out),
+          transform var(--motion-fast) var(--ease-out);
       }
 
       .site-head nav a:hover {
         color: var(--ink);
+      }
+
+      .wordmark:active,
+      .site-head nav a:active {
+        transform: scale(0.97);
       }
 
       .site-head nav a.active {
@@ -250,6 +266,7 @@
         font-size: clamp(19px, 2vw, 27px);
         letter-spacing: -0.02em;
         line-height: 1.3;
+        overflow-wrap: break-word;
       }
 
       .hero-statement strong {
@@ -280,12 +297,19 @@
         gap: 14px;
         padding: 14px 4px;
         border-bottom: 1px solid var(--paper-line);
-        transition: background 0.25s ease, padding-left 0.25s ease;
+        transition:
+          background var(--motion) var(--ease-out),
+          padding-left var(--motion) var(--ease-out),
+          transform var(--motion-fast) var(--ease-out);
       }
 
       .hero-index a:hover {
         background: color-mix(in srgb, var(--pencil) 7%, transparent);
         padding-left: 12px;
+      }
+
+      .hero-index a:active {
+        transform: scale(0.985);
       }
 
       .hero-index .no {
@@ -312,6 +336,11 @@
       .hero-index .ar {
         justify-self: end;
         color: var(--muted);
+        transition: transform var(--motion-fast) var(--ease-out);
+      }
+
+      .hero-index a:hover .ar {
+        transform: translateY(3px);
       }
 
       /* ---------- ticker ---------- */
@@ -324,17 +353,22 @@
 
       .ticker-track {
         display: flex;
-        width: max-content;
-        animation: marquee 36s linear infinite;
+        width: 100%;
       }
 
       .ticker-chunk {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         gap: 28px;
-        padding-right: 28px;
+        padding: 0 clamp(16px, 3vw, 40px);
         white-space: nowrap;
         color: var(--muted);
+        overflow: hidden;
+      }
+
+      .ticker-chunk + .ticker-chunk {
+        display: none;
       }
 
       .ticker-chunk b {
@@ -344,12 +378,6 @@
 
       .ticker-chunk .dot {
         color: var(--pencil);
-      }
-
-      @keyframes marquee {
-        to {
-          transform: translateX(-50%);
-        }
       }
 
       /* ---------- product chapters ---------- */
@@ -476,7 +504,11 @@
         font-size: 11px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.22s ease;
+        transition:
+          background var(--motion) var(--ease-out),
+          border-color var(--motion) var(--ease-out),
+          color var(--motion) var(--ease-out),
+          transform var(--motion) var(--ease-out);
       }
 
       .visit:hover {
@@ -484,6 +516,10 @@
         border-color: var(--accent, var(--pencil));
         color: var(--visit-ink, var(--paper));
         transform: translateY(-2px);
+      }
+
+      .visit:active {
+        transform: translateY(0) scale(0.98);
       }
 
       .visit-url {
@@ -510,6 +546,8 @@
       .frame-tilt {
         display: block;
         position: relative;
+        --glow-x: 50%;
+        --glow-y: 50%;
         border: 1px solid var(--paper-line-strong);
         border-radius: var(--frame-r);
         background: var(--paper-soft);
@@ -518,7 +556,35 @@
           0 1px 2px rgba(24, 20, 12, 0.08),
           0 18px 44px -18px rgba(24, 20, 12, 0.3);
         transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-        transition: transform 0.18s ease-out, box-shadow 0.3s ease;
+        transition:
+          transform var(--motion-fast) var(--ease-out),
+          box-shadow var(--motion) var(--ease-out);
+        will-change: transform;
+      }
+
+      .frame-tilt::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        pointer-events: none;
+        opacity: 0;
+        background: radial-gradient(
+          360px circle at var(--glow-x) var(--glow-y),
+          color-mix(in srgb, var(--accent, var(--pencil)) 16%, transparent),
+          transparent 66%
+        );
+        mix-blend-mode: multiply;
+        transition: opacity var(--motion-fast) var(--ease-out);
+      }
+
+      .product-frame:hover .frame-tilt::after,
+      .product-frame:focus-visible .frame-tilt::after {
+        opacity: 1;
+      }
+
+      .product-frame:active .frame-tilt {
+        transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(0.985);
       }
 
       .frame-bar {
@@ -563,7 +629,9 @@
         text-transform: uppercase;
         opacity: 0;
         transform: translateX(-4px);
-        transition: opacity 0.22s ease, transform 0.22s ease;
+        transition:
+          opacity var(--motion-fast) var(--ease-out),
+          transform var(--motion-fast) var(--ease-out);
       }
 
       .product-frame:hover .frame-open,
@@ -599,14 +667,17 @@
         margin: -12px 0 0 -12px;
         border-radius: 50%;
         background: var(--pencil);
-        color: #fff6ee;
+        color: var(--paper-soft);
         font-family: "DM Mono", monospace;
         font-size: 11px;
         line-height: 1;
         box-shadow: 0 0 0 4px color-mix(in srgb, var(--pencil) 20%, transparent);
         cursor: help;
-        transform: scale(0);
-        transition: transform 0.45s cubic-bezier(0.2, 1.6, 0.35, 1);
+        opacity: 0;
+        transform: scale(0.92);
+        transition:
+          opacity var(--motion) var(--ease-out),
+          transform var(--motion) var(--ease-out);
       }
 
       .pin::after {
@@ -615,30 +686,44 @@
         inset: -5px;
         border-radius: 50%;
         border: 1px solid var(--pencil);
-        opacity: 0.55;
-        animation: pulse 2.6s ease-out infinite;
+        opacity: 0;
+        transform: scale(0.9);
+        transition:
+          opacity var(--motion-fast) var(--ease-out),
+          transform var(--motion-fast) var(--ease-out);
       }
 
       .chapter.in .pin {
+        opacity: 1;
         transform: scale(1);
       }
 
       .chapter.in .pin[data-i="1"] {
-        transition-delay: 0.25s;
+        transition-delay: 0ms;
       }
 
       .chapter.in .pin[data-i="2"] {
-        transition-delay: 0.5s;
+        transition-delay: 35ms;
       }
 
       .chapter.in .pin[data-i="3"] {
-        transition-delay: 0.75s;
+        transition-delay: 50ms;
       }
 
       .pin:hover,
       .pin.hot {
-        transform: scale(1.3) !important;
+        transform: scale(1.06) !important;
         transition-delay: 0s !important;
+      }
+
+      .pin:hover::after,
+      .pin.hot::after {
+        opacity: 0.65;
+        transform: scale(1.08);
+      }
+
+      .pin:active {
+        transform: scale(0.98) !important;
       }
 
       .note-strip {
@@ -656,8 +741,11 @@
         font-size: 12px;
         line-height: 1.5;
         opacity: 0;
-        transform: translateY(12px);
-        transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s ease;
+        transform: translateY(8px);
+        transition:
+          opacity var(--motion) var(--ease-out),
+          transform var(--motion) var(--ease-out),
+          background var(--motion-fast) var(--ease-out);
       }
 
       .chapter.in .note {
@@ -666,15 +754,15 @@
       }
 
       .chapter.in .note:nth-child(1) {
-        transition-delay: 0.35s;
+        transition-delay: 0ms;
       }
 
       .chapter.in .note:nth-child(2) {
-        transition-delay: 0.6s;
+        transition-delay: 35ms;
       }
 
       .chapter.in .note:nth-child(3) {
-        transition-delay: 0.85s;
+        transition-delay: 50ms;
       }
 
       .note b {
@@ -746,7 +834,7 @@
       }
 
       .chapter.dark .note b {
-        color: #ff7a5c;
+        color: color-mix(in srgb, var(--fitness) 52%, var(--accept));
       }
 
       .chapter.dark .note:hover,
@@ -847,7 +935,9 @@
         gap: 16px;
         padding: 17px 4px;
         border-bottom: 1px solid var(--paper-line);
-        transition: background 0.25s ease;
+        transition:
+          background var(--motion) var(--ease-out),
+          transform var(--motion-fast) var(--ease-out);
       }
 
       .contact-links svg {
@@ -873,7 +963,7 @@
 
       .contact-links .arrow {
         justify-self: end;
-        transition: transform 0.25s ease;
+        transition: transform var(--motion-fast) var(--ease-out);
       }
 
       .contact-links a:hover {
@@ -882,6 +972,10 @@
 
       .contact-links a:hover .arrow {
         transform: translate(4px, -4px);
+      }
+
+      .contact-links a:active {
+        transform: scale(0.985);
       }
 
       .site-foot {
@@ -899,8 +993,10 @@
       /* ---------- reveals ---------- */
       .js .reveal {
         opacity: 0;
-        transform: translateY(22px);
-        transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+        transform: translateY(16px);
+        transition:
+          opacity var(--motion-slow) var(--ease-out),
+          transform var(--motion-slow) var(--ease-out);
       }
 
       .js .reveal.in {
@@ -963,7 +1059,54 @@
       }
 
       @media (max-width: 720px) {
+        .site-head {
+          padding-inline: 16px;
+        }
+
+        .site-head nav {
+          flex: 1;
+          justify-content: flex-end;
+          gap: 14px;
+          overflow: hidden;
+        }
+
         .site-head nav a:not(.keep) {
+          display: none;
+        }
+
+        .site-head nav a[href="#about"] {
+          display: none;
+        }
+
+        .site-head nav a {
+          flex: none;
+        }
+
+        .hero,
+        .chapter,
+        .about,
+        .contact {
+          overflow: hidden;
+        }
+
+        .hero-statement,
+        .story,
+        .lede,
+        .meta-note {
+          max-width: 100%;
+          overflow-wrap: anywhere;
+        }
+
+        .hero-statement {
+          max-width: 350px;
+        }
+
+        .hero-kicker {
+          flex-wrap: wrap;
+          max-width: 350px;
+        }
+
+        .ticker {
           display: none;
         }
 
@@ -1547,31 +1690,57 @@
         /* ---------- spotlight + frame tilt (desktop only) ---------- */
         if (finePointer && !reduceMotion) {
           const spotlightEl = document.querySelector(".spotlight");
+          let pointerFrame = 0;
+          let pointerX = 0;
+          let pointerY = 0;
           window.addEventListener(
             "pointermove",
             (event) => {
-              spotlightEl.style.setProperty("--mx", event.clientX + "px");
-              spotlightEl.style.setProperty("--my", event.clientY + "px");
+              pointerX = event.clientX;
+              pointerY = event.clientY;
+              if (!pointerFrame) {
+                pointerFrame = requestAnimationFrame(() => {
+                  pointerFrame = 0;
+                  spotlightEl.style.setProperty("--mx", pointerX + "px");
+                  spotlightEl.style.setProperty("--my", pointerY + "px");
+                });
+              }
             },
             { passive: true }
           );
 
           document.querySelectorAll(".product-frame").forEach((frame) => {
             const card = frame.querySelector(".frame-tilt");
+            let frameRaf = 0;
+            let frameX = 0;
+            let frameY = 0;
             frame.addEventListener(
               "pointermove",
               (event) => {
-                const box = frame.getBoundingClientRect();
-                const px = (event.clientX - box.left) / box.width - 0.5;
-                const py = (event.clientY - box.top) / box.height - 0.5;
-                card.style.setProperty("--ry", (px * 4).toFixed(2) + "deg");
-                card.style.setProperty("--rx", (py * -3).toFixed(2) + "deg");
+                frameX = event.clientX;
+                frameY = event.clientY;
+                if (!frameRaf) {
+                  frameRaf = requestAnimationFrame(() => {
+                    frameRaf = 0;
+                    const box = frame.getBoundingClientRect();
+                    const x = frameX - box.left;
+                    const y = frameY - box.top;
+                    const px = x / box.width - 0.5;
+                    const py = y / box.height - 0.5;
+                    card.style.setProperty("--ry", (px * 4).toFixed(2) + "deg");
+                    card.style.setProperty("--rx", (py * -3).toFixed(2) + "deg");
+                    card.style.setProperty("--glow-x", (x / box.width) * 100 + "%");
+                    card.style.setProperty("--glow-y", (y / box.height) * 100 + "%");
+                  });
+                }
               },
               { passive: true }
             );
             frame.addEventListener("pointerleave", () => {
               card.style.setProperty("--ry", "0deg");
               card.style.setProperty("--rx", "0deg");
+              card.style.setProperty("--glow-x", "50%");
+              card.style.setProperty("--glow-y", "50%");
             });
           });
         }
