@@ -138,3 +138,9 @@ test("buildBlog replaces stale output and emits only published article routes", 
   await assert.rejects(access(path.join(root, "blog", "draft", "index.html")));
   await assert.rejects(access(path.join(root, "blog", "stale", "index.html")));
 });
+
+test("portfolio navigation keeps Writing visible and links to the blog hub", async () => {
+  const portfolio = await readFile(path.join(process.cwd(), "index.html"), "utf8");
+
+  assert.match(portfolio, /<a class="keep" href="blog\/">Writing<\/a>/);
+});
