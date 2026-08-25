@@ -1,0 +1,13 @@
+{
+  "name": "yash-shah-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "blog:build": "node scripts/build-blog.mjs",
+    "test": "node --test tests/blog-build.test.mjs"
+  },
+  "devDependencies": {
+    "gray-matter": "4.0.3",
+    "marked": "18.0.11"
+  }
+}
