@@ -50,11 +50,11 @@ The portfolio header gains a `Writing` link pointing to `blog/`. The writing hub
 The page is structured as:
 
 1. A compact shared header with `Yash Shah`, `Work`, `About`, and `Contact` links back to the portfolio.
-2. An editorial introduction headed `Notes on products, systems, and building`.
-3. A chronological article list. Each row contains the publication date, title, description, tags, and a directional arrow. The whole row is clickable.
+2. An asymmetrical editorial opening with an oversized `Writing` folio, the heading `Notes on products, systems, and building`, and a narrow `Current threads` margin listing Products, Systems, and Building.
+3. A chronological article index drawn like ruled notebook paper. Each row contains the publication date, title, description, tags, and a directional arrow. The whole row is clickable.
 4. A quiet footer linking to the portfolio and social profiles.
 
-The initial build has no published posts. Instead of rendering an empty grid, it shows an intentional ruled empty state: `Nothing published yet.` followed by `The first note is in progress.` The empty state disappears automatically when the first non-draft Markdown file is added.
+The initial build has no published posts, but it must still feel visually complete. Instead of rendering an empty grid, the ruled index holds an intentional composed empty state: a large folio number, a red margin mark, `Nothing published yet.`, and `The first note is in progress.` The editorial opening and topic threads remain visible, giving the page hierarchy and visual interest before content exists. The empty state disappears automatically when the first non-draft Markdown file is added.
 
 ## Article Experience
 
@@ -71,7 +71,7 @@ Article JavaScript is limited to the reading-progress indicator. Reduced-motion 
 
 ## Visual Direction
 
-The blog is an extension of the existing annotated portfolio, not a separate brand. Its memorable element is the article list presented as a working notebook index: ruled rows, small editorial metadata, and one red margin mark that moves to the active row on hover or keyboard focus. The mark communicates selection and does not obscure content.
+The blog is an extension of the existing annotated portfolio, not a separate brand. Its memorable element is the article list presented as a working notebook index: ruled rows, small editorial metadata, and one red margin mark that moves to the active row on hover or keyboard focus. The opening uses deliberate asymmetry and an oversized folio word as a typographic visual, while the rest of the page stays restrained. The mark communicates selection and does not obscure content.
 
 The design avoids generic card grids, oversized marketing copy, decorative blobs, and dark-theme detours. Mobile collapses each article row into date, title, description, and tags in one column with no horizontal overflow.
 
