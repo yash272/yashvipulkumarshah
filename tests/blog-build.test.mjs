@@ -1,10 +1,16 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
-import { loadPosts, parsePost } from "../scripts/build-blog.mjs";
+import {
+  buildBlog,
+  loadPosts,
+  parsePost,
+  renderArticle,
+  renderHub
+} from "../scripts/build-blog.mjs";
 
 const markdown = ({ title, description = "Description", date, draft = false }) => `---
 title: "${title}"
@@ -65,4 +71,70 @@ test("loadPosts rejects duplicate normalized slugs", async () => {
   ]);
 
   await assert.rejects(() => loadPosts(root), /Duplicate blog slug: hello-world/);
+});
+
+const postFixture = {
+  title: "Community < marketplace",
+  description: "What a failed marketplace taught me about focus & sequence.",
+  date: "2026-08-24",
+  dateLabel: "Aug 24, 2026",
+  tags: ["Product", "Founder"],
+  draft: false,
+  slug: "community-before-marketplace",
+  bodyHtml: "<h2>The decision</h2><p>Start with the people.</p>",
+  readingMinutes: 4
+};
+
+test("renderHub makes the empty state feel deliberate", () => {
+  const html = renderHub([]);
+
+  assert.match(html, /Notes on products, systems, and building/);
+  assert.match(html, /Current threads/);
+  assert.match(html, /Nothing published yet\./);
+  assert.match(html, /The first note is in progress\./);
+  assert.match(html, /aria-current="page"[^>]*>Writing</);
+});
+
+test("renderHub lists articles and escapes frontmatter", () => {
+  const html = renderHub([postFixture]);
+
+  assert.match(html, /community-before-marketplace\/index\.html/);
+  assert.match(html, /Community &lt; marketplace/);
+  assert.match(html, /focus &amp; sequence/);
+  assert.doesNotMatch(html, /Community < marketplace/);
+});
+
+test("renderArticle includes canonical metadata, article content, and reading time", () => {
+  const html = renderArticle(postFixture);
+
+  assert.match(html, /<link rel="canonical" href="https:\/\/yashvipulkumarshah\.com\/blog\/community-before-marketplace\/">/);
+  assert.match(html, /<meta property="og:title" content="Community &lt; marketplace">/);
+  assert.match(html, /4 min read/);
+  assert.match(html, /<h2>The decision<\/h2><p>Start with the people\.<\/p>/);
+  assert.match(html, /href="\.\.\/index\.html"/);
+});
+
+test("buildBlog replaces stale output and emits only published article routes", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "blog-build-"));
+  await mkdir(path.join(root, "content", "blog"), { recursive: true });
+  await mkdir(path.join(root, "blog", "stale"), { recursive: true });
+  await writeFile(path.join(root, "blog", "stale", "index.html"), "old");
+  await writeFile(
+    path.join(root, "content", "blog", "published.md"),
+    markdown({ title: "Published", date: "2026-08-24" })
+  );
+  await writeFile(
+    path.join(root, "content", "blog", "draft.md"),
+    markdown({ title: "Draft", date: "2026-08-23", draft: true })
+  );
+
+  await buildBlog({ rootDir: root });
+
+  assert.match(await readFile(path.join(root, "blog", "index.html"), "utf8"), /Published/);
+  assert.match(
+    await readFile(path.join(root, "blog", "published", "index.html"), "utf8"),
+    /Body copy\./
+  );
+  await assert.rejects(access(path.join(root, "blog", "draft", "index.html")));
+  await assert.rejects(access(path.join(root, "blog", "stale", "index.html")));
 });
