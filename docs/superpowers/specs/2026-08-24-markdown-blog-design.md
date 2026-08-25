@@ -42,6 +42,7 @@ Rules:
 - Draft posts are omitted from the hub and are not emitted as article pages.
 - Invalid frontmatter or duplicate slugs fail the build with a specific filename and message.
 - Posts are sorted newest first.
+- Markdown files are trusted local authoring input and may contain intentional inline HTML; all frontmatter values are escaped before being inserted into generated markup or metadata.
 
 ## Hub Experience
 
@@ -101,4 +102,4 @@ The unrelated untracked `stumpvizz/` directory is outside the scope and must not
 
 ## Verification
 
-Automated checks cover frontmatter validation, draft omission, newest-first sorting, slug generation, HTML escaping through the Markdown pipeline, empty-state generation, and article metadata. The final pass runs the generator, the test suite, `git diff --check`, and visual checks at desktop and mobile widths for the portfolio navigation, empty hub, and a temporary generated article fixture.
+Automated checks cover frontmatter validation, draft omission, newest-first sorting, slug generation, frontmatter escaping, empty-state generation, and article metadata. The final pass runs the generator, the test suite, `git diff --check`, and visual checks at desktop and mobile widths for the portfolio navigation, empty hub, and a temporary generated article fixture.
