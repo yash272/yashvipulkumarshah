@@ -179,7 +179,6 @@ function sharedStyles() {
       .site-head { min-height: 70px; gap: 18px; }
       .identity { font-size: 20px; }
       .site-head nav { gap: 16px; }
-      .site-head nav a:not(.mobile-keep) { display: none; }
       .site-footer { padding-block: 28px; align-items: flex-start; flex-direction: column; }
     }
 
@@ -213,18 +212,17 @@ function pageHead({ title, description, canonical, type = "website" }) {
     <title>${safeTitle} · Yash Shah</title>`;
 }
 
-function header(portfolioPrefix, current = "writing") {
+function header(portfolioPrefix, current = "blog") {
   const links = [
-    ["Work", `${portfolioPrefix}index.html#accept`, ""],
-    ["About", `${portfolioPrefix}index.html#about`, ""],
-    ["Writing", `${portfolioPrefix}blog/index.html`, "mobile-keep"],
-    ["Contact", `${portfolioPrefix}index.html#contact`, "mobile-keep"]
+    ["Blog", `${portfolioPrefix}blog/index.html`],
+    ["About", `${portfolioPrefix}index.html#about`],
+    ["Contact", `${portfolioPrefix}index.html#contact`]
   ];
   return `
     <header class="site-head shell">
       <a class="identity" href="${portfolioPrefix}index.html" aria-label="Yash Shah, home">Yash Shah</a>
       <nav aria-label="Primary navigation">
-        ${links.map(([label, href, className]) => `<a${className ? ` class="${className}"` : ""} href="${href}"${current === label.toLowerCase() ? ' aria-current="page"' : ""}>${label}</a>`).join("\n        ")}
+        ${links.map(([label, href]) => `<a href="${href}"${current === label.toLowerCase() ? ' aria-current="page"' : ""}>${label}</a>`).join("\n        ")}
       </nav>
     </header>`;
 }
@@ -269,13 +267,13 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
 <html lang="en">
 <head>
   ${pageHead({
-    title: "Writing",
+    title: "Blog",
     description,
     canonical: `${siteUrl}/blog/`
   })}
   <style>
     ${sharedStyles()}
-    .writing-hero {
+    .blog-hero {
       position: relative;
       min-height: clamp(510px, 72vh, 760px);
       display: grid;
@@ -403,7 +401,7 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
     }
 
     @media (max-width: 760px) {
-      .writing-hero {
+      .blog-hero {
         min-height: auto;
         grid-template-columns: 1fr;
         gap: 58px;
@@ -428,11 +426,11 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
 <body>
   ${header(portfolioPrefix)}
   <main>
-    <section class="writing-hero shell" aria-labelledby="writing-title">
-      <span class="folio" aria-hidden="true">W</span>
+    <section class="blog-hero shell" aria-labelledby="blog-title">
+      <span class="folio" aria-hidden="true">B</span>
       <div class="hero-copy">
         <p class="eyebrow">Field notes · Vol. 01</p>
-        <h1 id="writing-title">Writing<em>.</em></h1>
+        <h1 id="blog-title">Blog<em>.</em></h1>
         <p>Notes on products, systems, and building. I use this space to make the thinking behind the work visible.</p>
       </div>
       <aside class="threads" aria-labelledby="threads-title">
@@ -601,7 +599,7 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
   ${header(portfolioPrefix)}
   <main>
     <header class="article-head shell">
-      <a class="back-link" href="../index.html">← All writing</a>
+      <a class="back-link" href="../index.html">← Blog</a>
       <div class="article-title">
         <p class="eyebrow">Field note</p>
         <h1>${escapeHtml(post.title)}</h1>
@@ -657,5 +655,5 @@ const isDirectRun = process.argv[1]
 
 if (isDirectRun) {
   const posts = await buildBlog();
-  console.log(`Built writing hub with ${posts.length} published article${posts.length === 1 ? "" : "s"}.`);
+  console.log(`Built blog with ${posts.length} published article${posts.length === 1 ? "" : "s"}.`);
 }

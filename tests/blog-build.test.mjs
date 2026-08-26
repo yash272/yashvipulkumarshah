@@ -92,7 +92,23 @@ test("renderHub makes the empty state feel deliberate", () => {
   assert.match(html, /Current threads/);
   assert.match(html, /Nothing published yet\./);
   assert.match(html, /The first note is in progress\./);
-  assert.match(html, /aria-current="page"[^>]*>Writing</);
+});
+
+test("renderHub identifies the section as Blog", () => {
+  const html = renderHub([]);
+
+  assert.match(html, /<title>Blog · Yash Shah<\/title>/);
+  assert.match(html, /<h1 id="blog-title">Blog<em>\.<\/em><\/h1>/);
+  assert.match(html, /aria-current="page"[^>]*>Blog<\/a>/);
+  assert.doesNotMatch(html, />Writing<\/a>/);
+});
+
+test("blog navigation contains only Blog, About, and Contact", () => {
+  const html = renderHub([]);
+  const nav = html.match(/<nav aria-label="Primary navigation">([\s\S]*?)<\/nav>/)?.[1];
+  const labels = [...nav.matchAll(/<a[^>]*>([^<]+)<\/a>/g)].map((match) => match[1]);
+
+  assert.deepEqual(labels, ["Blog", "About", "Contact"]);
 });
 
 test("renderHub lists articles and escapes frontmatter", () => {
@@ -139,8 +155,11 @@ test("buildBlog replaces stale output and emits only published article routes", 
   await assert.rejects(access(path.join(root, "blog", "stale", "index.html")));
 });
 
-test("portfolio navigation keeps Writing visible and links to the blog hub", async () => {
+test("portfolio navigation contains only Blog, About, and Contact", async () => {
   const portfolio = await readFile(path.join(process.cwd(), "index.html"), "utf8");
+  const nav = portfolio.match(/<nav aria-label="Site">([\s\S]*?)<\/nav>/)?.[1];
+  const labels = [...nav.matchAll(/<a[^>]*>([^<]+)<\/a>/g)].map((match) => match[1]);
 
-  assert.match(portfolio, /<a class="keep" href="blog\/">Writing<\/a>/);
+  assert.deepEqual(labels, ["Blog", "About", "Contact"]);
+  assert.match(nav, /<a class="keep" href="blog\/">Blog<\/a>/);
 });
