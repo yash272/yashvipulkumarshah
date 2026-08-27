@@ -250,7 +250,7 @@ function renderPostRow(post, index) {
 }
 
 export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
-  const description = "Notes on products, systems, and building by Yash Shah.";
+  const description = "Personal blog by Yash Shah.";
   const postList = posts.length
     ? posts.map(renderPostRow).join("\n")
     : `
@@ -275,12 +275,10 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
     ${sharedStyles()}
     .blog-hero {
       position: relative;
-      min-height: clamp(510px, 72vh, 760px);
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
+      min-height: clamp(320px, 50vh, 520px);
+      display: flex;
       align-items: end;
-      gap: clamp(44px, 8vw, 130px);
-      padding-block: clamp(72px, 11vh, 132px) 64px;
+      padding-block: clamp(80px, 13vh, 140px) clamp(54px, 8vh, 82px);
     }
     .folio {
       position: absolute;
@@ -297,7 +295,6 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
     .hero-copy { position: relative; z-index: 1; }
     .hero-copy h1 {
       max-width: 820px;
-      margin-top: 18px;
       font-family: "Fraunces", serif;
       font-size: clamp(64px, 10vw, 152px);
       font-weight: 600;
@@ -305,36 +302,6 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
       line-height: 0.82;
     }
     .hero-copy h1 em { color: var(--pencil); font-weight: 300; }
-    .hero-copy p {
-      max-width: 500px;
-      margin-top: 32px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.7;
-    }
-    .threads {
-      position: relative;
-      z-index: 1;
-      padding-left: 24px;
-      border-left: 1px solid var(--line-strong);
-    }
-    .threads ul { margin-top: 22px; list-style: none; }
-    .threads li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-block: 13px;
-      border-top: 1px solid var(--line);
-      font-family: "Fraunces", serif;
-      font-size: 23px;
-    }
-    .threads li::before {
-      content: "";
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--pencil);
-    }
     .index-section { padding-bottom: clamp(90px, 13vw, 180px); }
     .index-head {
       display: grid;
@@ -402,16 +369,11 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
 
     @media (max-width: 760px) {
       .blog-hero {
-        min-height: auto;
-        grid-template-columns: 1fr;
-        gap: 58px;
-        padding-block: 68px 62px;
+        min-height: 300px;
+        padding-block: 84px 58px;
       }
-      .folio { top: 72px; right: -18px; font-size: 190px; }
+      .folio { top: 54px; right: -18px; font-size: 190px; }
       .hero-copy h1 { max-width: 330px; font-size: clamp(62px, 21vw, 88px); overflow-wrap: anywhere; }
-      .hero-copy p { max-width: 340px; margin-top: 24px; font-size: 15px; }
-      .threads { width: min(100%, 340px); justify-self: end; }
-      .threads li { font-size: 20px; }
       .index-head { grid-template-columns: 34px minmax(0, 1fr); gap: 14px; }
       .index-head span:last-child { display: none; }
       .post-row { grid-template-columns: 34px minmax(0, 1fr) 18px; gap: 14px; min-height: 150px; }
@@ -429,18 +391,8 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
     <section class="blog-hero shell" aria-labelledby="blog-title">
       <span class="folio" aria-hidden="true">B</span>
       <div class="hero-copy">
-        <p class="eyebrow">Field notes · Vol. 01</p>
         <h1 id="blog-title">Blog<em>.</em></h1>
-        <p>Notes on products, systems, and building. I use this space to make the thinking behind the work visible.</p>
       </div>
-      <aside class="threads" aria-labelledby="threads-title">
-        <p class="eyebrow" id="threads-title">Current threads</p>
-        <ul>
-          <li>Products</li>
-          <li>Systems</li>
-          <li>Building</li>
-        </ul>
-      </aside>
     </section>
     <section class="index-section shell" aria-labelledby="article-index-title">
       <div class="index-head">

@@ -88,10 +88,18 @@ const postFixture = {
 test("renderHub makes the empty state feel deliberate", () => {
   const html = renderHub([]);
 
-  assert.match(html, /Notes on products, systems, and building/);
-  assert.match(html, /Current threads/);
   assert.match(html, /Nothing published yet\./);
   assert.match(html, /The first note is in progress\./);
+});
+
+test("renderHub keeps the hero focused on the Blog title", () => {
+  const html = renderHub([]);
+  const hero = html.match(/<section class="blog-hero shell"[\s\S]*?<\/section>/)?.[0];
+
+  assert.match(html, /<meta name="description" content="Personal blog by Yash Shah\.">/);
+  assert.match(hero, /<h1 id="blog-title">Blog<em>\.<\/em><\/h1>/);
+  assert.doesNotMatch(hero, /<p|<aside/);
+  assert.doesNotMatch(html, /Current threads|Products|Systems|Field notes/);
 });
 
 test("renderHub identifies the section as Blog", () => {
