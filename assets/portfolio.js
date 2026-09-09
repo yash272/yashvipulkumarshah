@@ -18,25 +18,6 @@
     });
   }
 
-  const workflow = document.querySelector('#workflow');
-  const workflowButtons = [...document.querySelectorAll('[data-workflow]')];
-  workflowButtons.forEach(button => button.addEventListener('click', () => {
-    const before = button.dataset.workflow === 'before';
-    workflowButtons.forEach(item => {
-      const selected = item === button;
-      item.classList.toggle('active', selected);
-      item.setAttribute('aria-pressed', String(selected));
-    });
-    workflow.classList.toggle('before', before);
-    workflow.querySelector('.small-label').textContent = before ? 'TOOLS WITHOUT A SEQUENCE' : 'A GUIDED SEQUENCE';
-    workflow.querySelector('strong').textContent = before ? 'Figure out the next step.' : 'Know what to do next.';
-    workflow.querySelector('.workflow-copy p').textContent = before
-      ? 'An image and a set of tools. The operator works out the order and finds the mistakes.'
-      : 'Prepare the image. Get feedback. Check the result. Go back when needed.';
-    workflow.querySelector('.workflow-footer span:nth-child(2)').textContent = before ? 'The sequence is up to the operator' : 'Guidance at each step';
-    workflow.querySelector('.workflow-check').textContent = before ? '?' : '\u2713';
-  }));
-
   const curiosityCases = {
     switchon: {
       eyebrow: 'SWITCHON / PRODUCT MANAGEMENT',
