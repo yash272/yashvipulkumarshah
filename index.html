@@ -39,11 +39,30 @@
   <main>
     <section class="hero" aria-labelledby="name">
       <div class="hero-heading wrap">
-        <div class="hero-kicker"><span class="live-dot"></span> A WORK IN CURIOSITY <span class="hero-edition">THE PERSONAL COLLECTION / 2026</span></div>
+      <div class="hero-kicker"><span class="live-dot"></span> A WORK IN CURIOSITY <span class="hero-edition">THE PERSONAL COLLECTION / 2026</span></div>
         <h1 id="name">Yash Shah<span class="name-period">.</span></h1>
         <div class="hero-intro"><p>I make things.<br><span>And make sense of things.</span></p><p>Products, a book-sharing community, a classroom,<br class="desktop-break"> a camera. Different ways of following a good question.</p></div>
       </div>
-      <div class="hero-note wrap"><span class="eyebrow">A SMALL COLLECTION OF WORK, QUESTIONS, AND SIDE QUESTS.</span><span>Start with the products <svg class="icon"><use href="#i-down"/></svg></span></div>
+      <section class="curiosity-lab wrap" id="curiosity" aria-labelledby="curiosity-title">
+        <div class="curiosity-heading">
+          <div><span class="eyebrow">START WITH A QUESTION</span><h2 id="curiosity-title">Pull on a thread.</h2></div>
+          <p>Every project here began with something I couldn't leave alone. Pick one and see where it led.</p>
+        </div>
+        <div class="curiosity-machine">
+          <div class="question-rail" role="tablist" aria-label="Questions I've followed">
+            <button class="question-tab active" id="question-switchon" role="tab" aria-selected="true" aria-controls="curiosity-panel" data-curiosity="switchon" tabindex="0"><span class="question-number">01</span><span class="question-copy"><strong>Can an operator know what to fix next?</strong><small>Product work / SwitchOn</small></span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <button class="question-tab" id="question-accept" role="tab" aria-selected="false" aria-controls="curiosity-panel" data-curiosity="accept" tabindex="-1"><span class="question-number">02</span><span class="question-copy"><strong>Can negotiation happen without another message?</strong><small>Live product / Accept</small></span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <button class="question-tab" id="question-access" role="tab" aria-selected="false" aria-controls="curiosity-panel" data-curiosity="access" tabindex="-1"><span class="question-number">03</span><span class="question-copy"><strong>Can one night become everyone's album?</strong><small>Live product / Access</small></span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <button class="question-tab" id="question-fitness" role="tab" aria-selected="false" aria-controls="curiosity-panel" data-curiosity="fitness" tabindex="-1"><span class="question-number">04</span><span class="question-copy"><strong>Can a tracker answer tomorrow's question?</strong><small>Live product / Fitness</small></span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          </div>
+          <div class="curiosity-panel" id="curiosity-panel" role="tabpanel" aria-labelledby="question-switchon" aria-live="polite">
+            <div class="panel-top"><span class="small-label" id="curiosity-eyebrow">SWITCHON / PRODUCT MANAGEMENT</span><span class="panel-index" id="curiosity-index">01 / 04</span></div>
+            <div class="curiosity-preview" id="curiosity-preview"><picture><source id="curiosity-mobile" media="(max-width: 600px)" srcset="assets/deepinspect.webp"><img id="curiosity-image" src="assets/deepinspect.webp" width="1536" height="653" alt="DeepInspect's public product image"></picture><span class="preview-stamp" id="curiosity-stamp">A PUBLIC VIEW OF THE PRODUCT</span></div>
+            <div class="curiosity-caption"><div><span class="eyebrow" id="curiosity-label">THE FEATURE QUESTION</span><p id="curiosity-answer">I changed a technical feature by starting with the operator's next decision.</p></div><a class="text-button" id="curiosity-link" href="#switchon">Follow the story <svg class="icon"><use href="#i-arrow"/></svg></a></div>
+          </div>
+        </div>
+      </section>
+      <div class="hero-note wrap"><span class="eyebrow">THE SURFACE CHANGES WITH THE QUESTION.</span><span>Scroll for the full stories <svg class="icon"><use href="#i-down"/></svg></span></div>
       <div class="hero-bottom wrap"><span>ENGINEER BY TRAINING. BUILDER BY INSTINCT.</span><a href="#work">A few things I've put into the world <svg class="icon"><use href="#i-down"/></svg></a></div>
     </section>
 
