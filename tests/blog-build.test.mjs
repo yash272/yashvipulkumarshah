@@ -89,34 +89,34 @@ test("renderHub makes the empty state feel deliberate", () => {
   const html = renderHub([]);
 
   assert.match(html, /Nothing published yet\./);
-  assert.match(html, /The first note is in progress\./);
+  assert.match(html, /The first essay is in progress\./);
 });
 
-test("renderHub keeps the hero focused on the Blog title", () => {
+test("renderHub keeps the hero focused on the Essays title", () => {
   const html = renderHub([]);
   const hero = html.match(/<section class="blog-hero shell"[\s\S]*?<\/section>/)?.[0];
 
-  assert.match(html, /<meta name="description" content="Personal blog by Yash Shah\.">/);
-  assert.match(hero, /<h1 id="blog-title">Blog<em>\.<\/em><\/h1>/);
+  assert.match(html, /<meta name="description" content="Personal essays by Yash Shah\.">/);
+  assert.match(hero, /<h1 id="blog-title">Essays<em>\.<\/em><\/h1>/);
   assert.doesNotMatch(hero, /<p|<aside/);
   assert.doesNotMatch(html, /Current threads|Products|Systems|Field notes/);
 });
 
-test("renderHub identifies the section as Blog", () => {
+test("renderHub identifies the section as Essays", () => {
   const html = renderHub([]);
 
-  assert.match(html, /<title>Blog · Yash Shah<\/title>/);
-  assert.match(html, /<h1 id="blog-title">Blog<em>\.<\/em><\/h1>/);
-  assert.match(html, /aria-current="page"[^>]*>Blog<\/a>/);
+  assert.match(html, /<title>Essays · Yash Shah<\/title>/);
+  assert.match(html, /<h1 id="blog-title">Essays<em>\.<\/em><\/h1>/);
+  assert.match(html, /aria-current="page"[^>]*>Essays<\/a>/);
   assert.doesNotMatch(html, />Writing<\/a>/);
 });
 
-test("blog navigation contains only Blog, About, and Contact", () => {
+test("essay navigation contains only Essays, About, and Contact", () => {
   const html = renderHub([]);
   const nav = html.match(/<nav aria-label="Primary navigation">([\s\S]*?)<\/nav>/)?.[1];
   const labels = [...nav.matchAll(/<a[^>]*>([^<]+)<\/a>/g)].map((match) => match[1]);
 
-  assert.deepEqual(labels, ["Blog", "About", "Contact"]);
+  assert.deepEqual(labels, ["Essays", "About", "Contact"]);
 });
 
 test("renderHub lists articles and escapes frontmatter", () => {
@@ -163,11 +163,11 @@ test("buildBlog replaces stale output and emits only published article routes", 
   await assert.rejects(access(path.join(root, "blog", "stale", "index.html")));
 });
 
-test("portfolio navigation contains only Blog, About, and Contact", async () => {
+test("portfolio navigation contains only Essays, About, and Contact", async () => {
   const portfolio = await readFile(path.join(process.cwd(), "index.html"), "utf8");
   const nav = portfolio.match(/<nav aria-label="Site">([\s\S]*?)<\/nav>/)?.[1];
   const labels = [...nav.matchAll(/<a[^>]*>([^<]+)<\/a>/g)].map((match) => match[1]);
 
-  assert.deepEqual(labels, ["Blog", "About", "Contact"]);
-  assert.match(nav, /<a class="keep" href="blog\/">Blog<\/a>/);
+  assert.deepEqual(labels, ["Essays", "About", "Contact"]);
+  assert.match(nav, /href="blog\/index\.html">Essays<\/a>/);
 });

@@ -79,14 +79,14 @@ const siteUrl = "https://yashvipulkumarshah.com";
 function sharedStyles() {
   return `
     :root {
-      --paper: #f4eddd;
-      --paper-soft: #faf5e9;
-      --ink: #18140c;
-      --muted: #6b6350;
-      --line: rgba(24, 20, 12, 0.14);
-      --line-strong: rgba(24, 20, 12, 0.55);
-      --pencil: #e8442e;
-      --radius: 10px;
+      --paper: #f5f6f0;
+      --paper-soft: #eaf0e5;
+      --ink: #203b31;
+      --muted: #69756c;
+      --line: #d9ded4;
+      --line-strong: #305442;
+      --pencil: #305442;
+      --radius: 6px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -96,7 +96,7 @@ function sharedStyles() {
       overflow-x: hidden;
       background: var(--paper);
       color: var(--ink);
-      font-family: "Inter", sans-serif;
+      font-family: "Manrope", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; }
@@ -105,9 +105,9 @@ function sharedStyles() {
       outline: 2px solid var(--pencil);
       outline-offset: 5px;
     }
-    .shell { width: min(100% - 64px, 1380px); margin-inline: auto; }
+    .shell { width: min(100% - 96px, 1320px); margin-inline: auto; }
     .site-head {
-      min-height: 82px;
+      min-height: 92px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -115,8 +115,8 @@ function sharedStyles() {
       border-bottom: 1px solid var(--line);
     }
     .identity {
-      font-family: "Fraunces", serif;
-      font-size: 24px;
+      font-family: "Manrope", sans-serif;
+      font-size: 23px;
       font-weight: 700;
       line-height: 1;
       text-decoration: none;
@@ -126,11 +126,11 @@ function sharedStyles() {
       position: relative;
       padding-block: 10px;
       color: var(--muted);
-      font-family: "DM Mono", monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
+      font-family: "Manrope", sans-serif;
+      font-size: 14px;
+      letter-spacing: 0;
       text-decoration: none;
-      text-transform: uppercase;
+      text-transform: none;
       transition: color 180ms ease;
     }
     .site-head nav a::after {
@@ -156,7 +156,7 @@ function sharedStyles() {
       color: var(--pencil);
       font-family: "DM Mono", monospace;
       font-size: 11px;
-      letter-spacing: 0.15em;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
     .site-footer {
@@ -169,7 +169,7 @@ function sharedStyles() {
       color: var(--muted);
       font-family: "DM Mono", monospace;
       font-size: 10px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
     .site-footer a { text-underline-offset: 4px; }
@@ -179,6 +179,7 @@ function sharedStyles() {
       .site-head { min-height: 70px; gap: 18px; }
       .identity { font-size: 20px; }
       .site-head nav { gap: 16px; }
+      .site-head nav a { font-size: 12px; }
       .site-footer { padding-block: 28px; align-items: flex-start; flex-direction: column; }
     }
 
@@ -200,7 +201,7 @@ function pageHead({ title, description, canonical, type = "website" }) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="${safeDescription}">
-    <meta name="theme-color" content="#f4eddd">
+    <meta name="theme-color" content="#f5f6f0">
     <meta property="og:type" content="${type}">
     <meta property="og:title" content="${safeTitle}">
     <meta property="og:description" content="${safeDescription}">
@@ -208,13 +209,13 @@ function pageHead({ title, description, canonical, type = "website" }) {
     <link rel="canonical" href="${canonical}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <title>${safeTitle} · Yash Shah</title>`;
 }
 
-function header(portfolioPrefix, current = "blog") {
+function header(portfolioPrefix, current = "essays") {
   const links = [
-    ["Blog", `${portfolioPrefix}blog/index.html`],
+    ["Essays", `${portfolioPrefix}blog/index.html`],
     ["About", `${portfolioPrefix}index.html#about`],
     ["Contact", `${portfolioPrefix}index.html#contact`]
   ];
@@ -250,7 +251,7 @@ function renderPostRow(post, index) {
 }
 
 export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
-  const description = "Personal blog by Yash Shah.";
+  const description = "Personal essays by Yash Shah.";
   const postList = posts.length
     ? posts.map(renderPostRow).join("\n")
     : `
@@ -258,7 +259,7 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
         <span class="empty-number">00</span>
         <div>
           <strong>Nothing published yet.</strong>
-          <span>The first note is in progress.</span>
+          <span>The first essay is in progress.</span>
         </div>
         <span class="empty-mark" aria-hidden="true"></span>
       </div>`;
@@ -267,7 +268,7 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
 <html lang="en">
 <head>
   ${pageHead({
-    title: "Blog",
+    title: "Essays",
     description,
     canonical: `${siteUrl}/blog/`
   })}
@@ -284,9 +285,9 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
       position: absolute;
       top: clamp(44px, 8vh, 90px);
       right: 0;
-      color: rgba(24, 20, 12, 0.045);
-      font-family: "Fraunces", serif;
-      font-size: clamp(150px, 27vw, 420px);
+      color: var(--paper-soft);
+      font-family: "Manrope", sans-serif;
+      font-size: 320px;
       font-weight: 700;
       line-height: 0.72;
       pointer-events: none;
@@ -295,13 +296,13 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
     .hero-copy { position: relative; z-index: 1; }
     .hero-copy h1 {
       max-width: 820px;
-      font-family: "Fraunces", serif;
-      font-size: clamp(64px, 10vw, 152px);
+      font-family: "Manrope", sans-serif;
+      font-size: 124px;
       font-weight: 600;
-      letter-spacing: -0.045em;
-      line-height: 0.82;
+      letter-spacing: 0;
+      line-height: 1.05;
     }
-    .hero-copy h1 em { color: var(--pencil); font-weight: 300; }
+    .hero-copy h1 em { color: var(--pencil); font-weight: 400; font-style: normal; }
     .index-section { padding-bottom: clamp(90px, 13vw, 180px); }
     .index-head {
       display: grid;
@@ -313,7 +314,7 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
       color: var(--muted);
       font-family: "DM Mono", monospace;
       font-size: 10px;
-      letter-spacing: 0.13em;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
     .post-row {
@@ -335,7 +336,7 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
       text-transform: uppercase;
     }
     .post-copy { display: grid; gap: 9px; }
-    .post-copy strong { font-family: "Fraunces", serif; font-size: clamp(25px, 3vw, 40px); line-height: 1.05; }
+    .post-copy strong { font-family: "Manrope", sans-serif; font-size: 32px; line-height: 1.2; }
     .post-copy span { max-width: 620px; color: var(--muted); font-size: 13px; line-height: 1.55; }
     .post-arrow { color: var(--pencil); font-size: 22px; transition: transform 180ms ease; }
     .post-row:hover .post-arrow { transform: translate(4px, -4px); }
@@ -355,7 +356,7 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
       font-size: 11px;
     }
     .empty-row div { display: grid; gap: 10px; }
-    .empty-row strong { font-family: "Fraunces", serif; font-size: clamp(30px, 4vw, 54px); font-weight: 600; }
+    .empty-row strong { font-family: "Manrope", sans-serif; font-size: 38px; font-weight: 500; }
     .empty-row div span { color: var(--muted); font-size: 14px; }
     .empty-mark {
       position: absolute;
@@ -373,14 +374,14 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
         padding-block: 84px 58px;
       }
       .folio { top: 54px; right: -18px; font-size: 190px; }
-      .hero-copy h1 { max-width: 330px; font-size: clamp(62px, 21vw, 88px); overflow-wrap: anywhere; }
+      .hero-copy h1 { font-size: 62px; overflow-wrap: anywhere; }
       .index-head { grid-template-columns: 34px minmax(0, 1fr); gap: 14px; }
       .index-head span:last-child { display: none; }
       .post-row { grid-template-columns: 34px minmax(0, 1fr) 18px; gap: 14px; min-height: 150px; }
       .post-meta { display: none; }
       .post-copy strong { font-size: 27px; }
       .empty-row { min-height: 210px; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; }
-      .empty-row strong { font-size: 31px; }
+      .empty-row strong { font-size: 24px; }
       .empty-mark { right: -34px; width: 90px; }
     }
   </style>
@@ -389,9 +390,9 @@ export function renderHub(posts, { portfolioPrefix = "../" } = {}) {
   ${header(portfolioPrefix)}
   <main>
     <section class="blog-hero shell" aria-labelledby="blog-title">
-      <span class="folio" aria-hidden="true">B</span>
+      <span class="folio" aria-hidden="true">E</span>
       <div class="hero-copy">
-        <h1 id="blog-title">Blog<em>.</em></h1>
+        <h1 id="blog-title">Essays<em>.</em></h1>
       </div>
     </section>
     <section class="index-section shell" aria-labelledby="article-index-title">
@@ -446,7 +447,7 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
       color: var(--muted);
       font-family: "DM Mono", monospace;
       font-size: 10px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
       text-decoration: none;
       text-transform: uppercase;
     }
@@ -454,11 +455,11 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
     .article-title h1 {
       max-width: 980px;
       margin-top: 20px;
-      font-family: "Fraunces", serif;
-      font-size: clamp(54px, 8vw, 120px);
+      font-family: "Manrope", sans-serif;
+      font-size: 72px;
       font-weight: 600;
-      letter-spacing: -0.04em;
-      line-height: 0.9;
+      letter-spacing: 0;
+      line-height: 1.1;
       overflow-wrap: anywhere;
     }
     .dek { max-width: 700px; margin-top: 30px; color: var(--muted); font-size: 18px; line-height: 1.7; }
@@ -470,7 +471,7 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
       color: var(--muted);
       font-family: "DM Mono", monospace;
       font-size: 10px;
-      letter-spacing: 0.06em;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
     .article-meta span + span::before { content: "·"; margin-right: 24px; }
@@ -482,7 +483,7 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
       color: var(--muted);
       font-family: "DM Mono", monospace;
       font-size: 9px;
-      letter-spacing: 0.07em;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
     .article-layout {
@@ -495,7 +496,7 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
       color: var(--pencil);
       font-family: "DM Mono", monospace;
       font-size: 9px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0;
       line-height: 1.7;
       text-transform: uppercase;
     }
@@ -504,12 +505,12 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
     .article-body p, .article-body li { font-size: 18px; line-height: 1.85; }
     .article-body h2, .article-body h3 {
       margin-top: 2.2em;
-      font-family: "Fraunces", serif;
+      font-family: "Manrope", sans-serif;
       font-weight: 600;
       line-height: 1.08;
     }
-    .article-body h2 { font-size: clamp(34px, 5vw, 52px); }
-    .article-body h3 { font-size: clamp(26px, 4vw, 34px); }
+    .article-body h2 { font-size: 36px; }
+    .article-body h3 { font-size: 28px; }
     .article-body ul, .article-body ol { padding-left: 1.4em; }
     .article-body li + li { margin-top: 0.6em; }
     .article-body a { text-decoration-color: var(--pencil); text-underline-offset: 4px; }
@@ -517,7 +518,7 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
       margin-left: -34px;
       padding-left: 30px;
       border-left: 3px solid var(--pencil);
-      font-family: "Fraunces", serif;
+      font-family: "Manrope", sans-serif;
       font-size: 28px;
       font-style: italic;
       line-height: 1.45;
@@ -537,7 +538,7 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
 
     @media (max-width: 760px) {
       .article-head { grid-template-columns: 1fr; gap: 44px; padding-block: 58px 60px; }
-      .article-title h1 { font-size: clamp(50px, 16vw, 72px); }
+      .article-title h1 { font-size: 44px; }
       .dek { font-size: 16px; }
       .article-layout { grid-template-columns: 1fr; gap: 40px; padding-block: 54px 100px; }
       .article-body p, .article-body li { font-size: 17px; line-height: 1.78; }
@@ -551,9 +552,9 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
   ${header(portfolioPrefix)}
   <main>
     <header class="article-head shell">
-      <a class="back-link" href="../index.html">← Blog</a>
+      <a class="back-link" href="../index.html">← Essays</a>
       <div class="article-title">
-        <p class="eyebrow">Field note</p>
+        <p class="eyebrow">Essay</p>
         <h1>${escapeHtml(post.title)}</h1>
         <p class="dek">${escapeHtml(post.description)}</p>
         <div class="article-meta">
@@ -564,7 +565,7 @@ export function renderArticle(post, { portfolioPrefix = "../../" } = {}) {
       </div>
     </header>
     <div class="article-layout shell">
-      <p class="margin-note">A note by<br>Yash Shah</p>
+      <p class="margin-note">An essay by<br>Yash Shah</p>
       <article class="article-body">${post.bodyHtml}</article>
       <span class="article-end" aria-hidden="true"></span>
     </div>
